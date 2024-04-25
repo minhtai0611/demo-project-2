@@ -1,11 +1,69 @@
-.header{
+@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Shippori+Antique+B1&display=swap');
+
+.shippori-antique-b1-regular {
+    font-family: "Shippori Antique B1", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 2rem;
+    color: azure;
+}
+
+.header {
     display: grid;
     grid-template-areas: "logo nav";
 }
-.nav{
+
+.nav {
     grid-area: nav;
     display: grid;
     grid-template-columns: repeat(6, auto);
     align-items: center;
     justify-items: center;
+}
+
+.img {
+    width: 5rem;
+    height: 5rem;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.threeline {
+    display: none;
+}
+
+.auth{
+    color:crimson;
+    background-color: azure;
+}
+
+@media (max-width: 60rem) {
+    .header {
+        grid-template-areas: "logo threeline" "nav nav";
+    }
+
+    .nav {
+        grid-template-rows: repeat(6, auto);
+        grid-template-columns: none;
+        row-gap: 1rem;
+    }
+
+    .shippori-antique-b1-regular {
+        font-size: 1.5rem;
+    }
+
+    .threeline {
+        display: block;
+        background-color: unset;
+        outline: none;
+        border: none;
+        color: azure;
+        padding-block: 0;
+        padding-inline: 0;
+        font-size: 3.5rem;
+        text-align: end;
+        margin-right: 2rem;
+    }
 }
