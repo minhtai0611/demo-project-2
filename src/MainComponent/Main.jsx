@@ -18,14 +18,13 @@ export default function Main() {
     }
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 60rem)");
-        mediaQuery.addEventListener("change", changeMediaQuery);
-        changeMediaQuery(mediaQuery);
+        mediaQuery.addEventListener("change", () => changeMediaQuery(mediaQuery));
         return () => mediaQuery.removeEventListener("change", changeMediaQuery);
     }, [])
     return (
         <>
             <header className={styled.header}>
-                <Link to="/">
+                <Link to="/" className={styled.link}>
                     <img src={logo} alt="logo game" className={styled.img} />
                 </Link>
                 {(isVisible || !smallScreen) && <nav className={styled.nav}>
@@ -52,8 +51,32 @@ export default function Main() {
                     ☰
                 </button>
             </header>
-            <footer>
+            <main>
 
+            </main>
+            <footer className={styled.footer}>
+                {/* <img src={logo} alt="logo game" className={styled.footerImg + " " + styled.footerLink} /> */}
+                <nav className={styled.footerNav}>
+                    <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                        Privacy Policy
+                    </Link>
+                    <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                        Legal
+                    </Link>
+                    <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                        Subscriber Agreement
+                    </Link>
+                    <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                        Refund
+                    </Link>
+                    <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                        Recruit
+                    </Link>
+                </nav>
+                <p className={styled.footerP + " " + styled["ysabeau-office-footer"]}>
+                    &#9400; 2024 ArcGame Company. All rights reserved. All trademarks are the property of their respective owners in the United States and other countries.
+                    VAT is included (if applicable).
+                </p>
             </footer>
         </>
     )

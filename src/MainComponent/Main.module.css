@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,100..900;1,100..900&family=Shippori+Antique+B1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Office:ital,wght@0,1..1000;1,1..1000&display=swap');
 
 .shippori-antique-b1-regular {
     font-family: "Shippori Antique B1", sans-serif;
@@ -8,9 +9,18 @@
     color: azure;
 }
 
+.ysabeau-office-footer {
+    font-family: "Ysabeau Office", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1.5rem;
+    color: azure;
+}
+
 .header {
     display: grid;
-    grid-template-areas: "logo nav";
+    grid-template-areas: "img nav";
 }
 
 .nav {
@@ -23,15 +33,19 @@
 }
 
 .nav a:hover {
-    transition-timing-function: ease-in-out;
-    transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
-    transform: scale(1.15);
+    transform: scale(1.1);
 }
 
 .img {
+    grid-area: img;
     width: 5rem;
     height: 5rem;
     cursor: pointer;
+    transition: 50ms;
+}
+
+.img:active {
+    transform: rotateX(30deg);
 }
 
 .link {
@@ -50,9 +64,61 @@
     transition: 50ms;
 }
 
+.footer {
+    display: grid;
+    grid-template-areas:
+        "foolterNav"
+        "footerP footerP";
+        /* "footerNav" */
+        /* "footerNav footerNav footerNav"   */
+        /* "footerSocial footerSocial"
+        "footerSocial footerSocial"
+        "footerSubcribe footerSubcribe"
+        "footerSubcribe footerSubcribe" */
+    background-color: firebrick;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/* .footerImg {
+    grid-area: footerImg;
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+} */
+
+.footerP {
+    grid-area: footerP;
+    text-align: justify;
+    margin-block-end: 0;
+    margin-block-start: 0;
+    margin-top: 3rem;
+}
+
+.footerNav {
+    grid-area: footerNav;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    justify-items: center;
+    transition: 50ms;
+}
+
+.footerNav a:hover {
+    transform: scale(1.1);
+}
+
+.footerThreeline {
+    display: none;
+}
+
+.footerLink {
+    text-decoration: none;
+}
 @media (max-width: 60rem) {
     .header {
-        grid-template-areas: "logo threeline" "nav nav";
+        grid-template-areas: "img threeline" "nav nav";
     }
 
     .nav {
@@ -75,7 +141,16 @@
         padding-inline: 0;
         font-size: 3.5rem;
         text-align: end;
-        margin-right: 2rem;
         cursor: pointer;
+        transition: 50ms;
     }
+
+    .threeline:active {
+        transform: rotateX(30deg);
+    }
+
+    .ysabeau-office-footer {
+        font-size: 1rem;
+    }
+
 }
