@@ -19,11 +19,19 @@
     grid-template-columns: repeat(6, auto);
     align-items: center;
     justify-items: center;
+    transition: 50ms;
+}
+
+.nav a:hover {
+    transition-timing-function: ease-in-out;
+    transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+    transform: scale(1.15);
 }
 
 .img {
     width: 5rem;
     height: 5rem;
+    cursor: pointer;
 }
 
 .link {
@@ -34,9 +42,12 @@
     display: none;
 }
 
-.auth{
-    color:crimson;
+.auth {
+    color: crimson;
     background-color: azure;
+    padding: 0.3rem 1rem 0.5rem 1rem;
+    border-radius: 1rem;
+    transition: 50ms;
 }
 
 @media (max-width: 60rem) {
@@ -47,7 +58,7 @@
     .nav {
         grid-template-rows: repeat(6, auto);
         grid-template-columns: none;
-        row-gap: 1rem;
+        row-gap: 2rem;
     }
 
     .shippori-antique-b1-regular {
@@ -65,5 +76,6 @@
         font-size: 3.5rem;
         text-align: end;
         margin-right: 2rem;
+        cursor: pointer;
     }
 }
