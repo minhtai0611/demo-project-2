@@ -61,20 +61,103 @@
     background-color: azure;
     padding: 0.3rem 1rem 0.5rem 1rem;
     border-radius: 1rem;
-    transition: 50ms;
 }
+
+.button{
+    background-color: unset;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 50ms;
+    padding-block: 0;
+    padding-inline: 0;
+    margin: 0;
+}
+
+.button:hover {
+    transform: scale(1.1);
+}
+
+.dropdown{
+    position: relative;
+}
+.dropdownMenu{
+    display: flex;
+}
+.menu {
+  list-style: none;
+  position: absolute;
+  visibility: hidden;
+  left: -5.5rem;
+}
+.dropdown:nth-child(2) .menu{
+    left: -2.5rem;
+}
+.menu li {
+  border-radius: 1rem;
+  background-color: azure;
+}
+.menu li:nth-child(1), .menu li:nth-child(2){
+  margin-bottom: 1rem;
+}
+.menu li:hover {
+  background-color: khaki;
+}
+.menu li a {
+  display: block;
+  color: crimson;
+  font-size: 1.3rem;
+  text-align: center;
+  padding: 1rem 2rem;
+}
+.dropdown:focus-within  .menu {
+  visibility: visible;
+} 
+input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+}
+input[type="checkbox"]:nth-child(1):checked ~ .menu:nth-child(1) {
+  visibility: visible;
+}
+input[type="checkbox"]:nth-child(2):checked ~ .menu:nth-child(2){
+  visibility: visible;
+}
+/* .menu{
+    list-style: none;
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    display: none;
+    left: 0;
+    right: 0;
+    border-radius: 1rem;
+    margin-top: 0.5rem;
+}
+.menu:nth-child(1) {
+    left: -3rem;
+    right: -3rem;
+}
+.menu > li > a{
+    font-size: 1.3rem;
+    color: crimson;
+}
+.menu > li {
+    display: block;
+}
+a:hover > .menu{
+    visibility: visible;
+    display: block;
+    opacity: 1;
+    background-color: azure;
+    cursor: pointer;
+} */
 
 .footer {
     display: grid;
     grid-template-areas:
         "foolterNav"
         "footerP footerP";
-        /* "footerNav" */
-        /* "footerNav footerNav footerNav"   */
-        /* "footerSocial footerSocial"
-        "footerSocial footerSocial"
-        "footerSubcribe footerSubcribe"
-        "footerSubcribe footerSubcribe" */
     background-color: firebrick;
     position: absolute;
     bottom: 0;
@@ -94,7 +177,7 @@
     text-align: justify;
     margin-block-end: 0;
     margin-block-start: 0;
-    margin-top: 3rem;
+    margin-top: 2rem;
 }
 
 .footerNav {
@@ -106,7 +189,7 @@
 }
 
 .footerNav a:hover {
-    transform: scale(1.1);
+    transform: rotateX(20deg);
 }
 
 .footerThreeline {
@@ -116,9 +199,32 @@
 .footerLink {
     text-decoration: none;
 }
+
+.footerIcon {
+    background-color: azure;
+    color: crimson;
+    margin-left: 1.2rem;
+    border-radius: 50%;
+    transition: 50ms;
+}
+
+.footerIcon:nth-child(4) {
+    background-color: crimson;
+    color: azure;
+}
+
+.footerIcon a:hover {
+    transform: translateY(2rem)
+}
+
 @media (max-width: 60rem) {
     .header {
         grid-template-areas: "img threeline" "nav nav";
+    }
+
+    .img {
+        width: 3.5rem;
+        height: 3.5rem;
     }
 
     .nav {
@@ -143,6 +249,7 @@
         text-align: end;
         cursor: pointer;
         transition: 50ms;
+        margin-top: -1rem;
     }
 
     .threeline:active {
@@ -150,7 +257,57 @@
     }
 
     .ysabeau-office-footer {
-        font-size: 1rem;
+        font-size: 0.7rem;
     }
 
+    .footerP {
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 30rem) {
+    .header {
+        grid-template-areas: "img threeline" "nav nav";
+    }
+
+    .img {
+        width: 2.6rem;
+        height: 2.6rem;
+    }
+
+    .nav {
+        grid-template-rows: repeat(6, auto);
+        grid-template-columns: none;
+        row-gap: 1.3rem;
+    }
+
+    .shippori-antique-b1-regular {
+        font-size: 1.1rem;
+    }
+
+    .threeline {
+        display: block;
+        background-color: unset;
+        outline: none;
+        border: none;
+        color: azure;
+        padding-block: 0;
+        padding-inline: 0;
+        font-size: 2.3rem;
+        text-align: end;
+        cursor: pointer;
+        transition: 50ms;
+    }
+
+    .threeline:active {
+        transform: rotateX(30deg);
+    }
+
+    .ysabeau-office-footer {
+        font-size: 0.35rem;
+    }
+
+    .footerP {
+        margin-top: 0.5rem;
+    }
 }

@@ -2,6 +2,12 @@ import styled from "./Main.module.css";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo-game.png"
 import { useEffect, useState } from "react";
+import { TfiFacebook } from "react-icons/tfi"
+import { AiOutlineGoogle } from "react-icons/ai";
+import { RiTwitterXLine } from "react-icons/ri";
+import { GrLinkedin } from "react-icons/gr";
+import { TfiYoutube } from "react-icons/tfi";
+import { IconContext } from "react-icons";
 export default function Main() {
     const [isVisible, setIsVisible] = useState(true);
     const [smallScreen, setSmallScreen] = useState(false);
@@ -28,12 +34,55 @@ export default function Main() {
                     <img src={logo} alt="logo game" className={styled.img} />
                 </Link>
                 {(isVisible || !smallScreen) && <nav className={styled.nav}>
-                    <Link to="/" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
-                        Store
-                    </Link>
-                    <Link to="/community" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
-                        Community
-                    </Link>
+                    <div className={styled.dropdown}>
+                        {/* <button type="button" className={styled.dropdownMenu + " " + styled.button + " " + styled["shippori-antique-b1-regular"]}>
+                            Store
+                        </button> */}
+                        <input type="checkbox" id="dropdown-store" />
+                        <label htmlFor="dropdown-store" className={styled.dropdownMenu + " " + styled.button + " " + styled["shippori-antique-b1-regular"]}>
+                            <span>Store</span>
+                        </label>
+                        <ul className={styled.menu}>
+                            <li>
+                                <Link to="/discovery" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
+                                    Discovery
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/news" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
+                                    News
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/statistic" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
+                                    Statistic
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className={styled.dropdown}>
+                        <input type="checkbox" id="dropdown-community" />
+                        <label htmlFor="dropdown-community" className={styled.dropdownMenu + " " + styled.button + " " + styled["shippori-antique-b1-regular"]}>
+                            <span>Community</span>
+                        </label>
+                        <ul className={styled.menu}>
+                            <li>
+                                <Link to="/discuss" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
+                                    Discuss
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/market" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
+                                    Market
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/livestream" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
+                                    Livestream
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
                     <Link to="/information" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
                         Information
                     </Link>
@@ -52,29 +101,44 @@ export default function Main() {
                 </button>
             </header>
             <main>
-
+                <p>Hello</p>
             </main>
             <footer className={styled.footer}>
                 {/* <img src={logo} alt="logo game" className={styled.footerImg + " " + styled.footerLink} /> */}
                 <nav className={styled.footerNav}>
-                    <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
-                        Privacy Policy
+                    <Link to="/information" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                        About ArcGame
                     </Link>
                     <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
-                        Legal
+                        Store
                     </Link>
-                    <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
-                        Subscriber Agreement
+                    <Link to="/support" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                        Support
                     </Link>
-                    <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
-                        Refund
-                    </Link>
-                    <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                    <Link to="/recruit" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
                         Recruit
+                    </Link>
+                    <Link to="/" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                        Connect ArcGame in
+                        <IconContext.Provider value={{ className: styled.footerIcon }}>
+                            <TfiFacebook />
+                        </IconContext.Provider>
+                        <IconContext.Provider value={{ className: styled.footerIcon }}>
+                            <AiOutlineGoogle />
+                        </IconContext.Provider>
+                        <IconContext.Provider value={{ className: styled.footerIcon }}>
+                            <RiTwitterXLine />
+                        </IconContext.Provider>
+                        <IconContext.Provider value={{ className: styled.footerIcon }}>
+                            <GrLinkedin />
+                        </IconContext.Provider>
+                        <IconContext.Provider value={{ className: styled.footerIcon }}>
+                            <TfiYoutube />
+                        </IconContext.Provider>
                     </Link>
                 </nav>
                 <p className={styled.footerP + " " + styled["ysabeau-office-footer"]}>
-                    &#9400; 2024 ArcGame Company. All rights reserved. All trademarks are the property of their respective owners in the United States and other countries.
+                    &#9400; {new Date().getFullYear()} ArcGame Company. All rights reserved. All trademarks are the property of their respective owners in the United States and other countries.
                     VAT is included (if applicable).
                 </p>
             </footer>
