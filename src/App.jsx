@@ -2,6 +2,7 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
+import RiseLoader from "react-spinners/RiseLoader"
 
 const Main = lazy(() => import("./MainComponent/Main"));
 const Error = lazy(() => import("./ErrorComponent/Error"));
@@ -99,12 +100,16 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <>
-      <Suspense>
+      <Suspense fallback={<RiseLoader color="#f0ffff" size={80} cssOverride={{
+        display: "flex",
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+      }} />}>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>
       </Suspense>
-
     </>
   );
 }

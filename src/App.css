@@ -16,3 +16,7 @@ body {
 * {
   user-select: none;
 }
+.spinner{
+  display: block;
+  margin: auto;
+}
