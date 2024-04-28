@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Office:ital,wght@0,1..1000;1,1..1000&display=swap');
+
+.ysabeau-office-footer {
+    font-family: "Ysabeau Office", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1.5rem;
+    color: azure;
+}
+
+.footer {
+    display: grid;
+    grid-template-areas:
+        "foolterNav"
+        "footerP footerP";
+    background-color: firebrick;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/* .footerImg {
+    grid-area: footerImg;
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+} */
+
+.footerP {
+    grid-area: footerP;
+    text-align: justify;
+    margin-block-end: 0;
+    margin-block-start: 0;
+    margin-top: 2rem;
+}
+
+.footerNav {
+    grid-area: footerNav;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    justify-items: center;
+    transition: 50ms;
+}
+
+.footerNav a:hover {
+    transform: rotateX(20deg);
+}
+
+.footerThreeline {
+    display: none;
+}
+
+.footerLink {
+    text-decoration: none;
+}
+
+.footerIcon {
+    background-color: azure;
+    color: crimson;
+    margin-left: 1.2rem;
+    border-radius: 50%;
+    transition: 50ms;
+}
+
+.footerIcon:nth-child(4) {
+    background-color: crimson;
+    color: azure;
+}
+
+.footerIcon a:hover {
+    transform: translateY(2rem)
+}
+
+@media (max-width: 60rem) {
+    .ysabeau-office-footer {
+        font-size: 0.7rem;
+    }
+
+    .footerP {
+        margin-top: 1rem;
+    }
+
+    .footerIcon {
+        margin-left: 0.7rem;
+    }
+}
+
+@media (max-width: 30rem) {
+    .ysabeau-office-footer {
+        font-size: 0.35rem;
+    }
+
+    .footerP {
+        margin-top: 0.5rem;
+    }
+
+    .footerIcon {
+        margin-left: 0.4rem;
+    }
+}

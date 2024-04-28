@@ -1,20 +1,10 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Office:ital,wght@0,1..1000;1,1..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap');
 
 .shippori-antique-b1-regular {
     font-family: "Shippori Antique B1", sans-serif;
     font-weight: 700;
     font-style: normal;
     font-size: 2rem;
-    color: azure;
-}
-
-.ysabeau-office-footer {
-    font-family: "Ysabeau Office", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
-    font-size: 1.5rem;
     color: azure;
 }
 
@@ -134,100 +124,6 @@ input[type="checkbox"]:nth-child(1):checked~.menu:nth-child(1) {
 
 input[type="checkbox"]:nth-child(2):checked~.menu:nth-child(2) {
     visibility: visible;
-} */
-
-/* .menu{
-    list-style: none;
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    display: none;
-    left: 0;
-    right: 0;
-    border-radius: 1rem;
-    margin-top: 0.5rem;
-}
-.menu:nth-child(1) {
-    left: -3rem;
-    right: -3rem;
-}
-.menu > li > a{
-    font-size: 1.3rem;
-    color: crimson;
-}
-.menu > li {
-    display: block;
-}
-a:hover > .menu{
-    visibility: visible;
-    display: block;
-    opacity: 1;
-    background-color: azure;
-    cursor: pointer;
-} */
-
-/* .footer {
-    display: grid;
-    grid-template-areas:
-        "foolterNav"
-        "footerP footerP";
-    background-color: firebrick;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-} */
-
-/* .footerImg {
-    grid-area: footerImg;
-    width: 3rem;
-    height: 3rem;
-    margin-right: 1rem;
-} */
-
-/* .footerP {
-    grid-area: footerP;
-    text-align: justify;
-    margin-block-end: 0;
-    margin-block-start: 0;
-    margin-top: 2rem;
-}
-
-.footerNav {
-    grid-area: footerNav;
-    display: grid;
-    grid-template-columns: repeat(5, auto);
-    justify-items: center;
-    transition: 50ms;
-}
-
-.footerNav a:hover {
-    transform: rotateX(20deg);
-}
-
-.footerThreeline {
-    display: none;
-}
-
-.footerLink {
-    text-decoration: none;
-}
-
-.footerIcon {
-    background-color: azure;
-    color: crimson;
-    margin-left: 1.2rem;
-    border-radius: 50%;
-    transition: 50ms;
-}
-
-.footerIcon:nth-child(4) {
-    background-color: crimson;
-    color: azure;
-}
-
-.footerIcon a:hover {
-    transform: translateY(2rem)
 }
 
 @media (max-width: 60rem) {
@@ -269,10 +165,6 @@ a:hover > .menu{
         transform: rotateX(30deg);
     }
 
-    .ysabeau-office-footer {
-        font-size: 0.7rem;
-    }
-
     .menu {
         left: 2.5rem;
         top: -3rem
@@ -295,15 +187,6 @@ a:hover > .menu{
         font-size: 0.8rem;
         padding: 0.3rem 1rem;
     }
-
-    .footerP {
-        margin-top: 1rem;
-    }
-
-    .footerIcon {
-        margin-left: 0.7rem;
-    }
-
 }
 
 @media (max-width: 30rem) {
@@ -345,10 +228,6 @@ a:hover > .menu{
         transform: rotateX(30deg);
     }
 
-    .ysabeau-office-footer {
-        font-size: 0.35rem;
-    }
-
     .menu {
         left: 1.7rem;
         top: -2.3rem
@@ -371,12 +250,4 @@ a:hover > .menu{
         font-size: 0.6rem;
         padding: 0.2rem 0.7rem;
     }
-
-    .footerP {
-        margin-top: 0.5rem;
-    }
-
-    .footerIcon {
-        margin-left: 0.4rem;
-    }
-} */
+}
