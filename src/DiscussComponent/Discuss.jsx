@@ -1,15 +1,14 @@
-import styled from "./Main.module.css";
-import { Link } from "react-router-dom";
+import styled from "./Discuss.module.css";
 import { lazy } from "react";
 
 const Header = lazy(() => import("../HeaderComponent/Header"));
 const Footer = lazy(() => import("../FooterComponent/Footer"));
-export default function Main() {
+export default function Discuss() {
     return (
         <>
             <Header />
             <main>
-                Main Page
+                Discuss Page
             </main>
             <Footer />
         </>

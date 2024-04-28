@@ -1,15 +1,14 @@
-import styled from "./Main.module.css";
-import { Link } from "react-router-dom";
+import styled from "./Register.module.css";
 import { lazy } from "react";
 
 const Header = lazy(() => import("../HeaderComponent/Header"));
 const Footer = lazy(() => import("../FooterComponent/Footer"));
-export default function Main() {
+export default function Register() {
     return (
         <>
             <Header />
             <main>
-                Main Page
+                Register Page
             </main>
             <Footer />
         </>

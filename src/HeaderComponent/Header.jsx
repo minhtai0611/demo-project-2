@@ -71,8 +71,8 @@ export default function Header() {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/livestream" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
-                                    Livestream
+                                <Link to="/video" className={styled.link + " " + styled["shippori-antique-b1-regular"]}>
+                                    Video
                                 </Link>
                             </li>
                         </ul>
