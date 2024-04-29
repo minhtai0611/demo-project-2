@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Office:ital,wght@0,1..1000;1,1..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap');
 
-.ysabeau-office-footer {
-    font-family: "Ysabeau Office", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
-    font-size: 1.5rem;
-    color: azure;
+.kantumruy-pro-footer {
+  font-family: "Kantumruy Pro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  color: azure;
+  font-size: 1.3rem;
 }
 
 .footer {
@@ -15,10 +15,10 @@
         "foolterNav"
         "footerP footerP";
     background-color: firebrick;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: fixed;
+    bottom: 0vh;
+    left: 0vw;
+    right: 0vw;
 }
 
 /* .footerImg {
@@ -74,7 +74,7 @@
 }
 
 @media (max-width: 60rem) {
-    .ysabeau-office-footer {
+    .kantumruy-pro-footer {
         font-size: 0.7rem;
     }
 
@@ -88,7 +88,7 @@
 }
 
 @media (max-width: 30rem) {
-    .ysabeau-office-footer {
+    .kantumruy-pro-footer {
         font-size: 0.35rem;
     }
 

@@ -12,19 +12,19 @@ export default function Footer() {
             <footer className={styled.footer}>
                 {/* <img src={logo} alt="logo game" className={styled.footerImg + " " + styled.footerLink} /> */}
                 <nav className={styled.footerNav}>
-                    <Link to="/policy" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                    <Link to="/policy" className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}>
                         Privacy Policy
                     </Link>
-                    <Link to="/agreement" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                    <Link to="/agreement" className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}>
                         Subscriber Agreement
                     </Link>
-                    <Link to="/refund" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                    <Link to="/refund" className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}>
                         Refund
                     </Link>
-                    <Link to="/recruit" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                    <Link to="/recruit" className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}>
                         Recruit
                     </Link>
-                    <Link to="/social" className={styled.footerLink + " " + styled["ysabeau-office-footer"]}>
+                    <Link to="/social" className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}>
                         Connect ArcGame in
                         <IconContext.Provider value={{ className: styled.footerIcon }}>
                             <TfiFacebook />
@@ -43,7 +43,7 @@ export default function Footer() {
                         </IconContext.Provider>
                     </Link>
                 </nav>
-                <p className={styled.footerP + " " + styled["ysabeau-office-footer"]}>
+                <p className={styled.footerP + " " + styled["kantumruy-pro-footer"]}>
                     &#9400; {new Date().getFullYear()} ArcGame Company. All rights reserved. All trademarks are the property of their respective owners in the United States and other countries.
                     VAT is included (if applicable).
                 </p>

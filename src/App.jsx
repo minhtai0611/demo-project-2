@@ -100,7 +100,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <>
-      <Suspense fallback={<RiseLoader color="#f0ffff" size={80} cssOverride={{
+      <Suspense fallback={<RiseLoader color="#f0ffff" size={80} margin={0} speedMultiplier={0.7} cssOverride={{
         display: "flex",
         height: "100vh",
         alignItems: "center",
@@ -109,7 +109,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
         </QueryClientProvider>
-      </Suspense>
+      </Suspense >
     </>
   );
 }
