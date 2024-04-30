@@ -1,6 +1,6 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { lazy, Suspense } from "react";
 import RiseLoader from "react-spinners/RiseLoader"
 
@@ -96,20 +96,21 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 const queryClient = new QueryClient();
 function App() {
   return (
     <>
-      <Suspense fallback={<RiseLoader color="#f0ffff" size={80} margin={0} speedMultiplier={0.7} cssOverride={{
-        display: "flex",
-        height: "100vh",
-        alignItems: "center",
-        justifyContent: "center",
-      }} />}>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={<RiseLoader color="#f0ffff" size={80} margin={0} speedMultiplier={0.7} cssOverride={{
+          display: "flex",
+          height: "100vh",
+          alignItems: "center",
+          justifyContent: "center",
+        }} />}>
           <RouterProvider router={router} />
-        </QueryClientProvider>
-      </Suspense >
+        </Suspense >
+      </QueryClientProvider>
     </>
   );
 }

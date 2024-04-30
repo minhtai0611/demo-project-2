@@ -81,6 +81,7 @@
     position: absolute;
     visibility: hidden;
     left: -5rem;
+    z-index: 2;
 }
 
 .dropdown:nth-child(2) .menu {
