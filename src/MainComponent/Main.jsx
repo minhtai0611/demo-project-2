@@ -23,40 +23,47 @@ export default function Main() {
 
     const [searchGame, setSearchGame] = useState("");
 
-    // function SearchGameInput(event) {
-    //     setSearchGame(event.target.value);
-    // }
+    function SearchGameInput(event) {
+        setSearchGame(event.target.value);
+    }
+
     function SearchGameKeyEnter(event) {
         if (event.key === "Enter") {
-            // SearchGameInput();
-            setSearchGame(event.target.value);
+            SearchGameInput(event);
         }
     }
-    console.log(searchGame);
+
+    function SearchGameClick() {
+
+    }
+
     return (
         <>
             <Header />
             <main className={styled["mukta-mahee-semibold"]}>
                 <div className={styled.inputBox}>
                     <IconContext.Provider value={{ className: styled.icon }}>
-                        <AiOutlineSearch />
+                        <AiOutlineSearch onClick={(event) => SearchGameClick(event)} />
                     </IconContext.Provider>
                     <input
                         type="search"
                         name="searchGame"
                         placeholder="Search a game..."
-                        maxLength="20"
-                        // onChange={(event) => SearchGameInput(event)}
+                        maxLength="40"
+                        autoComplete="off"
+                        autoCapitalize="off"
+                        spellCheck="false"
+                        onChange={(event) => SearchGameInput(event)}
                         onKeyDown={(event) => SearchGameKeyEnter(event)}
                         className={styled.input + " " + styled["mukta-mahee-semibold"]}
                     />
                     <Link to="/">
-                        <button type="button" className={styled.button + " " + styled["mukta-mahee-semibold"]}>
+                        <button type="button" onClick={(event) => SearchGameClick(event)} className={styled.button + " " + styled["mukta-mahee-semibold"]}>
                             Search
                         </button>
                     </Link>
                 </div>
-
+                <p>{searchGame}</p>
                 <ul role="list">
                     <li>Call of Duty</li>
                     <li>2</li>
