@@ -6,18 +6,23 @@ export const schemaGameData = buildSchema(`
     }
 
     type RequirePC {
-        minimum: String!
-        recommended: String!
+        minimum: String
+        recommended: String
     }
 
     type RequireMac {
-        minimum: String!
-        recommended: String!
+        minimum: String
+        recommended: String
     }
 
     type RequireLinux {
-        minimum: String!
-        recommended: String!
+        minimum: String
+        recommended: String
+    }
+
+    type Demos {
+        appid: Int!
+        description: String!
     }
 
     type OverviewPrice {
@@ -39,6 +44,7 @@ export const schemaGameData = buildSchema(`
         is_free_license: Boolean!
         price_in_cents_with_discount: Int!
     }
+    
     type PackageGroup {
         name: String!
         title: String!
@@ -78,12 +84,12 @@ export const schemaGameData = buildSchema(`
     }
 
     type Webm {
-        "480": String!
+        _480: String!
         max: String!
     }
 
     type Mp4 {
-        "480": String!
+        _480: String!
         max: String!
     }
 
@@ -121,68 +127,151 @@ export const schemaGameData = buildSchema(`
     }
 
     type ContentDescriptor {
-        ids: [Int!]!
-        notes: [String!]!
+        ids: [Int!]
+        notes: [String!]
     }
+
     type Esrb {
-        rating: String!
-        use_age_gate: String!
-        required_age: String!
-        descriptors: String!
-        interactive_elements: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type Pegi {
-        rating: String!
-        descriptors: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type Usk {
-        rating: String!
-        descriptors: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type Oflc {
-        rating: String!
-        descriptors: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type Nzoflc {
-        rating: String!
-        descriptors: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
+    }
+
+    type Cero {
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type Kgrb {
-        rating: String!
-        descriptors: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type Dejus {
-        rating: String!
-        descriptors: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
+    }
+
+    type Cadpa {
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type Fpb {
-        rating: String!
-        descriptors: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type Csrr {
-        rating: String!
-        descriptors: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type Crl {
-        rating: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type SteamGermany {
-        rating_generated: String!
-        rating: String!
-        required_age: String!
-        banned: String!
-        use_age_gate: String!
-        descriptors: String!
+        rating_generated: String
+        rating: String
+        required_age: String
+        banned: String
+        use_age_gate: String
+        descriptors: String
+        interactive_elements: String
+        display_online_notice: String
     }
 
     type Ratings {
@@ -191,8 +280,10 @@ export const schemaGameData = buildSchema(`
         usk: Usk!
         oflc: Oflc!
         nzoflc: Nzoflc!
+        cero: Cero!
         kgrb: Kgrb!
         dejus: Dejus!
+        cadpa: Cadpa!
         fpb: Fpb!
         csrr: Csrr!
         crl: Crl!
@@ -205,24 +296,26 @@ export const schemaGameData = buildSchema(`
         steam_appid: Int!
         required_age: Int!
         is_free: Boolean!
-        controller_support: String!
-        dlc: [Int!]!
+        controller_support: String
+        dlc: [Int!]
         detailed_description: String!
         about_the_game: String!
         short_description: String!
         supported_languages: String!
+        reviews: String
         header_image: String!
         capsule_image: String!
         capsule_imagev5: String!
-        website: String!
+        website: String
         pc_requirements: RequirePC!
-        mac_requirements: RequireMax!
+        mac_requirements: RequireMac!
         linux_requirements: RequireLinux!
-        legal_notice: String!
-        drm_notice: String!
-        ext_user_account_notice: String!
+        legal_notice: String
+        drm_notice: String
+        ext_user_account_notice: String
         developers: [String!]!
         publishers: [String!]!
+        demos: [Demos!]!
         price_overview: OverviewPrice!
         packages: [Int!]!
         package_groups: [PackageGroup!]!
@@ -236,10 +329,10 @@ export const schemaGameData = buildSchema(`
         achievements: Achivements!
         release_date: ReleaseDate!
         support_info: SupportInfo!
-        background: : String!
-        background_raw: : String!
+        background: String!
+        background_raw: String!
         content_descriptors: ContentDescriptor!
-        ratings: Ratings!
+        ratings: Ratings
     }
     
     type Query {
