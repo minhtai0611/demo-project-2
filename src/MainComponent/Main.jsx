@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { lazy, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IconContext } from "react-icons";
-import { useQuery } from "@tanstack/react-query"
-import { FetchGameData, FetchGameApp } from "../FetchGameDataComponent/FetchGameData";
+import { useQuery } from "@tanstack/react-query";
+import {
+    FetchGameData,
+    FetchGameApp,
+} from "../FetchGameDataComponent/FetchGameData";
 
 const Header = lazy(() => import("../HeaderComponent/Header"));
 const Footer = lazy(() => import("../FooterComponent/Footer"));
@@ -12,19 +15,24 @@ const Footer = lazy(() => import("../FooterComponent/Footer"));
 export default function Main() {
     const { data, isError, isPending, isSuccess } = useQuery({
         queryKey: ["gameData"],
-        queryFn: async () => await FetchGameData()
-    })
+        queryFn: async () => await FetchGameData(),
+    });
     // if (isSuccess) console.log(data.name);
-    const { data: dataApp, isError: isErrorApp, isPending: isPendingApp, isSuccess: isSuccessApp } = useQuery({
+    const {
+        data: dataApp,
+        isError: isErrorApp,
+        isPending: isPendingApp,
+        isSuccess: isSuccessApp,
+    } = useQuery({
         queryKey: ["gameApp"],
-        queryFn: async () => await FetchGameApp()
-    })
+        queryFn: async () => await FetchGameApp(),
+    });
     // if (isSuccessApp) console.log(dataApp.length);
 
     const [searchGame, setSearchGame] = useState("");
 
     function SearchGameInput(event) {
-        setSearchGame(event.target.value);
+        setSearchGame(() => event.target.value);
     }
 
     function SearchGameKeyEnter(event) {
@@ -33,14 +41,12 @@ export default function Main() {
         }
     }
 
-    function SearchGameClick() {
-
-    }
+    function SearchGameClick() { }
 
     return (
         <>
             <Header />
-            <main className={styled["mukta-mahee-semibold"]}>
+            <main>
                 <div className={styled.inputBox}>
                     <IconContext.Provider value={{ className: styled.icon }}>
                         <AiOutlineSearch onClick={(event) => SearchGameClick(event)} />
@@ -58,24 +64,49 @@ export default function Main() {
                         className={styled.input + " " + styled["mukta-mahee-semibold"]}
                     />
                     <Link to="/">
-                        <button type="button" onClick={(event) => SearchGameClick(event)} className={styled.button + " " + styled["mukta-mahee-semibold"]}>
+                        <button
+                            type="button"
+                            onClick={(event) => SearchGameClick(event)}
+                            className={styled.button + " " + styled["mukta-mahee-semibold"]}
+                        >
                             Search
                         </button>
                     </Link>
                 </div>
-                <p>{searchGame}</p>
-                <ul role="list">
-                    <li>Call of Duty</li>
-                    <li>2</li>
-                    <li>3</li>
-                    <li>4</li>
-                    <li>5</li>
-                    <li>6</li>
-                    <li>7</li>
-                    <li>8</li>
-                    <li>9</li>
-                    <li>10</li>
-                </ul>
+                {isSuccess && isSuccessApp && (
+                    <ul role="list" className={styled["manrope-bold"]}>
+                        <li>{data.name}</li>
+                        <li>
+                            {isSuccess && isSuccessApp && data.movies.map((movie) => (
+                                <video
+                                    controls
+                                    controlsList="nofullscreen nodownload noremoteplayback noplaybackrate foobar"
+                                    disablePictureInPicture
+                                    disableRemotePlayback
+                                    preload="metadata"
+                                    poster={movie.thumbnail}
+                                    key={movie.id}
+                                >
+                                    <source src={movie.mp4.max} type="video/mp4" />
+                                </video>
+                            ))}
+                        </li>
+                        <li>
+                            <img src={data.header_image} alt="header image"></img>
+                            <p>{data.short_description}</p>
+                            <p>Release Date: {data.release_date.date}</p>
+                            <p>Developers: {data.developers.join(", ")}</p>
+                            <p>Publishers: {data.publishers.join(", ")}</p>
+                        </li>
+                        <li>4</li>
+                        <li>5</li>
+                        <li>6</li>
+                        <li>7</li>
+                        <li>8</li>
+                        <li>9</li>
+                        <li>10</li>
+                    </ul>
+                )}
             </main>
             <Footer />
         </>

@@ -7,12 +7,35 @@ const gameDataQuery = `
             required_age
             is_free
             controller_support
+            short_description
+            supported_languages
+            header_image
+            capsule_image
+            capsule_imagev5
+            website
+            release_date {
+                date
+            }
+            developers
+            publishers
+            screenshots {
+                id
+                path_full
+            }
+            movies {
+                id
+                thumbnail
+                mp4 {
+                    _480
+                    max
+                }
+            }
         }
     }
 `;
 
 const gameDataVariables = {
-    appid: "264710"
+    appid: "2195250"
 }
 
 export async function FetchGameData() {
