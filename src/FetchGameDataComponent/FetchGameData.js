@@ -24,8 +24,13 @@ const gameDataQuery = `
             }
             movies {
                 id
+                name
                 thumbnail
                 mp4 {
+                    _480
+                    max
+                }
+                webm {
                     _480
                     max
                 }

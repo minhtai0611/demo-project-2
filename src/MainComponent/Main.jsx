@@ -2,8 +2,13 @@ import styled from "./Main.module.css";
 import { Link } from "react-router-dom";
 import { lazy, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { TiArrowLeftThick } from "react-icons/ti";
+import { TiArrowRightThick } from "react-icons/ti";
+import { FaPlay } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { useQuery } from "@tanstack/react-query";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 import {
     FetchGameData,
     FetchGameApp,
@@ -43,10 +48,16 @@ export default function Main() {
 
     function SearchGameClick() { }
 
+    const [selectMovie, setSelectMovie] = useState(null);
+
+    function MovieThumbClick(movie) {
+        setSelectMovie(movie);
+    }
+
     return (
         <>
             <Header />
-            <main>
+            <main className={styled["manrope-bold"]}>
                 <div className={styled.inputBox}>
                     <IconContext.Provider value={{ className: styled.icon }}>
                         <AiOutlineSearch onClick={(event) => SearchGameClick(event)} />
@@ -61,35 +72,99 @@ export default function Main() {
                         spellCheck="false"
                         onChange={(event) => SearchGameInput(event)}
                         onKeyDown={(event) => SearchGameKeyEnter(event)}
-                        className={styled.input + " " + styled["mukta-mahee-semibold"]}
+                        className={styled.input + " " + styled["manrope-bold"]}
                     />
                     <Link to="/">
                         <button
                             type="button"
                             onClick={(event) => SearchGameClick(event)}
-                            className={styled.button + " " + styled["mukta-mahee-semibold"]}
+                            className={styled.button + " " + styled["manrope-bold"]}
                         >
                             Search
                         </button>
                     </Link>
                 </div>
                 {isSuccess && isSuccessApp && (
-                    <ul role="list" className={styled["manrope-bold"]}>
+                    <ul role="list">
                         <li>{data.name}</li>
                         <li>
-                            {isSuccess && isSuccessApp && data.movies.map((movie) => (
-                                <video
-                                    controls
-                                    controlsList="nofullscreen nodownload noremoteplayback noplaybackrate foobar"
-                                    disablePictureInPicture
-                                    disableRemotePlayback
-                                    preload="metadata"
-                                    poster={movie.thumbnail}
-                                    key={movie.id}
-                                >
-                                    <source src={movie.mp4.max} type="video/mp4" />
-                                </video>
-                            ))}
+                            <Carousel
+                                autoFocus
+                                showArrows={true}
+                                showStatus={false}
+                                showIndicators={false}
+                                showThumbs={true}
+                                transitionTime={2000}
+                                thumbWidth={200}
+                                useKeyboardArrows={true}
+                                renderArrowPrev={(prevArrowClick, hasPrev) => (
+                                    <IconContext.Provider
+                                        value={{
+                                            className: hasPrev
+                                                ? styled.leftArrow
+                                                : styled.leftArrowHidden,
+                                        }}
+                                    >
+                                        <TiArrowLeftThick onClick={prevArrowClick} />
+                                    </IconContext.Provider>
+                                )}
+                                renderArrowNext={(nextArrowClick, hasNext) => (
+                                    <IconContext.Provider
+                                        value={{
+                                            className: hasNext
+                                                ? styled.rightArrow
+                                                : styled.rightArrowHidden,
+                                        }}
+                                    >
+                                        <TiArrowRightThick onClick={nextArrowClick} />
+                                    </IconContext.Provider>
+                                )}
+                            >
+                                {data.movies.map((movie) => (
+                                    <div key={movie.id}>
+                                        <p className={styled.legend}>{movie.name}</p>
+                                        <video
+                                            controls
+                                            controlsList="nofullscreen nodownload noremoteplayback noplaybackrate foobar"
+                                            disablePictureInPicture
+                                            disableRemotePlayback
+                                            preload="metadata"
+                                            poster={movie.thumbnail}
+                                        >
+                                            <source src={movie.mp4.max} type="video/mp4" />
+                                            <source src={movie.webm.max} type="video/webm" />
+                                            Sorry, your browser doesn&apos;t support videos.
+                                        </video>
+                                    </div>
+                                ))}
+                                {data.movies.map((movie) => (
+                                    <div key={movie.id} onClick={() => MovieThumbClick(movie)}>
+                                        <img src={movie.thumbnail} alt={movie.name}></img>
+                                    </div>
+                                ))}
+                                {data.screenshots.map((screenshot) => (
+                                    <div key={screenshot.id}>
+                                        <img src={screenshot.path_full} alt="screenshot"></img>
+                                    </div>
+                                ))}
+                            </Carousel>
+                            {selectMovie && (
+                                <div key={selectMovie.id}>
+                                    <p className={styled.legend}>{selectMovie.name}</p>
+                                    <video
+                                        controls
+                                        controlsList="nofullscreen nodownload noremoteplayback noplaybackrate foobar"
+                                        disablePictureInPicture
+                                        disableRemotePlayback
+                                        preload="metadata"
+                                        poster={selectMovie.thumbnail}
+                                    >
+                                        <source src={selectMovie.mp4.max} type="video/mp4" />
+                                        <source src={selectMovie.webm.max} type="video/webm" />
+                                        Sorry, your browser doesn&apos;t support videos.
+                                    </video>
+                                </div>
+                            )}
                         </li>
                         <li>
                             <img src={data.header_image} alt="header image"></img>
@@ -98,7 +173,20 @@ export default function Main() {
                             <p>Developers: {data.developers.join(", ")}</p>
                             <p>Publishers: {data.publishers.join(", ")}</p>
                         </li>
-                        <li>4</li>
+                        <li>
+                            {/* <Carousel autoFocus autoPlay interval="5000" infiniteLoop showStatus={false} showIndicators={false} showThumbs={false}>
+                                <div>
+                                    <img src="https://cdn.akamai.steamstatic.com/steam/apps/264710/ss_883a98ad56021ce409219e1b749818866b6115cd.600x338.jpg?t=1700522118" />
+                                </div>
+                                <div>
+                                    <img src="https://cdn.akamai.steamstatic.com/steam/apps/264710/ss_883a98ad56021ce409219e1b749818866b6115cd.600x338.jpg?t=1700522118" />
+                                </div>
+                                <div>
+                                    <img src="https://cdn.akamai.steamstatic.com/steam/apps/264710/ss_883a98ad56021ce409219e1b749818866b6115cd.600x338.jpg?t=1700522118" />
+                                </div>
+                            </Carousel> */}
+                            4
+                        </li>
                         <li>5</li>
                         <li>6</li>
                         <li>7</li>
