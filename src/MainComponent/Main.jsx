@@ -48,12 +48,6 @@ export default function Main() {
 
     function SearchGameClick() { }
 
-    const [selectMovie, setSelectMovie] = useState(null);
-
-    function MovieThumbClick(movie) {
-        setSelectMovie(movie);
-    }
-
     return (
         <>
             <Header />
@@ -90,13 +84,18 @@ export default function Main() {
                         <li>
                             <Carousel
                                 autoFocus
-                                showArrows={true}
-                                showStatus={false}
+                                // autoPlay
+                                // interval={4000}
+                                // infiniteLoop
                                 showIndicators={false}
-                                showThumbs={true}
                                 transitionTime={1000}
-                                thumbWidth={200}
-                                useKeyboardArrows={true}
+                                thumbWidth={160}
+                                useKeyboardArrows
+                                swipeable
+                                emulateTouch
+                                dynamicHeight
+                                swipeScrollTolerance={16}
+                                preventMovementUntilSwipeScrollTolerance
                                 renderArrowPrev={(prevArrowClick, hasPrev) => (
                                     <IconContext.Provider
                                         value={{
@@ -124,19 +123,31 @@ export default function Main() {
                                     return concatThumbs.map((concatThumb, index) => {
                                         if (index < data.movies.length) {
                                             return (
-                                                <div key={data.movies[index].id}>
-                                                    <img src={data.movies[index].thumbnail} alt={data.movies[index].name}></img>
+                                                <div key={data.movies[index].id} className={styled.thumb}>
+                                                    <img src={data.movies[index].thumbnail} alt={data.movies[index].name} className={styled.imgThumb}></img>
+                                                    <IconContext.Provider value={{ className: styled.iconThumb }}>
+                                                        <FaPlay />
+                                                    </IconContext.Provider>
                                                 </div>
                                             )
                                         }
                                         else {
                                             return (
-                                                <div key={data.screenshots[index - data.movies.length].id}>
-                                                    <img src={data.screenshots[index - data.movies.length].path_full} alt="screenshot"></img>
+                                                <div key={data.screenshots[index - data.movies.length].id} className={styled.thumb}>
+                                                    <img src={data.screenshots[index - data.movies.length].path_full} alt="screenshot" className={styled.imgThumb}></img>
                                                 </div>
                                             )
                                         }
                                     });
+                                }}
+                                renderItem={(slideItem, props) => <slideItem.type {...slideItem.props} {...props} className={styled.slideItem} />}
+                                statusFormatter={(slideItem, total) => {
+                                    if (slideItem < data.movies.length + 1) {
+                                        return `Movie ${slideItem} of ${data.movies.length}`
+                                    }
+                                    else {
+                                        return `Screenshot ${slideItem - data.movies.length} of ${data.screenshots.length}`
+                                    }
                                 }}
                             >
                                 {data.movies.map((movie) => (

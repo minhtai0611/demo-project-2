@@ -48,9 +48,9 @@ ul li:where(:nth-child(2)) video{
     width: 100%;
 }
 
-ul li:where(:nth-child(2)) img{
-    width: 100%;
-}
+/* ul li:where(:nth-child(2)) img{
+    
+} */
 
 ul li:where(:nth-child(2)) p{
     color: crimson;
@@ -64,7 +64,7 @@ ul li:where(:nth-child(2)) .legend{
     text-align: center;
     opacity: 0.5;
     color: azure;
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     margin: 0;
 }
 
@@ -77,6 +77,7 @@ ul li:where(:nth-child(3)) p {
     font-size: 1.2rem;
     width: 100%;
     text-align: justify;
+    margin: 1rem 0 0 0;
 }
 
 .inputBox{
@@ -166,11 +167,29 @@ ul li:where(:nth-child(3)) p {
     visibility: hidden;
 }
 
-.iconPlay{
+.thumb{
+    cursor: pointer;
+    position: relative;
+}
+
+.imgThumb{
+    display: block;
+}
+
+.iconThumb {
+    position: absolute;
+    left: 50%;
     background-color: azure;
     color: crimson;
-    border-radius: 1rem;
-    font-size: 6rem;
+    border-radius: 0.5rem;
+    font-size: 3rem;
+    padding: 0.5rem 0.3rem 0.5rem 0.5rem;
+    transform: translateX(-50%) translateY(40%);
+}
+
+.slideItem{
+    width: 80%;
+    transform: translateX(12%);
 }
 /* .input-box i {
     color: dimgray;
