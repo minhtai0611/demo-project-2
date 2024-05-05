@@ -21,8 +21,8 @@ export const schemaGameData = buildSchema(`
     }
 
     type Demos {
-        appid: Int!
-        description: String!
+        appid: Int
+        description: String
     }
 
     type OverviewPrice {
@@ -275,19 +275,19 @@ export const schemaGameData = buildSchema(`
     }
 
     type Ratings {
-        esrb: Esrb!
-        pegi: Pegi!
-        usk: Usk!
-        oflc: Oflc!
-        nzoflc: Nzoflc!
-        cero: Cero!
-        kgrb: Kgrb!
-        dejus: Dejus!
-        cadpa: Cadpa!
-        fpb: Fpb!
-        csrr: Csrr!
-        crl: Crl!
-        steam_germany: SteamGermany!
+        esrb: Esrb
+        pegi: Pegi
+        usk: Usk
+        oflc: Oflc
+        nzoflc: Nzoflc
+        cero: Cero
+        kgrb: Kgrb
+        dejus: Dejus
+        cadpa: Cadpa
+        fpb: Fpb
+        csrr: Csrr
+        crl: Crl
+        steam_germany: SteamGermany
     }
 
     type Data {
@@ -315,12 +315,12 @@ export const schemaGameData = buildSchema(`
         ext_user_account_notice: String
         developers: [String!]!
         publishers: [String!]!
-        demos: [Demos!]!
+        demos: [Demos!]
         price_overview: OverviewPrice!
         packages: [Int!]!
         package_groups: [PackageGroup!]!
         platforms: Platform!
-        metacritic: Metacritic!
+        metacritic: Metacritic
         categories: [Category!]!
         genres: [Genres!]!
         screenshots: [Screenshots!]!
@@ -332,7 +332,7 @@ export const schemaGameData = buildSchema(`
         background: String!
         background_raw: String!
         content_descriptors: ContentDescriptor!
-        ratings: Ratings
+        ratings: Ratings!
     }
     
     type Query {

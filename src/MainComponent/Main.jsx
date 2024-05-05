@@ -94,7 +94,7 @@ export default function Main() {
                                 showStatus={false}
                                 showIndicators={false}
                                 showThumbs={true}
-                                transitionTime={2000}
+                                transitionTime={1000}
                                 thumbWidth={200}
                                 useKeyboardArrows={true}
                                 renderArrowPrev={(prevArrowClick, hasPrev) => (
@@ -119,6 +119,25 @@ export default function Main() {
                                         <TiArrowRightThick onClick={nextArrowClick} />
                                     </IconContext.Provider>
                                 )}
+                                renderThumbs={(thumbs) => {
+                                    const concatThumbs = thumbs[0].concat(thumbs[1]);
+                                    return concatThumbs.map((concatThumb, index) => {
+                                        if (index < data.movies.length) {
+                                            return (
+                                                <div key={data.movies[index].id}>
+                                                    <img src={data.movies[index].thumbnail} alt={data.movies[index].name}></img>
+                                                </div>
+                                            )
+                                        }
+                                        else {
+                                            return (
+                                                <div key={data.screenshots[index - data.movies.length].id}>
+                                                    <img src={data.screenshots[index - data.movies.length].path_full} alt="screenshot"></img>
+                                                </div>
+                                            )
+                                        }
+                                    });
+                                }}
                             >
                                 {data.movies.map((movie) => (
                                     <div key={movie.id}>
@@ -137,34 +156,12 @@ export default function Main() {
                                         </video>
                                     </div>
                                 ))}
-                                {data.movies.map((movie) => (
-                                    <div key={movie.id} onClick={() => MovieThumbClick(movie)}>
-                                        <img src={movie.thumbnail} alt={movie.name}></img>
-                                    </div>
-                                ))}
                                 {data.screenshots.map((screenshot) => (
                                     <div key={screenshot.id}>
                                         <img src={screenshot.path_full} alt="screenshot"></img>
                                     </div>
                                 ))}
                             </Carousel>
-                            {selectMovie && (
-                                <div key={selectMovie.id}>
-                                    <p className={styled.legend}>{selectMovie.name}</p>
-                                    <video
-                                        controls
-                                        controlsList="nofullscreen nodownload noremoteplayback noplaybackrate foobar"
-                                        disablePictureInPicture
-                                        disableRemotePlayback
-                                        preload="metadata"
-                                        poster={selectMovie.thumbnail}
-                                    >
-                                        <source src={selectMovie.mp4.max} type="video/mp4" />
-                                        <source src={selectMovie.webm.max} type="video/webm" />
-                                        Sorry, your browser doesn&apos;t support videos.
-                                    </video>
-                                </div>
-                            )}
                         </li>
                         <li>
                             <img src={data.header_image} alt="header image"></img>
