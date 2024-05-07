@@ -6,13 +6,13 @@ import { TiArrowLeftThick } from "react-icons/ti";
 import { TiArrowRightThick } from "react-icons/ti";
 import { FaPlay } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import { SiWindows } from "react-icons/si";
+import { FaLinux } from "react-icons/fa6";
+import { RiAppleFill } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import {
-    FetchGameData,
-    FetchGameApp,
-} from "../FetchGameDataComponent/FetchGameData";
+import { FetchGameData, FetchGameApp } from "../FetchGameDataComponent/FetchGameData";
 
 const Header = lazy(() => import("../HeaderComponent/Header"));
 const Footer = lazy(() => import("../FooterComponent/Footer"));
@@ -82,118 +82,233 @@ export default function Main() {
                     <ul role="list">
                         <li>{data.name}</li>
                         <li>
-                            <Carousel
-                                autoFocus
-                                // autoPlay
-                                // interval={4000}
-                                // infiniteLoop
-                                showIndicators={false}
-                                transitionTime={1000}
-                                thumbWidth={160}
-                                useKeyboardArrows
-                                swipeable
-                                emulateTouch
-                                dynamicHeight
-                                swipeScrollTolerance={16}
-                                preventMovementUntilSwipeScrollTolerance
-                                renderArrowPrev={(prevArrowClick, hasPrev) => (
-                                    <IconContext.Provider
-                                        value={{
-                                            className: hasPrev
-                                                ? styled.leftArrow
-                                                : styled.leftArrowHidden,
-                                        }}
-                                    >
-                                        <TiArrowLeftThick onClick={prevArrowClick} />
-                                    </IconContext.Provider>
-                                )}
-                                renderArrowNext={(nextArrowClick, hasNext) => (
-                                    <IconContext.Provider
-                                        value={{
-                                            className: hasNext
-                                                ? styled.rightArrow
-                                                : styled.rightArrowHidden,
-                                        }}
-                                    >
-                                        <TiArrowRightThick onClick={nextArrowClick} />
-                                    </IconContext.Provider>
-                                )}
-                                renderThumbs={(thumbs) => {
-                                    const concatThumbs = thumbs[0].concat(thumbs[1]);
-                                    return concatThumbs.map((concatThumb, index) => {
-                                        if (index < data.movies.length) {
-                                            return (
-                                                <div key={data.movies[index].id} className={styled.thumb}>
-                                                    <img src={data.movies[index].thumbnail} alt={data.movies[index].name} className={styled.imgThumb}></img>
-                                                    <IconContext.Provider value={{ className: styled.iconThumb }}>
-                                                        <FaPlay />
-                                                    </IconContext.Provider>
-                                                </div>
-                                            )
+                            {data.movies && data.screenshots && (
+                                <Carousel
+                                    autoFocus
+                                    autoPlay
+                                    interval={4000}
+                                    infiniteLoop
+                                    showIndicators={false}
+                                    transitionTime={1000}
+                                    thumbWidth={160}
+                                    useKeyboardArrows
+                                    swipeable
+                                    emulateTouch
+                                    dynamicHeight
+                                    swipeScrollTolerance={16}
+                                    preventMovementUntilSwipeScrollTolerance
+                                    renderArrowPrev={(prevArrowClick, hasPrev) => (
+                                        <IconContext.Provider
+                                            value={{
+                                                className: hasPrev
+                                                    ? styled.leftArrow
+                                                    : styled.leftArrowHidden,
+                                            }}
+                                        >
+                                            <TiArrowLeftThick onClick={prevArrowClick} />
+                                        </IconContext.Provider>
+                                    )}
+                                    renderArrowNext={(nextArrowClick, hasNext) => (
+                                        <IconContext.Provider
+                                            value={{
+                                                className: hasNext
+                                                    ? styled.rightArrow
+                                                    : styled.rightArrowHidden,
+                                            }}
+                                        >
+                                            <TiArrowRightThick onClick={nextArrowClick} />
+                                        </IconContext.Provider>
+                                    )}
+                                    renderThumbs={(thumbs) => {
+                                        const concatThumbs = thumbs[0].concat(thumbs[1]);
+                                        return concatThumbs.map((concatThumb, index) => {
+                                            if (index < data.movies.length) {
+                                                return (
+                                                    <div key={data.movies[index].id} className={styled.thumb}>
+                                                        <img src={data.movies[index].thumbnail} alt={data.movies[index].name} className={styled.imgThumb}></img>
+                                                        <IconContext.Provider value={{ className: styled.iconThumb }}>
+                                                            <FaPlay />
+                                                        </IconContext.Provider>
+                                                    </div>
+                                                )
+                                            }
+                                            else {
+                                                return (
+                                                    <div key={data.screenshots[index - data.movies.length].id} className={styled.thumb}>
+                                                        <img src={data.screenshots[index - data.movies.length].path_full} alt="screenshot" className={styled.imgThumb}></img>
+                                                    </div>
+                                                )
+                                            }
+                                        });
+                                    }}
+                                    renderItem={(slideItem, options) => <slideItem.type {...slideItem.props} className={styled.slideItem} />}
+                                    statusFormatter={(slideItem, totalSlide) => {
+                                        if (slideItem < data.movies.length + 1) {
+                                            return `Movie ${slideItem} of ${data.movies.length}`
                                         }
                                         else {
-                                            return (
-                                                <div key={data.screenshots[index - data.movies.length].id} className={styled.thumb}>
-                                                    <img src={data.screenshots[index - data.movies.length].path_full} alt="screenshot" className={styled.imgThumb}></img>
-                                                </div>
-                                            )
+                                            return `Screenshot ${slideItem - data.movies.length} of ${data.screenshots.length}`
                                         }
-                                    });
-                                }}
-                                renderItem={(slideItem, props) => <slideItem.type {...slideItem.props} {...props} className={styled.slideItem} />}
-                                statusFormatter={(slideItem, total) => {
-                                    if (slideItem < data.movies.length + 1) {
-                                        return `Movie ${slideItem} of ${data.movies.length}`
-                                    }
-                                    else {
-                                        return `Screenshot ${slideItem - data.movies.length} of ${data.screenshots.length}`
-                                    }
-                                }}
-                            >
-                                {data.movies.map((movie) => (
-                                    <div key={movie.id}>
-                                        <p className={styled.legend}>{movie.name}</p>
-                                        <video
-                                            controls
-                                            controlsList="nofullscreen nodownload noremoteplayback noplaybackrate foobar"
-                                            disablePictureInPicture
-                                            disableRemotePlayback
-                                            preload="metadata"
-                                            poster={movie.thumbnail}
+                                    }}
+                                >
+                                    {data.movies.map((movie) => (
+                                        <div key={movie.id}>
+                                            <p className={styled.legend}>{movie.name}</p>
+                                            <video
+                                                controls
+                                                controlsList="nofullscreen nodownload noremoteplayback noplaybackrate foobar"
+                                                disablePictureInPicture
+                                                disableRemotePlayback
+                                                preload="metadata"
+                                                poster={movie.thumbnail}
+                                            >
+                                                <source src={movie.mp4.max} type="video/mp4" />
+                                                <source src={movie.webm.max} type="video/webm" />
+                                                Sorry, your browser doesn&apos;t support videos.
+                                            </video>
+                                        </div>
+                                    ))}
+                                    {data.screenshots.map((screenshot) => (
+                                        <div key={screenshot.id}>
+                                            <img src={screenshot.path_full} alt="screenshot"></img>
+                                        </div>
+                                    ))}
+                                </Carousel>
+                            )}
+                            {!data.movies && data.screenshots && (
+                                <Carousel
+                                    autoFocus
+                                    autoPlay
+                                    interval={4000}
+                                    infiniteLoop
+                                    showIndicators={false}
+                                    transitionTime={2000}
+                                    thumbWidth={160}
+                                    useKeyboardArrows
+                                    swipeable
+                                    emulateTouch
+                                    swipeScrollTolerance={16}
+                                    preventMovementUntilSwipeScrollTolerance
+                                    renderArrowPrev={(prevArrowClick, hasPrev) => (
+                                        <IconContext.Provider
+                                            value={{
+                                                className: hasPrev
+                                                    ? styled.leftArrow
+                                                    : styled.leftArrowHidden,
+                                            }}
                                         >
-                                            <source src={movie.mp4.max} type="video/mp4" />
-                                            <source src={movie.webm.max} type="video/webm" />
-                                            Sorry, your browser doesn&apos;t support videos.
-                                        </video>
-                                    </div>
-                                ))}
-                                {data.screenshots.map((screenshot) => (
-                                    <div key={screenshot.id}>
-                                        <img src={screenshot.path_full} alt="screenshot"></img>
-                                    </div>
-                                ))}
-                            </Carousel>
+                                            <TiArrowLeftThick onClick={prevArrowClick} />
+                                        </IconContext.Provider>
+                                    )}
+                                    renderArrowNext={(nextArrowClick, hasNext) => (
+                                        <IconContext.Provider
+                                            value={{
+                                                className: hasNext
+                                                    ? styled.rightArrow
+                                                    : styled.rightArrowHidden,
+                                            }}
+                                        >
+                                            <TiArrowRightThick onClick={nextArrowClick} />
+                                        </IconContext.Provider>
+                                    )}
+                                    renderThumbs={(thumbs) => {
+                                        return thumbs.map((thumb, index) => {
+                                            return (
+                                                <div key={data.screenshots[index].id} className={styled.thumb}>
+                                                    <img src={data.screenshots[index].path_full} alt="screenshot" className={styled.imgThumb}></img>
+                                                </div>
+                                            );
+                                        });
+                                    }}
+                                    renderItem={(slideItem, options) => <slideItem.type {...slideItem.props} className={styled.slideItem} />}
+                                    statusFormatter={(slideItem, totalSlide) => `Screenshot ${slideItem} of ${totalSlide}`}
+                                >
+                                    {data.screenshots.map((screenshot) => (
+                                        <div key={screenshot.id}>
+                                            <img src={screenshot.path_full} alt="screenshot"></img>
+                                        </div>
+                                    ))}
+                                </Carousel>
+                            )}
                         </li>
                         <li>
                             <img src={data.header_image} alt="header image"></img>
-                            <p>{data.short_description}</p>
-                            <p>Release Date: {data.release_date.date}</p>
+                            <p>{data.short_description.replace(/&amp;/g, "&")}</p>
+                            {data.release_date.date && <p>Release Date: {data.release_date.date}</p>}
                             <p>Developers: {data.developers.join(", ")}</p>
                             <p>Publishers: {data.publishers.join(", ")}</p>
                         </li>
                         <li>
-                            {/* <Carousel autoFocus autoPlay interval="5000" infiniteLoop showStatus={false} showIndicators={false} showThumbs={false}>
-                                <div>
-                                    <img src="https://cdn.akamai.steamstatic.com/steam/apps/264710/ss_883a98ad56021ce409219e1b749818866b6115cd.600x338.jpg?t=1700522118" />
-                                </div>
-                                <div>
-                                    <img src="https://cdn.akamai.steamstatic.com/steam/apps/264710/ss_883a98ad56021ce409219e1b749818866b6115cd.600x338.jpg?t=1700522118" />
-                                </div>
-                                <div>
-                                    <img src="https://cdn.akamai.steamstatic.com/steam/apps/264710/ss_883a98ad56021ce409219e1b749818866b6115cd.600x338.jpg?t=1700522118" />
-                                </div>
-                            </Carousel> */}
-                            4
+                            {data?.package_groups[0]?.subs && data.package_groups[0].subs.map((sub) => {
+                                const optionTextMatch = sub.option_text.match(/(.+?) - <span class="discount_original_price">/) || sub.option_text.match(/^(.*?) - \$\d+\.\d+$/) || sub.option_text.match(/^(.+?) - /);
+                                const optionTextResult = optionTextMatch ? optionTextMatch[1] : "";
+                                const percentSavingsMatch = sub.percent_savings_text.match(/-?(\d+)/);
+                                const percentSavingsResult = percentSavingsMatch ? percentSavingsMatch[1] : "";
+                                return (
+                                    <div key={sub.packageid} className={styled.purchaseGame}>
+                                        <p>{optionTextResult}</p>
+                                        {data.platforms.windows && data.platforms.linux && data.platforms.mac && (
+                                            <>
+                                                <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                                    <SiWindows />
+                                                </IconContext.Provider>
+                                                <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                                    <FaLinux />
+                                                </IconContext.Provider>
+                                                <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                                    <RiAppleFill />
+                                                </IconContext.Provider>
+                                            </>
+                                        )}
+                                        {data.platforms.windows && data.platforms.linux && !data.platforms.mac && (
+                                            <>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <SiWindows />
+                                                </IconContext.Provider>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <FaLinux />
+                                                </IconContext.Provider>
+                                            </>
+                                        )}
+                                        {data.platforms.windows && !data.platforms.linux && data.platforms.mac && (
+                                            <>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <SiWindows />
+                                                </IconContext.Provider>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <RiAppleFill />
+                                                </IconContext.Provider>
+                                            </>
+                                        )}
+                                        {!data.platforms.windows && data.platforms.linux && data.platforms.mac && (
+                                            <>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <FaLinux />
+                                                </IconContext.Provider>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <RiAppleFill />
+                                                </IconContext.Provider>
+                                            </>
+                                        )}
+                                        {data.platforms.windows && !data.platforms.linux && !data.platforms.mac && (
+                                            <IconContext.Provider value={{ className: styled.iconPlatform }}>
+                                                <SiWindows />
+                                            </IconContext.Provider>
+                                        )}
+                                        {!data.platforms.windows && data.platforms.linux && !data.platforms.mac && (
+                                            <IconContext.Provider value={{ className: styled.iconPlatform }}>
+                                                <FaLinux />
+                                            </IconContext.Provider>
+                                        )}
+                                        {!data.platforms.windows && !data.platforms.linux && data.platforms.mac && (
+                                            <IconContext.Provider value={{ className: styled.iconPlatform }}>
+                                                <RiAppleFill />
+                                            </IconContext.Provider>
+                                        )}
+                                        {percentSavingsResult ? <p>{`SPECIAL PROMOTION! Offer ends soon`}</p> : ""}
+                                    </div>
+                                )
+                            })}
                         </li>
                         <li>5</li>
                         <li>6</li>

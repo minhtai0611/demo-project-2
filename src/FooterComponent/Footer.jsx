@@ -1,6 +1,6 @@
-import styled from "./Footer.module.css"
+import styled from "./Footer.module.css";
 import { Link } from "react-router-dom";
-import { TfiFacebook } from "react-icons/tfi"
+import { TfiFacebook } from "react-icons/tfi";
 import { AiOutlineGoogle } from "react-icons/ai";
 import { RiTwitterXLine } from "react-icons/ri";
 import { GrLinkedin } from "react-icons/gr";
@@ -12,19 +12,34 @@ export default function Footer() {
             <footer className={styled.footer}>
                 {/* <img src={logo} alt="logo game" className={styled.footerImg + " " + styled.footerLink} /> */}
                 <nav className={styled.footerNav}>
-                    <Link to="/policy" className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}>
+                    <Link
+                        to="/policy"
+                        className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}
+                    >
                         Privacy Policy
                     </Link>
-                    <Link to="/agreement" className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}>
+                    <Link
+                        to="/agreement"
+                        className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}
+                    >
                         Subscriber Agreement
                     </Link>
-                    <Link to="/refund" className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}>
+                    <Link
+                        to="/refund"
+                        className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}
+                    >
                         Refund
                     </Link>
-                    <Link to="/recruit" className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}>
+                    <Link
+                        to="/recruit"
+                        className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}
+                    >
                         Recruit
                     </Link>
-                    <Link to="/social" className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}>
+                    <Link
+                        to="/social"
+                        className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}
+                    >
                         Connect ArcGame in
                         <IconContext.Provider value={{ className: styled.footerIcon }}>
                             <TfiFacebook />
@@ -44,10 +59,14 @@ export default function Footer() {
                     </Link>
                 </nav>
                 <p className={styled.footerP + " " + styled["kantumruy-pro-footer"]}>
-                    &#9400; {new Date().getFullYear()} ArcGame Company. All rights reserved. All trademarks are the property of their respective owners in the United States and other countries.
-                    VAT is included (if applicable).
+                    &#9400; {new Date().toLocaleString("default", { month: "long" })}{" "}
+                    {new Date().toLocaleString("default", { day: "numeric" })},{" "}
+                    {new Date().toLocaleString("default", { year: "numeric" })} in ArcGame
+                    Company. All rights reserved. All trademarks are the property of their
+                    respective owners in the United States and other countries. VAT is
+                    included (if applicable). Authorize by Steam.
                 </p>
             </footer>
         </>
-    )
+    );
 }

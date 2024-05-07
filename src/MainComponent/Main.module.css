@@ -80,6 +80,55 @@ ul li:where(:nth-child(3)) p {
     margin: 1rem 0 0 0;
 }
 
+ul li:where(:nth-child(4)) .purchaseGame {
+    position: relative;
+    font-size: 1.5rem;
+    text-align: left;
+    margin: 0 2rem;
+    border-radius: 1rem;
+    padding-left: 2rem;
+    background-color: tomato;
+}
+
+ul li:where(:nth-child(4)) .threeIconPlatform {
+    position: absolute;
+    top: 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .threeIconPlatform:where(:nth-child(2)){
+    right: 8rem;
+}
+
+ul li:where(:nth-child(4)) .threeIconPlatform:where(:nth-child(3)){
+    right: 5rem;
+}
+
+ul li:where(:nth-child(4)) .threeIconPlatform:where(:nth-child(4)){
+    right: 2rem;
+}
+
+ul li:where(:nth-child(4)) .twoIconPlatform {
+    position: absolute;
+    top: 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .twoIconPlatform:where(:nth-child(2)){
+    right: 5rem;
+}
+
+ul li:where(:nth-child(4)) .twoIconPlatform:where(:nth-child(3)){
+    right: 2rem;
+}
+
+ul li:where(:nth-child(4)) .iconPlatform {
+    position: absolute;
+    top: 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .iconPlatform:where(:nth-child(2)){
+    right: 2rem;
+}
+
 .inputBox{
   display: flex;
   justify-content: center;
@@ -135,6 +184,7 @@ ul li:where(:nth-child(3)) p {
     color: crimson;
     border-radius: 50%;
     font-size: 3rem;
+    padding: 0 0.1rem 0.3rem 0.2rem;
 }
 
 .leftArrow:hover{
@@ -157,6 +207,7 @@ ul li:where(:nth-child(3)) p {
     color: crimson;
     border-radius: 50%;
     font-size: 3rem;
+    padding: 0 0.1rem 0.3rem 0.3rem;
 }
 
 .rightArrow:hover {
@@ -191,6 +242,7 @@ ul li:where(:nth-child(3)) p {
     width: 80%;
     transform: translateX(12%);
 }
+
 /* .input-box i {
     color: dimgray;
 }

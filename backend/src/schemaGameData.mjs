@@ -316,15 +316,15 @@ export const schemaGameData = buildSchema(`
         developers: [String!]!
         publishers: [String!]!
         demos: [Demos!]
-        price_overview: OverviewPrice!
-        packages: [Int!]!
+        price_overview: OverviewPrice
+        packages: [Int!]
         package_groups: [PackageGroup!]!
         platforms: Platform!
         metacritic: Metacritic
         categories: [Category!]!
         genres: [Genres!]!
         screenshots: [Screenshots!]!
-        movies: [Movies!]!
+        movies: [Movies!]
         recommendations: Recommends!
         achievements: Achivements!
         release_date: ReleaseDate!

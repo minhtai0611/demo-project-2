@@ -35,12 +35,44 @@ const gameDataQuery = `
                     max
                 }
             }
+            package_groups {
+                description
+                display_type
+                is_recurring_subscription
+                name
+                save_text
+                selection_text
+                title
+                subs {
+                    can_get_free_license
+                    is_free_license
+                    option_description
+                    option_text
+                    packageid
+                    percent_savings
+                    percent_savings_text
+                    price_in_cents_with_discount
+                }
+            }
+            price_overview {
+                currency
+                discount_percent
+                final
+                final_formatted
+                initial
+                initial_formatted
+            }
+            platforms {
+                windows
+                linux
+                mac
+            }
         }
     }
 `;
 
 const gameDataVariables = {
-    appid: "2195250"
+    appid: "1245620"
 }
 
 export async function FetchGameData() {
