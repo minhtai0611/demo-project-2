@@ -32,7 +32,7 @@ export default function Header() {
                         {/* <button type="button" className={styled.dropdownMenu + " " + styled.button + " " + styled["shippori-antique-b1-regular"]}>
                             Store
                         </button> */}
-                        <input type="checkbox" id="dropdown-store" />
+                        <input type="checkbox" id="dropdown-store" className={styled.checkbox} />
                         <label htmlFor="dropdown-store" className={styled.dropdownMenu + " " + styled.button + " " + styled["shippori-antique-b1-regular"]}>
                             <span>Store</span>
                         </label>
@@ -55,7 +55,7 @@ export default function Header() {
                         </ul>
                     </div>
                     <div className={styled.dropdown}>
-                        <input type="checkbox" id="dropdown-community" />
+                        <input type="checkbox" id="dropdown-community" className={styled.checkbox} />
                         <label htmlFor="dropdown-community" className={styled.dropdownMenu + " " + styled.button + " " + styled["shippori-antique-b1-regular"]}>
                             <span>Community</span>
                         </label>
