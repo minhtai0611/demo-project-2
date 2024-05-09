@@ -1,9 +1,14 @@
 import styled from "./Register.module.css";
-import { lazy } from "react";
+import { lazy, useState } from "react";
 
 const Header = lazy(() => import("../HeaderComponent/Header"));
 const Footer = lazy(() => import("../FooterComponent/Footer"));
 export default function Register() {
+    const [isRotate, setIsRotate] = useState(false);
+
+    function SelectRotateClick() {
+        setIsRotate(() => !isRotate);
+    }
     return (
         <>
             <Header />
@@ -79,17 +84,17 @@ export default function Register() {
                             className={styled["nokora-bold"] + " " + styled.input}
                         />
                     </div>
-                    <div className={styled.divInput} >
+                    <div className={styled.divInput + " " + (isRotate ? styled.upRotate : styled.downRotate)} onClick={(event) => SelectRotateClick(event)}>
                         <label htmlFor="country" className={styled.label}>Country</label>
                         <select name="country" id="country" required className={styled.select}>
-                            <option value="country" className={styled.option}>US</option>
-                            <option value="country" className={styled.option}>UK</option>
-                            <option value="country" className={styled.option}>France</option>
-                            <option value="country" className={styled.option}>Germany</option>
-                            <option value="country" className={styled.option}>Canada</option>
-                            <option value="country" className={styled.option}>Australia</option>
-                            <option value="country" className={styled.option}>Spain</option>
-                            <option value="country" className={styled.option}>Portugal</option>
+                            <option value="US" className={styled.option}>US</option>
+                            <option value="UK" className={styled.option}>UK</option>
+                            <option value="France" className={styled.option}>France</option>
+                            <option value="Germany" className={styled.option}>Germany</option>
+                            <option value="Canada" className={styled.option}>Canada</option>
+                            <option value="Australia" className={styled.option}>Australia</option>
+                            <option value="Spain" className={styled.option}>Spain</option>
+                            <option value="Portugal" className={styled.option}>Portugal</option>
                         </select>
                         <span></span>
                     </div>

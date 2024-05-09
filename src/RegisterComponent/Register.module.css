@@ -40,8 +40,18 @@
     align-items: center;
 }
 
-.divInput:where(:nth-child(5))::after {
+.downRotate::after {
     content: "▼";
+    justify-self: end;
+    color: crimson;
+    font-size: 1.5rem;
+    position: relative;
+    top: -2.2rem;
+    left: -1.2rem;
+}
+
+.upRotate::after {
+    content: "▲";
     justify-self: end;
     color: crimson;
     font-size: 1.5rem;
@@ -220,8 +230,6 @@ p {
     font-style: inherit;
     font-size: inherit;
     text-align: center;
-    outline: none;
-    border: none;
 }
 
 
