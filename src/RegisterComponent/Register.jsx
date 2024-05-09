@@ -79,6 +79,20 @@ export default function Register() {
                             className={styled["nokora-bold"] + " " + styled.input}
                         />
                     </div>
+                    <div className={styled.divInput} >
+                        <label htmlFor="country" className={styled.label}>Country</label>
+                        <select name="country" id="country" required className={styled.select}>
+                            <option value="country" className={styled.option}>US</option>
+                            <option value="country" className={styled.option}>UK</option>
+                            <option value="country" className={styled.option}>France</option>
+                            <option value="country" className={styled.option}>Germany</option>
+                            <option value="country" className={styled.option}>Canada</option>
+                            <option value="country" className={styled.option}>Australia</option>
+                            <option value="country" className={styled.option}>Spain</option>
+                            <option value="country" className={styled.option}>Portugal</option>
+                        </select>
+                        <span></span>
+                    </div>
                     <div className={styled.divInput}>
                         <label htmlFor="termCondition" className={styled.checkbox}>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I am 13 years of age or older and agree to the terms of the subscriber agreement and the privacy policy.

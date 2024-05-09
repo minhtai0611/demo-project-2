@@ -25,15 +25,43 @@
     place-content: center;
 }
 
-.divInput:where(:nth-child(5)){
-    grid-template-columns: repeat(1, minmax(0, 1fr));
+
+/* .divInput:where(:nth-child(5))::after {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    background-color: crimson;
+    position: absolute;
+} */
+.divInput:where(:nth-child(5)) {
+    display: grid;
+    grid-template-areas: "divInput";
+    align-items: center;
+}
+
+.divInput:where(:nth-child(5))::after {
+    content: "▼";
+    justify-self: end;
+    color: crimson;
+    font-size: 1.5rem;
     position: relative;
+    top: -2.2rem;
+    left: -1.2rem;
 }
 
 .divInput:where(:nth-child(6)) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    position: relative;
+    margin-top: -1rem;
+}
+
+.divInput:where(:nth-child(7)) {
     grid-template-columns: repeat(1, minmax(0, 30%));
     place-content: center;
-} 
+}
+
+
 /* .formInput {
     background-color: crimson;
     margin-bottom: 50vh;
@@ -93,6 +121,7 @@
 .mark:hover {
     opacity: 0.5;
 }
+
 /* .checkbox:hover input ~.mark {
     opacity: 0.5;
 } */
@@ -122,6 +151,7 @@
 .input:where(:nth-child(1)) {
     cursor: pointer;
 }
+
 /* input[type="checkbox"], input[type="submit"]{
     cursor: pointer;
 }
@@ -153,7 +183,7 @@ input[type="checkbox"]:checked::before {
 } */
 
 .label {
-    transform: translateY(30%);
+    place-content: center;
 }
 
 ::placeholder {
@@ -164,3 +194,34 @@ input[type="checkbox"]:checked::before {
 p {
     text-align: center;
 }
+
+.select {
+    appearance: none;
+    background-color: azure;
+    color: crimson;
+    font-family: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: inherit;
+    outline: none;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+/* .divInput:where(:nth-child(5)) .select,
+.divInput:where(:nth-child(5))::after {
+    grid-area: divInput;
+} */
+
+.option {
+    font-family: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: inherit;
+    text-align: center;
+    outline: none;
+    border: none;
+}
+
+
