@@ -326,7 +326,7 @@ export const schemaGameData = buildSchema(`
         screenshots: [Screenshots!]!
         movies: [Movies!]
         recommendations: Recommends!
-        achievements: Achivements!
+        achievements: Achivements
         release_date: ReleaseDate!
         support_info: SupportInfo!
         background: String!

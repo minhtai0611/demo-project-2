@@ -239,11 +239,13 @@ export default function Main() {
                             <p>Publishers: {data.publishers.join(", ")}</p>
                         </li>
                         <li>
-                            {data?.package_groups[0]?.subs && data.package_groups[0].subs.map((sub) => {
+                            {data.package_groups[0].subs && data.package_groups[0].subs.map((sub) => {
                                 const optionTextMatch = sub.option_text.match(/(.+?) - <span class="discount_original_price">/) || sub.option_text.match(/^(.*?) - \$\d+\.\d+$/) || sub.option_text.match(/^(.+?) - /);
                                 const optionTextResult = optionTextMatch ? optionTextMatch[1] : "";
                                 const percentSavingsMatch = sub.percent_savings_text.match(/-?(\d+)/);
                                 const percentSavingsResult = percentSavingsMatch ? percentSavingsMatch[1] : "";
+                                const originPriceMatch = sub.option_text.match(/(?:<span class="discount_original_price">)?\$([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/(?:<span class="discount_original_price">)?CDN\$ ([\d.]+)(?:<\/span>)?/);
+                                const originPriceResult = originPriceMatch ? originPriceMatch[1] : "";
                                 return (
                                     <div key={sub.packageid} className={styled.purchaseGame}>
                                         <p>{optionTextResult}</p>
@@ -306,6 +308,25 @@ export default function Main() {
                                             </IconContext.Provider>
                                         )}
                                         {percentSavingsResult ? <p>{`SPECIAL PROMOTION! Offer ends soon`}</p> : ""}
+                                        {percentSavingsResult && (
+                                            <div className={styled.purchaseBox}>
+                                                <span className={styled.savings}>
+                                                    -{percentSavingsResult}%
+                                                </span>
+                                                {originPriceResult && (
+                                                    <span className={styled.price}>
+                                                        <s className={styled.originPrice}>${originPriceResult}</s>
+                                                        ${Math.floor(originPriceResult * (1 - percentSavingsResult / 100) * 100) / 100}
+                                                    </span>
+                                                )}
+                                                <span>
+                                                    <button type="button" className={styled.cart + " " + styled["manrope-bold"]} onClick={() => console.log("clicked")}>
+                                                        Add to cart
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        )}
+
                                     </div>
                                 )
                             })}

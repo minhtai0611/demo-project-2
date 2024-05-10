@@ -133,7 +133,13 @@ export default function Agreement() {
                 </p>
                 <p className={styled.p}>
                     Thank you for using ArcGame. We are committed to explaining your
-                    rights and obligations clearly and hope you to enjoy gaming experience.
+                    rights and obligations clearly and hope you to be enjoyable gaming experience.
+                </p>
+                <p className={styled.p}>
+                    Revision Date:{" "}
+                    {new Date(2023, 11, 5).toLocaleString("default", { month: "long" })}{" "}
+                    {new Date(2023, 11, 5).toLocaleString("default", { day: "numeric" })},{" "}
+                    {new Date(2023, 11, 5).toLocaleString("default", { year: "numeric" })}
                 </p>
             </main>
             <Footer />
