@@ -151,7 +151,7 @@ ul li:where(:nth-child(4)) .iconPlatform:where(:nth-child(2)){
     right: 2rem;
 }
 
-ul li:where(:nth-child(4)) .purchaseGame p:where(:nth-child(3)){
+ul li:where(:nth-child(4)) .purchaseGame .offer{
     color: royalblue;
 }
 
