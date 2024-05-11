@@ -128,7 +128,7 @@ export const schemaGameData = buildSchema(`
 
     type ContentDescriptor {
         ids: [Int!]
-        notes: [String!]
+        notes: String
     }
 
     type Esrb {

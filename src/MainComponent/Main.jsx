@@ -239,97 +239,129 @@ export default function Main() {
                             <p>Publishers: {data.publishers.join(", ")}</p>
                         </li>
                         <li>
-                            {data.package_groups[0].subs && data.package_groups[0].subs.map((sub) => {
-                                const optionTextMatch = sub.option_text.match(/(.+?) - <span class="discount_original_price">/) || sub.option_text.match(/^(.*?) - \$\d+\.\d+$/) || sub.option_text.match(/^(.+?) - /);
-                                const optionTextResult = optionTextMatch ? optionTextMatch[1] : "";
-                                const percentSavingsMatch = sub.percent_savings_text.match(/-?(\d+)/);
-                                const percentSavingsResult = percentSavingsMatch ? percentSavingsMatch[1] : "";
-                                const originPriceMatch = sub.option_text.match(/(?:<span class="discount_original_price">)?\$([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/(?:<span class="discount_original_price">)?CDN\$ ([\d.]+)(?:<\/span>)?/);
-                                const originPriceResult = originPriceMatch ? originPriceMatch[1] : "";
-                                return (
-                                    <div key={sub.packageid} className={styled.purchaseGame}>
-                                        <p>{optionTextResult}</p>
-                                        {data.platforms.windows && data.platforms.linux && data.platforms.mac && (
-                                            <>
-                                                <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                            {data.package_groups && data.package_groups.map((package_group) => {
+                                return package_group.subs && package_group.subs.map((sub) => {
+                                    const optionTextMatch = sub.option_text.match(/(.+?) - <span class="discount_original_price">/) || sub.option_text.match(/^(.*?) - \$\d+\.\d+$/) || sub.option_text.match(/^(.+?) - /) || sub.option_text.match(/.*/);
+                                    const optionTextResult = optionTextMatch ? optionTextMatch[1].trim() : "";
+                                    const percentSavingsMatch = sub.percent_savings_text.match(/-?(\d+)/);
+                                    const percentSavingsResult = percentSavingsMatch ? percentSavingsMatch[1].trim() : "";
+                                    const originPriceMatch = sub.option_text.match(/(?:<span class="discount_original_price">)?\$([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/(\d{1,3}(?:,\d{3})*,\d{2})/);
+                                    const originPriceResult = originPriceMatch ? originPriceMatch[1].trim() : "";
+                                    const currencyMatch = sub.option_text.match(/(?:€|CDN\$|A\$|\$)/);
+                                    const currencyResult = currencyMatch ? currencyMatch[0].trim() : ""
+                                    const isFreeLicense = sub.is_free_license;
+                                    return (
+                                        <div key={sub.packageid} className={styled.purchaseGame}>
+                                            <p>{optionTextResult}</p>
+                                            {data.platforms.windows && data.platforms.linux && data.platforms.mac && (
+                                                <>
+                                                    <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                                        <SiWindows />
+                                                    </IconContext.Provider>
+                                                    <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                                        <FaLinux />
+                                                    </IconContext.Provider>
+                                                    <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                                        <RiAppleFill />
+                                                    </IconContext.Provider>
+                                                </>
+                                            )}
+                                            {data.platforms.windows && data.platforms.linux && !data.platforms.mac && (
+                                                <>
+                                                    <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                        <SiWindows />
+                                                    </IconContext.Provider>
+                                                    <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                        <FaLinux />
+                                                    </IconContext.Provider>
+                                                </>
+                                            )}
+                                            {data.platforms.windows && !data.platforms.linux && data.platforms.mac && (
+                                                <>
+                                                    <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                        <SiWindows />
+                                                    </IconContext.Provider>
+                                                    <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                        <RiAppleFill />
+                                                    </IconContext.Provider>
+                                                </>
+                                            )}
+                                            {!data.platforms.windows && data.platforms.linux && data.platforms.mac && (
+                                                <>
+                                                    <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                        <FaLinux />
+                                                    </IconContext.Provider>
+                                                    <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                        <RiAppleFill />
+                                                    </IconContext.Provider>
+                                                </>
+                                            )}
+                                            {data.platforms.windows && !data.platforms.linux && !data.platforms.mac && (
+                                                <IconContext.Provider value={{ className: styled.iconPlatform }}>
                                                     <SiWindows />
                                                 </IconContext.Provider>
-                                                <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                            )}
+                                            {!data.platforms.windows && data.platforms.linux && !data.platforms.mac && (
+                                                <IconContext.Provider value={{ className: styled.iconPlatform }}>
                                                     <FaLinux />
                                                 </IconContext.Provider>
-                                                <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                            )}
+                                            {!data.platforms.windows && !data.platforms.linux && data.platforms.mac && (
+                                                <IconContext.Provider value={{ className: styled.iconPlatform }}>
                                                     <RiAppleFill />
                                                 </IconContext.Provider>
-                                            </>
-                                        )}
-                                        {data.platforms.windows && data.platforms.linux && !data.platforms.mac && (
-                                            <>
-                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
-                                                    <SiWindows />
-                                                </IconContext.Provider>
-                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
-                                                    <FaLinux />
-                                                </IconContext.Provider>
-                                            </>
-                                        )}
-                                        {data.platforms.windows && !data.platforms.linux && data.platforms.mac && (
-                                            <>
-                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
-                                                    <SiWindows />
-                                                </IconContext.Provider>
-                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
-                                                    <RiAppleFill />
-                                                </IconContext.Provider>
-                                            </>
-                                        )}
-                                        {!data.platforms.windows && data.platforms.linux && data.platforms.mac && (
-                                            <>
-                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
-                                                    <FaLinux />
-                                                </IconContext.Provider>
-                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
-                                                    <RiAppleFill />
-                                                </IconContext.Provider>
-                                            </>
-                                        )}
-                                        {data.platforms.windows && !data.platforms.linux && !data.platforms.mac && (
-                                            <IconContext.Provider value={{ className: styled.iconPlatform }}>
-                                                <SiWindows />
-                                            </IconContext.Provider>
-                                        )}
-                                        {!data.platforms.windows && data.platforms.linux && !data.platforms.mac && (
-                                            <IconContext.Provider value={{ className: styled.iconPlatform }}>
-                                                <FaLinux />
-                                            </IconContext.Provider>
-                                        )}
-                                        {!data.platforms.windows && !data.platforms.linux && data.platforms.mac && (
-                                            <IconContext.Provider value={{ className: styled.iconPlatform }}>
-                                                <RiAppleFill />
-                                            </IconContext.Provider>
-                                        )}
-                                        {percentSavingsResult ? <p>{`SPECIAL PROMOTION! Offer ends soon`}</p> : ""}
-                                        {percentSavingsResult && (
-                                            <div className={styled.purchaseBox}>
-                                                <span className={styled.savings}>
-                                                    -{percentSavingsResult}%
-                                                </span>
-                                                {originPriceResult && (
-                                                    <span className={styled.price}>
-                                                        <s className={styled.originPrice}>${originPriceResult}</s>
-                                                        ${Math.floor(originPriceResult * (1 - percentSavingsResult / 100) * 100) / 100}
+                                            )}
+                                            {percentSavingsResult && !isFreeLicense ? <p>{`SPECIAL PROMOTION! Offer ends soon`}</p> : ""}
+                                            {percentSavingsResult && !isFreeLicense && (
+                                                <div className={styled.purchaseBox}>
+                                                    <span className={styled.savings}>
+                                                        -{percentSavingsResult}%
                                                     </span>
-                                                )}
-                                                <span>
-                                                    <button type="button" className={styled.cart + " " + styled["manrope-bold"]} onClick={() => console.log("clicked")}>
-                                                        Add to cart
-                                                    </button>
-                                                </span>
-                                            </div>
-                                        )}
+                                                    {originPriceResult && currencyResult && (
+                                                        <span className={styled.price}>
+                                                            <s className={styled.originPrice}>{currencyResult === "CDN$" ? currencyResult + " " : ""}{currencyResult === "A$" ? currencyResult + " " : ""}{currencyResult === "$" ? currencyResult : ""}{originPriceResult}{currencyResult === "€" ? currencyResult : ""}</s>
+                                                            ${Math.floor(originPriceResult * (1 - percentSavingsResult / 100) * 100) / 100}
+                                                        </span>
+                                                    )}
+                                                    <span>
+                                                        <button type="button" className={styled.cart + " " + styled["manrope-bold"]}>
+                                                            Add to cart
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            )}
+                                            {!percentSavingsResult && !isFreeLicense && (
+                                                <div className={styled.noSavingsPurchaseBox}>
+                                                    {originPriceResult && currencyResult && (
+                                                        <span className={styled.price}>
+                                                            {currencyResult === "CDN$" ? currencyResult + " " : ""}{currencyResult === "A$" ? currencyResult + " " : ""}{currencyResult === "$" ? currencyResult : ""}{originPriceResult}{currencyResult === "€" ? currencyResult : ""}
+                                                        </span>
+                                                    )}
+                                                    <span>
+                                                        <button type="button" className={styled.cart + " " + styled["manrope-bold"]}>
+                                                            Add to cart
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            )}
+                                            {!percentSavingsResult && isFreeLicense && (
+                                                <div className={styled.freePurchaseBox}>
+                                                    <span className={styled.free}>
+                                                        Free to play
+                                                    </span>
+                                                    <span>
+                                                        <button type="button" className={styled.play + " " + styled["manrope-bold"]}>
+                                                            Play Game
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )
+                                })
+                            })
 
-                                    </div>
-                                )
-                            })}
+                            }
                         </li>
                         <li>5</li>
                         <li>6</li>

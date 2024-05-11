@@ -72,7 +72,7 @@ const gameDataQuery = `
 `;
 
 const gameDataVariables = {
-    appid: "2195250"
+    appid: "730"
 }
 
 export async function FetchGameData() {
