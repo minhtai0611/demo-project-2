@@ -10,7 +10,7 @@ export const resolverGameData = {
         const response = await fetch(`http://store.steampowered.com/api/appdetails/?appids=${appid}`);
         const json = await response.json();
         const { data } = json[appid];
-        data.movies.forEach(movie => {
+        data.movies && data.movies.forEach(movie => {
             if (Object.prototype.hasOwnProperty.call(movie.webm, "480")) {
                 Object.defineProperty(movie.webm, "_480", Object.getOwnPropertyDescriptor(movie.webm, "480"));
                 delete movie.webm["480"];

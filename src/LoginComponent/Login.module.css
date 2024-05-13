@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Nokora:wght@100;300;400;700;900&display=swap');
+
+.nokora-bold {
+    font-family: "Nokora", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1.7rem;
+    color: azure;
+}
+
+.formInput {
+    background-color: crimson;
+    font-size: 1.2rem;
+    width: 50%;
+    text-align: center;
+    margin: 0 25% 50vh 25%;
+    border-radius: 2rem;
+    padding: 0.5rem 0 1.3rem 0;
+}
+
+.divInput {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 30%));
+    margin-top: 1rem;
+    place-content: center;
+}
+
+.divInput:where(:nth-child(3)){
+    grid-template-columns: repeat(1, minmax(0, 30%));
+}
+
+
+.input {
+    color: crimson;
+    font-size: 1.2rem;
+    outline: none;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+.input:where(:nth-child(1)) {
+    cursor: pointer;
+}
+
+.label {
+    transform: translateY(30%);
+}
+
+::placeholder {
+    color: crimson;
+    opacity: 0.5;
+}
+
+p {
+    text-align: center;
+}

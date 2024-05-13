@@ -128,7 +128,7 @@ export const schemaGameData = buildSchema(`
 
     type ContentDescriptor {
         ids: [Int!]
-        notes: [String!]
+        notes: String
     }
 
     type Esrb {
@@ -316,23 +316,23 @@ export const schemaGameData = buildSchema(`
         developers: [String!]!
         publishers: [String!]!
         demos: [Demos!]
-        price_overview: OverviewPrice!
-        packages: [Int!]!
+        price_overview: OverviewPrice
+        packages: [Int!]
         package_groups: [PackageGroup!]!
         platforms: Platform!
         metacritic: Metacritic
-        categories: [Category!]!
+        categories: [Category!]
         genres: [Genres!]!
         screenshots: [Screenshots!]!
-        movies: [Movies!]!
-        recommendations: Recommends!
-        achievements: Achivements!
+        movies: [Movies!]
+        recommendations: Recommends
+        achievements: Achivements
         release_date: ReleaseDate!
         support_info: SupportInfo!
         background: String!
         background_raw: String!
         content_descriptors: ContentDescriptor!
-        ratings: Ratings!
+        ratings: Ratings
     }
     
     type Query {

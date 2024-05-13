@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Nokora:wght@100;300;400;700;900&display=swap');
+
+.nokora-bold {
+    font-family: "Nokora", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1.7rem;
+    color: azure;
+}
+
+.formInput {
+    background-color: crimson;
+    font-size: 1.2rem;
+    width: 50%;
+    text-align: center;
+    margin: 0 25% 50vh 25%;
+    border-radius: 2rem;
+    padding: 0.5rem 0 1.3rem 0;
+}
+
+.divInput {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 30%));
+    margin-top: 1rem;
+    place-content: center;
+}
+
+
+/* .divInput:where(:nth-child(5))::after {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    background-color: crimson;
+    position: absolute;
+} */
+.divInput:where(:nth-child(5)) {
+    display: grid;
+    grid-template-areas: "divInput";
+    align-items: center;
+}
+
+.downRotate::after {
+    content: "▼";
+    justify-self: end;
+    color: crimson;
+    font-size: 1.5rem;
+    position: relative;
+    top: -2.2rem;
+    left: -1.2rem;
+}
+
+.upRotate::after {
+    content: "▲";
+    justify-self: end;
+    color: crimson;
+    font-size: 1.5rem;
+    position: relative;
+    top: -2.2rem;
+    left: -1.2rem;
+}
+
+.divInput:where(:nth-child(6)) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    position: relative;
+    margin-top: -1rem;
+}
+
+.divInput:where(:nth-child(7)) {
+    grid-template-columns: repeat(1, minmax(0, 30%));
+    place-content: center;
+}
+
+
+/* .formInput {
+    background-color: crimson;
+    margin-bottom: 50vh;
+    max-width: 50rem;
+    transform: translateX(45%);
+    border-radius: 2rem;
+}
+
+.divInput {
+    font-size: 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 20rem));
+    text-align: center;
+    transform: translateX(10%);
+    max-width: 70%;
+    padding: 1rem;
+}
+
+.divInput:where(:nth-child(5)),
+.divInput:where(:nth-child(6)) {
+    grid-template-columns: repeat(1, minmax(0, 80rem));
+    transform: translateX(20%);
+}
+
+.divInput:where(:nth-child(6)) {
+    grid-template-columns: repeat(1, minmax(0, 20rem));
+    transform: translateX(37%);
+} */
+
+
+.input {
+    color: crimson;
+    font-size: 1.2rem;
+    outline: none;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+.checkbox input {
+    width: 0;
+    height: 0;
+    /* display: block; */
+}
+
+.mark {
+    position: absolute;
+    top: 0;
+    left: 5%;
+    height: 1.5rem;
+    width: 1.5rem;
+    background-color: azure;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.mark:hover {
+    opacity: 0.5;
+}
+
+/* .checkbox:hover input ~.mark {
+    opacity: 0.5;
+} */
+
+.checkbox input:checked~.mark {
+    background-color: azure;
+}
+
+.checkbox .mark::after {
+    height: 1.5rem;
+    width: 1.5rem;
+    top: -0.7rem;
+    font-size: 2rem;
+    color: crimson;
+}
+
+.checkbox input:checked~.mark:after {
+    display: block;
+}
+
+.mark:after {
+    content: '✓';
+    position: absolute;
+    display: none;
+}
+
+.input:where(:nth-child(1)) {
+    cursor: pointer;
+}
+
+/* input[type="checkbox"], input[type="submit"]{
+    cursor: pointer;
+}
+
+input[type="checkbox"]{
+    appearance: none;
+    margin: 0;
+    background-color: azure;
+    outline: none;
+    border: none;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 15%;
+    display: grid;
+    place-content: center;
+}
+
+input[type="checkbox"]::before{
+    content: "";
+    transform: scale(0);
+    transform-origin: bottom left;
+    transition: 120ms transform ease-in-out;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+} */
+
+.label {
+    place-content: center;
+}
+
+::placeholder {
+    color: crimson;
+    opacity: 0.5;
+}
+
+p {
+    text-align: center;
+}
+
+.select {
+    appearance: none;
+    background-color: azure;
+    color: crimson;
+    font-family: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: inherit;
+    outline: none;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+/* .divInput:where(:nth-child(5)) .select,
+.divInput:where(:nth-child(5))::after {
+    grid-area: divInput;
+} */
+
+.option {
+    font-family: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: inherit;
+    text-align: center;
+}
+
+
