@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Nokora:wght@100;300;400;700;900&display=swap');
+
+.nokora-bold {
+    font-family: "Nokora", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1rem;
+    color: azure;
+}
+
+.policy {
+    margin: 0 20% 50vh 20%;
+    background-color: crimson;
+    border-radius: 2rem;
+    padding: 2rem;
+}
+
+.p {
+    text-align: justify;
+    margin:  0.8rem 0 0 0;
+}
+
+.p:where(:nth-child(1)) {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 0;
+}
+
+.p:where(:nth-child(3)),
+.p:where(:nth-child(7)),
+.p:where(:nth-child(12)),
+.p:where(:nth-child(16)),
+.p:where(:nth-child(19)),
+.p:where(:nth-child(21)),
+.p:where(:nth-child(24)),
+.p:where(:nth-child(27)) {
+    font-size: 1.5rem;
+    margin-top: 0.8rem;
+}
+
+.strong {
+    font-style: italic;
+}
+
+.a {
+    text-decoration: none;
+    color: azure;
+}
+
+.a:hover {
+    color: deepskyblue;
+}
