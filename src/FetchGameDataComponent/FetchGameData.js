@@ -67,12 +67,16 @@ const gameDataQuery = `
                 linux
                 mac
             }
+            categories {
+                description
+                id
+            }
         }
     }
 `;
 
 const gameDataVariables = {
-    appid: "1085660"
+    appid: "2195250"
 }
 
 export async function FetchGameData() {

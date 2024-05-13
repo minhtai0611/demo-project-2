@@ -157,8 +157,8 @@ ul li:where(:nth-child(4)) .purchaseGame .offer{
 
 ul li:where(:nth-child(4)) .purchaseBox {
     position: absolute;
-    z-index: 1;
-    right: 2rem;
+    z-index: 0;
+    right: 1.5rem;
     top: 3.1rem;
     color: crimson;
     padding: 0.5rem;
@@ -169,13 +169,13 @@ ul li:where(:nth-child(4)) .purchaseBox .savings {
     color: gold;
     outline: none;
     border: none;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
 }
 
 ul li:where(:nth-child(4)) .purchaseBox .price {
     background-color: azure;
     color: crimson;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
 }
 
 ul li:where(:nth-child(4)) .purchaseBox .price s{
@@ -192,7 +192,7 @@ ul li:where(:nth-child(4)) .purchaseBox .cart {
     outline: none;
     border: none;
     font-size: 1.5rem;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     cursor: pointer;
 }
 
@@ -202,8 +202,8 @@ ul li:where(:nth-child(4)) .purchaseBox .cart:hover {
 
 ul li:where(:nth-child(4)) .noSavingsPurchaseBox {
     position: absolute;
-    z-index: 1;
-    right: 2rem;
+    z-index: 0;
+    right: 1.5rem;
     top: 2rem;
     color: crimson;
     padding: 0.5rem;
@@ -212,7 +212,7 @@ ul li:where(:nth-child(4)) .noSavingsPurchaseBox {
 ul li:where(:nth-child(4)) .noSavingsPurchaseBox .price {
     background-color: azure;
     color: crimson;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
 }
 
 ul li:where(:nth-child(4)) .noSavingsPurchaseBox .cart {
@@ -221,7 +221,7 @@ ul li:where(:nth-child(4)) .noSavingsPurchaseBox .cart {
     outline: none;
     border: none;
     font-size: 1.5rem;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     cursor: pointer;
 }
 
@@ -231,8 +231,8 @@ ul li:where(:nth-child(4)) .noSavingsPurchaseBox .cart:hover {
 
 ul li:where(:nth-child(4)) .freePurchaseBox {
     position: absolute;
-    z-index: 1;
-    right: 2rem;
+    z-index: 0;
+    right: 1.5rem;
     top: 2rem;
     color: crimson;
     padding: 0.5rem;
@@ -241,7 +241,7 @@ ul li:where(:nth-child(4)) .freePurchaseBox {
 ul li:where(:nth-child(4)) .freePurchaseBox .free {
     background-color: azure;
     color: crimson;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
 }
 
 ul li:where(:nth-child(4)) .freePurchaseBox .play {
@@ -250,12 +250,29 @@ ul li:where(:nth-child(4)) .freePurchaseBox .play {
     outline: none;
     border: none;
     font-size: 1.5rem;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     cursor: pointer;
 }
 
 ul li:where(:nth-child(4)) .freePurchaseBox .play:hover {
     background-color:maroon;
+}
+
+ul li:where(:nth-child(5)) .category {
+    font-size: 1rem;
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+ul li:where(:nth-child(5)) .iconCategory {
+    grid-column: span 5;
+    justify-self: end;
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(5)) .nameCategory {
+    grid-column: span 7;
 }
 
 /* ul li:where(:nth-child(4)) .savings{

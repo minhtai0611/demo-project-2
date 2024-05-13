@@ -245,10 +245,14 @@ export default function Main() {
                                     const optionTextResult = optionTextMatch ? optionTextMatch[1].trim() : "";
                                     const percentSavingsMatch = sub.percent_savings_text.match(/-?(\d+)/);
                                     const percentSavingsResult = percentSavingsMatch ? percentSavingsMatch[1].trim() : "";
-                                    const originPriceMatch = sub.option_text.match(/(?:<span class="discount_original_price">)?\$([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/(\d{1,3}(?:,\d{3})*,\d{2})/) || sub.option_text.match(/(?:<span class="discount_original_price">)?[A-Z]{1}\$ ([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/[A-Z]{1}\$ ([\d.]+)/);
+                                    // const originPriceMatch = sub.option_text.match(/(?:<span class="discount_original_price">)?\$([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/(\d{1,3}(?:,\d{3})*,\d{2})/) || sub.option_text.match(/(?:<span class="discount_original_price">)?[A-Z]{1}\$ ([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/[A-Z]{1}\$ ([\d.]+)/);
+                                    const originPriceMatch = sub.option_text.match(/ - (?:<span class="discount_original_price">)?(?:€|CDN\$|A\$|\$|R\$|S\$)?(?:\s+)?([\d.,]+)(?:\s+)?(?:€|CDN\$|A\$|\$|R\$|S\$)?(?:<\/span>)?/)
                                     const originPriceResult = originPriceMatch ? originPriceMatch[1].trim() : "";
-                                    const currencyMatch = sub.option_text.match(/(?:€|CDN\$|A\$|R\$|\$)/);
-                                    const currencyResult = currencyMatch ? currencyMatch[0].trim() : ""
+                                    // const currencyMatch = sub.option_text.match(/(?:€|CDN\$|A\$|R\$|\$)/);
+                                    // const currencyMatch = sub.option_text.match(/ - (?:\d+,\d{2})?(€|CDN\$|A\$|\$|R\$)/)
+                                    // const currencyMatch = sub.option_text.match(/ - (?: [\d.,]+)?(?:\d+,\d{2})?(€|CDN\$|A\$|\$|R\$|S\$)(?: [\d.,]+)?(?: \s+)?/);
+                                    const currencyMatch = sub.option_text.match(/ (?:[\d.,\s]+)?(€|CDN\$|A\$|\$|R\$|S\$)(?:[\d.,\s]+)?/)
+                                    const currencyResult = currencyMatch ? currencyMatch[1].trim() : ""
                                     const isFreeLicense = sub.is_free_license;
                                     return (
                                         <div key={sub.packageid} className={styled.purchaseGame}>
@@ -319,8 +323,8 @@ export default function Main() {
                                                     </span>
                                                     {originPriceResult && currencyResult && (
                                                         <span className={styled.price}>
-                                                            <s className={styled.originPrice}>{currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" ? currencyResult : ""}{originPriceResult}{currencyResult === "€" ? currencyResult : ""}</s>
-                                                            {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" ? currencyResult : ""}{Math.floor(originPriceResult * (1 - percentSavingsResult / 100) * 100) / 100}{currencyResult === "€" ? currencyResult : ""}
+                                                            <s className={styled.originPrice}>{currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? originPriceResult.toString().replace(".", ",") : originPriceResult.toString()}{currencyResult === "€" ? currencyResult : ""}</s>
+                                                            {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? (Math.floor(originPriceResult.replace(",", ".") * (1 - percentSavingsResult / 100) * 100) / 100).toString().replace(".", ",") : (Math.floor(originPriceResult.replace(",", ".") * (1 - percentSavingsResult / 100) * 100) / 100).toString()}{currencyResult === "€" ? currencyResult : ""}
                                                         </span>
                                                     )}
                                                     <span>
@@ -334,7 +338,7 @@ export default function Main() {
                                                 <div className={styled.noSavingsPurchaseBox}>
                                                     {originPriceResult && currencyResult && (
                                                         <span className={styled.price}>
-                                                            {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" ? currencyResult : ""}{originPriceResult}{currencyResult === "€" ? currencyResult : ""}
+                                                            {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? originPriceResult.toString().replace(".", ",") : originPriceResult.toString()}{currencyResult === "€" ? currencyResult : ""}
                                                         </span>
                                                     )}
                                                     <span>
@@ -359,9 +363,22 @@ export default function Main() {
                                         </div>
                                     )
                                 })
-                            })}
+                            })
+                            }
                         </li>
-                        <li>5</li>
+                        <li>
+                            {data.categories && data.categories.map((category) => {
+                                return (
+                                    <div key={category.id} className={styled.category}>
+                                        <IconContext.Provider value={{ className: styled.iconCategory }}>
+                                            <AiOutlineSearch />
+                                        </IconContext.Provider>
+                                        <span className={styled.nameCategory}>{category.description}</span>
+                                    </div>
+                                )
+                            }
+                            )}
+                        </li>
                         <li>6</li>
                         <li>7</li>
                         <li>8</li>
