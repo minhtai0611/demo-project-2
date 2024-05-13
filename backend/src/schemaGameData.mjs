@@ -321,18 +321,18 @@ export const schemaGameData = buildSchema(`
         package_groups: [PackageGroup!]!
         platforms: Platform!
         metacritic: Metacritic
-        categories: [Category!]!
+        categories: [Category!]
         genres: [Genres!]!
         screenshots: [Screenshots!]!
         movies: [Movies!]
-        recommendations: Recommends!
+        recommendations: Recommends
         achievements: Achivements
         release_date: ReleaseDate!
         support_info: SupportInfo!
         background: String!
         background_raw: String!
         content_descriptors: ContentDescriptor!
-        ratings: Ratings!
+        ratings: Ratings
     }
     
     type Query {
