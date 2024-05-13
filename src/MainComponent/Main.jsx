@@ -245,9 +245,9 @@ export default function Main() {
                                     const optionTextResult = optionTextMatch ? optionTextMatch[1].trim() : "";
                                     const percentSavingsMatch = sub.percent_savings_text.match(/-?(\d+)/);
                                     const percentSavingsResult = percentSavingsMatch ? percentSavingsMatch[1].trim() : "";
-                                    const originPriceMatch = sub.option_text.match(/(?:<span class="discount_original_price">)?\$([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/(\d{1,3}(?:,\d{3})*,\d{2})/);
+                                    const originPriceMatch = sub.option_text.match(/(?:<span class="discount_original_price">)?\$([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/(\d{1,3}(?:,\d{3})*,\d{2})/) || sub.option_text.match(/(?:<span class="discount_original_price">)?[A-Z]{1}\$ ([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/[A-Z]{1}\$ ([\d.]+)/);
                                     const originPriceResult = originPriceMatch ? originPriceMatch[1].trim() : "";
-                                    const currencyMatch = sub.option_text.match(/(?:€|CDN\$|A\$|\$)/);
+                                    const currencyMatch = sub.option_text.match(/(?:€|CDN\$|A\$|R\$|\$)/);
                                     const currencyResult = currencyMatch ? currencyMatch[0].trim() : ""
                                     const isFreeLicense = sub.is_free_license;
                                     return (
@@ -311,7 +311,7 @@ export default function Main() {
                                                     <RiAppleFill />
                                                 </IconContext.Provider>
                                             )}
-                                            {percentSavingsResult && !isFreeLicense ? <p>{`SPECIAL PROMOTION! Offer ends soon`}</p> : ""}
+                                            {percentSavingsResult && !isFreeLicense ? <p className={styled.offer}>{`SPECIAL PROMOTION! Offer ends soon`}</p> : ""}
                                             {percentSavingsResult && !isFreeLicense && (
                                                 <div className={styled.purchaseBox}>
                                                     <span className={styled.savings}>
@@ -319,8 +319,8 @@ export default function Main() {
                                                     </span>
                                                     {originPriceResult && currencyResult && (
                                                         <span className={styled.price}>
-                                                            <s className={styled.originPrice}>{currencyResult === "CDN$" ? currencyResult + " " : ""}{currencyResult === "A$" ? currencyResult + " " : ""}{currencyResult === "$" ? currencyResult : ""}{originPriceResult}{currencyResult === "€" ? currencyResult : ""}</s>
-                                                            ${Math.floor(originPriceResult * (1 - percentSavingsResult / 100) * 100) / 100}
+                                                            <s className={styled.originPrice}>{currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" ? currencyResult : ""}{originPriceResult}{currencyResult === "€" ? currencyResult : ""}</s>
+                                                            {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" ? currencyResult : ""}{Math.floor(originPriceResult * (1 - percentSavingsResult / 100) * 100) / 100}{currencyResult === "€" ? currencyResult : ""}
                                                         </span>
                                                     )}
                                                     <span>
@@ -334,7 +334,7 @@ export default function Main() {
                                                 <div className={styled.noSavingsPurchaseBox}>
                                                     {originPriceResult && currencyResult && (
                                                         <span className={styled.price}>
-                                                            {currencyResult === "CDN$" ? currencyResult + " " : ""}{currencyResult === "A$" ? currencyResult + " " : ""}{currencyResult === "$" ? currencyResult : ""}{originPriceResult}{currencyResult === "€" ? currencyResult : ""}
+                                                            {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" ? currencyResult : ""}{originPriceResult}{currencyResult === "€" ? currencyResult : ""}
                                                         </span>
                                                     )}
                                                     <span>
@@ -359,9 +359,7 @@ export default function Main() {
                                         </div>
                                     )
                                 })
-                            })
-
-                            }
+                            })}
                         </li>
                         <li>5</li>
                         <li>6</li>
