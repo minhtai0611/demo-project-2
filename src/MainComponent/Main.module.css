@@ -77,16 +77,38 @@ ul li:where(:nth-child(3)) p {
     font-size: 1.2rem;
     width: 100%;
     text-align: justify;
-    margin: 1rem 0 0 0;
+    margin: 0.7rem 0 0 0;
 }
 
-ul li:where(:nth-child(4)) .purchaseGame {
+ul li:where(:nth-child(4)) .purchaseGame:has(:where(.purchaseBox)) {
     position: relative;
     font-size: 1.5rem;
     text-align: left;
-    margin: 0 2rem;
+    margin: 0rem 2rem;
     border-radius: 1rem;
     padding-left: 2rem;
+    background-color: tomato;
+}
+
+ul li:where(:nth-child(4)) .purchaseGame:has(:where(.noSavingsPurchaseBox)) {
+    position: relative;
+    font-size: 1.5rem;
+    text-align: left;
+    margin: 0rem 2rem;
+    border-radius: 1rem;
+    padding-left: 2rem;
+    padding-bottom: 1rem;
+    background-color: tomato;
+}
+
+ul li:where(:nth-child(4)) .purchaseGame:has(:where(.freePurchaseBox)) {
+    position: relative;
+    font-size: 1.5rem;
+    text-align: left;
+    margin: 0rem 2rem;
+    border-radius: 1rem;
+    padding-left: 2rem;
+    padding-bottom: 1rem;
     background-color: tomato;
 }
 
@@ -127,6 +149,130 @@ ul li:where(:nth-child(4)) .iconPlatform {
 
 ul li:where(:nth-child(4)) .iconPlatform:where(:nth-child(2)){
     right: 2rem;
+}
+
+ul li:where(:nth-child(4)) .purchaseGame .offer{
+    color: royalblue;
+}
+
+ul li:where(:nth-child(4)) .purchaseBox {
+    position: absolute;
+    z-index: 0;
+    right: 1.5rem;
+    top: 3.1rem;
+    color: crimson;
+    padding: 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .purchaseBox .savings {
+    background-color: firebrick;
+    color: gold;
+    outline: none;
+    border: none;
+    padding: 0 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .purchaseBox .price {
+    background-color: azure;
+    color: crimson;
+    padding: 0 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .purchaseBox .price s{
+    background-color: azure;
+    color:dimgray;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+}
+
+ul li:where(:nth-child(4)) .purchaseBox .cart {
+    background-color: firebrick;
+    color: gold;
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+ul li:where(:nth-child(4)) .purchaseBox .cart:hover {
+    background-color:maroon;
+}
+
+ul li:where(:nth-child(4)) .noSavingsPurchaseBox {
+    position: absolute;
+    z-index: 0;
+    right: 1.5rem;
+    top: 2rem;
+    color: crimson;
+    padding: 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .noSavingsPurchaseBox .price {
+    background-color: azure;
+    color: crimson;
+    padding: 0 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .noSavingsPurchaseBox .cart {
+    background-color: firebrick;
+    color: gold;
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+ul li:where(:nth-child(4)) .noSavingsPurchaseBox .cart:hover {
+    background-color:maroon;
+}
+
+ul li:where(:nth-child(4)) .freePurchaseBox {
+    position: absolute;
+    z-index: 0;
+    right: 1.5rem;
+    top: 2rem;
+    color: crimson;
+    padding: 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .freePurchaseBox .free {
+    background-color: azure;
+    color: crimson;
+    padding: 0 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .freePurchaseBox .play {
+    background-color: firebrick;
+    color: gold;
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+ul li:where(:nth-child(4)) .freePurchaseBox .play:hover {
+    background-color:maroon;
+}
+
+ul li:where(:nth-child(5)) .category {
+    font-size: 1rem;
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+ul li:where(:nth-child(5)) .iconCategory {
+    grid-column: span 5;
+    justify-self: end;
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(5)) .nameCategory {
+    grid-column: span 7;
 }
 
 .inputBox{
@@ -242,7 +388,6 @@ ul li:where(:nth-child(4)) .iconPlatform:where(:nth-child(2)){
     width: 80%;
     transform: translateX(12%);
 }
-
 /* .input-box i {
     color: dimgray;
 }

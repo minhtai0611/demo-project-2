@@ -31,10 +31,10 @@ app.get('/', (req, res) => {
     res.end(ruruHTML({ endpoint: "/graphql" }));
 })
 
-app.use((req, res, next) => {
-    const error = new Error('Unexpectable error got occured');
-    next(error);
-});
+// app.use((req, res, next) => {
+//     const error = new Error('Unexpectable error got occured');
+//     next(error);
+// });
 
 app.use((err, req, res, next) => {
     console.error(err.message);
