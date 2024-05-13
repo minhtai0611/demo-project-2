@@ -9,6 +9,7 @@ import { IconContext } from "react-icons";
 import { SiWindows } from "react-icons/si";
 import { FaLinux } from "react-icons/fa6";
 import { RiAppleFill } from "react-icons/ri";
+import { IoMdPerson } from "react-icons/io";
 import { useQuery } from "@tanstack/react-query";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";

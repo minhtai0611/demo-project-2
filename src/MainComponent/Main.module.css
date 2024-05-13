@@ -288,39 +288,6 @@ ul li:where(:nth-child(5)) .nameCategory {
     grid-column: span 7;
 }
 
-/* ul li:where(:nth-child(4)) .savings{
-    position: absolute;
-    z-index: 1;
-    top: 3rem;
-    right: 15rem;
-    background-color: azure;
-    color: crimson;
-    padding: 0.5rem;
-    font-size: 1.2rem;
-}
-
-ul li:where(:nth-child(4)) .price{
-    position: absolute;
-    z-index: 1;
-    top: 3rem;
-    right: 10rem;
-    background-color: azure;
-    color: crimson;
-    font-size: 0.955rem;
-    text-align: end;
-    padding: 0 0.5rem;
-}
-
-ul li:where(:nth-child(5)) .iconCategory {
-    grid-column: span 5;
-    justify-self: end;
-    font-size: 1.5rem;
-}
-
-ul li:where(:nth-child(5)) .nameCategory {
-    grid-column: span 7;
-}
-
 .inputBox{
   display: flex;
   justify-content: center;
@@ -434,7 +401,8 @@ ul li:where(:nth-child(5)) .nameCategory {
     width: 80%;
     transform: translateX(12%);
 }
-/* .input-box i {
+
+.input-box i {
     color: dimgray;
 }
 
@@ -445,7 +413,7 @@ ul li:where(:nth-child(5)) .nameCategory {
 
 .input-box button{
     color: dimgray;
-} */
+}
 /*---------------------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------------*/
