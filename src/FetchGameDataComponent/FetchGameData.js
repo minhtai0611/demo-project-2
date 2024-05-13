@@ -67,6 +67,10 @@ const gameDataQuery = `
                 linux
                 mac
             }
+            categories {
+                description
+                id
+            }
         }
     }
 `;
