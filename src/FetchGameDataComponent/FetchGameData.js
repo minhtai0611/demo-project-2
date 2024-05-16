@@ -71,12 +71,19 @@ const gameDataQuery = `
                 description
                 id
             }
+            recommendations {
+                total
+            }
+            drm_notice
+            ext_user_account_notice
+            legal_notice
+            reviews
         }
     }
 `;
 
 const gameDataVariables = {
-    appid: "2195250"
+    appid: "236850"
 }
 
 export async function FetchGameData() {

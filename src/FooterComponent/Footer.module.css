@@ -15,10 +15,10 @@
         "foolterNav"
         "footerP footerP";
     background-color: firebrick;
-    position: fixed;
+    /* position: fixed;
     bottom: 0vh;
     left: 0vw;
-    right: 0vw;
+    right: 0vw; */
 }
 
 /* .footerImg {

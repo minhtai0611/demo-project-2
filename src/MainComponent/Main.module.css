@@ -22,17 +22,17 @@ ul[role="list"]{
     margin-inline-start: 0;
     margin-inline-end: 0;
     padding-inline-start: 0;
-    margin-bottom: 100vh;
+    margin-bottom: 50vh;
     word-break: auto-phrase;
     align-items: center;
 }
 
-ul li:where(:nth-child(3), :nth-child(5), :nth-child(7), :nth-child(9)){
+ul li:where(:nth-child(odd):not(:nth-child(1))){
     background-color: crimson;
     border-radius: 1rem;
 }
 
-ul li:where(:nth-child(2), :nth-child(4), :nth-child(6), :nth-child(8), :nth-child(10)){
+ul li:where(:nth-child(even)){
     grid-column: span 2;
     background-color:crimson;
     border-radius: 1rem;
@@ -76,15 +76,37 @@ ul li:where(:nth-child(3)) img {
 ul li:where(:nth-child(3)) p {
     font-size: 1.2rem;
     width: 100%;
-    text-align: justify;
+    text-align: left;
     margin: 0.7rem 0 0 0;
+}
+
+ul li:where(:nth-child(3)) p:nth-child(2){
+    text-align: justify;
+}
+
+ul li:where(:nth-child(3)) .developer {
+    color: azure;
+    text-decoration: none;
+}
+
+ul li:where(:nth-child(3)) .developer:hover {
+    color: royalblue;
+}
+
+ul li:where(:nth-child(3)) .publisher {
+    color: azure;
+    text-decoration: none;
+}
+
+ul li:where(:nth-child(3)) .publisher:hover {
+    color: royalblue;
 }
 
 ul li:where(:nth-child(4)) .purchaseGame:has(:where(.purchaseBox)) {
     position: relative;
     font-size: 1.5rem;
     text-align: left;
-    margin: 0rem 2rem;
+    margin: 1.5rem 2rem;
     border-radius: 1rem;
     padding-left: 2rem;
     background-color: tomato;
@@ -94,7 +116,7 @@ ul li:where(:nth-child(4)) .purchaseGame:has(:where(.noSavingsPurchaseBox)) {
     position: relative;
     font-size: 1.5rem;
     text-align: left;
-    margin: 0rem 2rem;
+    margin: 1.5rem 2rem;
     border-radius: 1rem;
     padding-left: 2rem;
     padding-bottom: 1rem;
@@ -105,7 +127,7 @@ ul li:where(:nth-child(4)) .purchaseGame:has(:where(.freePurchaseBox)) {
     position: relative;
     font-size: 1.5rem;
     text-align: left;
-    margin: 0rem 2rem;
+    margin: 1.5rem 2rem;
     border-radius: 1rem;
     padding-left: 2rem;
     padding-bottom: 1rem;
@@ -159,8 +181,6 @@ ul li:where(:nth-child(4)) .purchaseBox {
     position: absolute;
     z-index: 0;
     right: 1.5rem;
-    z-index: 0;
-    right: 1.5rem;
     top: 3.1rem;
     color: crimson;
     padding: 0.5rem;
@@ -172,13 +192,11 @@ ul li:where(:nth-child(4)) .purchaseBox .savings {
     outline: none;
     border: none;
     padding: 0 0.5rem;
-    padding: 0 0.5rem;
 }
 
 ul li:where(:nth-child(4)) .purchaseBox .price {
     background-color: azure;
     color: crimson;
-    padding: 0 0.5rem;
     padding: 0 0.5rem;
 }
 
@@ -197,7 +215,6 @@ ul li:where(:nth-child(4)) .purchaseBox .cart {
     border: none;
     font-size: 1.5rem;
     padding: 0 0.5rem;
-    padding: 0 0.5rem;
     cursor: pointer;
 }
 
@@ -209,8 +226,6 @@ ul li:where(:nth-child(4)) .noSavingsPurchaseBox {
     position: absolute;
     z-index: 0;
     right: 1.5rem;
-    z-index: 0;
-    right: 1.5rem;
     top: 2rem;
     color: crimson;
     padding: 0.5rem;
@@ -220,7 +235,6 @@ ul li:where(:nth-child(4)) .noSavingsPurchaseBox .price {
     background-color: azure;
     color: crimson;
     padding: 0 0.5rem;
-    padding: 0 0.5rem;
 }
 
 ul li:where(:nth-child(4)) .noSavingsPurchaseBox .cart {
@@ -229,7 +243,6 @@ ul li:where(:nth-child(4)) .noSavingsPurchaseBox .cart {
     outline: none;
     border: none;
     font-size: 1.5rem;
-    padding: 0 0.5rem;
     padding: 0 0.5rem;
     cursor: pointer;
 }
@@ -242,8 +255,6 @@ ul li:where(:nth-child(4)) .freePurchaseBox {
     position: absolute;
     z-index: 0;
     right: 1.5rem;
-    z-index: 0;
-    right: 1.5rem;
     top: 2rem;
     color: crimson;
     padding: 0.5rem;
@@ -252,7 +263,6 @@ ul li:where(:nth-child(4)) .freePurchaseBox {
 ul li:where(:nth-child(4)) .freePurchaseBox .free {
     background-color: azure;
     color: crimson;
-    padding: 0 0.5rem;
     padding: 0 0.5rem;
 }
 
@@ -263,7 +273,6 @@ ul li:where(:nth-child(4)) .freePurchaseBox .play {
     border: none;
     font-size: 1.5rem;
     padding: 0 0.5rem;
-    padding: 0 0.5rem;
     cursor: pointer;
 }
 
@@ -271,21 +280,241 @@ ul li:where(:nth-child(4)) .freePurchaseBox .play:hover {
     background-color:maroon;
 }
 
-ul li:where(:nth-child(5)) .category {
+ul li:where(:nth-child(4)) .subscribeGame:has(:where(.purchaseBox)) {
+    position: relative;
+    font-size: 1.2rem;
+    text-align: justify;
+    margin: 1.5rem 2rem;
+    border-radius: 1rem;
+    padding-left: 2rem;
+    background-color: tomato;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame:has(:where(.noSavingsPurchaseBox)) {
+    position: relative;
+    font-size: 1.2rem;
+    text-align: justify;
+    margin: 0rem 2rem;
+    border-radius: 1rem;
+    padding-left: 2rem;
+    padding-bottom: 1rem;
+    background-color: tomato;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .threeIconPlatform {
+    position: absolute;
+    top: 0.5rem;
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .threeIconPlatform:where(:nth-child(4)){
+    right: 8rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .threeIconPlatform:where(:nth-child(5)){
+    right: 5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .threeIconPlatform:where(:nth-child(6)){
+    right: 2rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .twoIconPlatform {
+    position: absolute;
+    top: 0.5rem;
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .twoIconPlatform:where(:nth-child(4)){
+    right: 5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .twoIconPlatform:where(:nth-child(5)){
+    right: 2rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .iconPlatform {
+    position: absolute;
+    top: 0.5rem;
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .iconPlatform:where(:nth-child(4)){
+    right: 2rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .offer{
+    color: royalblue;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .subscribe{
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .purchaseBox {
+    position: absolute;
+    z-index: 0;
+    right: 1.5rem;
+    top: 77%;
+    color: crimson;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .purchaseBox .savings {
+    background-color: firebrick;
+    color: gold;
+    outline: none;
+    border: none;
+    padding: 0 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .purchaseBox .price {
+    background-color: azure;
+    color: crimson;
+    padding: 0 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .purchaseBox .price s{
+    background-color: azure;
+    color:dimgray;
+    outline: none;
+    border: none;
     font-size: 1rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .purchaseBox .cart {
+    background-color: firebrick;
+    color: gold;
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .purchaseBox .cart:hover {
+    background-color:maroon;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .noSavingsPurchaseBox {
+    position: absolute;
+    z-index: 0;
+    right: 1.5rem;
+    top: 75%;
+    color: crimson;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .noSavingsPurchaseBox .price {
+    background-color: azure;
+    color: crimson;
+    padding: 0 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .noSavingsPurchaseBox .cart {
+    background-color: firebrick;
+    color: gold;
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .noSavingsPurchaseBox .cart:hover {
+    background-color:maroon;
+}
+
+ul li:where(:nth-child(5)) .category {
     text-align: left;
     display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    margin: 0.2rem 0;
 }
 
 ul li:where(:nth-child(5)) .iconCategory {
-    grid-column: span 5;
-    justify-self: end;
-    font-size: 1.5rem;
+    grid-column: span 1;
+    font-size: 1.2rem;
+    padding: 0.3rem;
+    justify-self: center;
+}
+
+ul li:where(:nth-child(5)) .wrenchIconCategory {
+    grid-column: span 1;
+    font-size: 1.2rem;
+    padding: 0.3rem;
+    transform: rotate(-90deg);
+    justify-self: center;
+}
+
+ul li:where(:nth-child(5)) .statIconCategory {
+    grid-column: span 1;
+    font-size: 1.2rem;
+    padding: 0.3rem;
+    transform: scaleX(-1);
+    justify-self: center;
 }
 
 ul li:where(:nth-child(5)) .nameCategory {
     grid-column: span 7;
+    font-size: 1.2rem;
+    padding-left: 0.3rem;
+}
+
+ul li:where(:nth-child(5)) .notice {
+    font-size: 1.2rem;
+    padding-left: 1rem;
+    text-align: justify;
+    background-color: tomato;
+    margin: 0.3rem 1rem;
+    padding: 0.5rem 0.8rem;
+}
+
+ul li:where(:nth-child(5)) .eula {
+    color: azure;
+    text-decoration: none;
+}
+
+ul li:where(:nth-child(5)) .eula:hover {
+    color: royalblue;
+}
+
+ul li:where(:nth-child(6)) {
+    font-size: 1.5rem;
+    text-align: left;
+    padding: 1.5rem 2rem;
+}
+
+ul li:where(:nth-child(6)) .reviews{
+    padding-bottom: 0.2rem;
+    border-bottom: 0.2rem solid;
+    border-image: linear-gradient(to right, azure 50%, rgba(0, 0, 0, 0)) 100% 1;
+}
+
+ul li:where(:nth-child(6)) .review{
+    padding-top: 1rem;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+ul li:where(:nth-child(6)) .ratingChoice{
+    font-size: 1rem;
+}
+
+ul li:where(:nth-child(6)) .url{
+    font-size: 1rem;
+    text-decoration: none;
+    color: azure;
+}
+
+ul li:where(:nth-child(6)) .url:hover{
+    color: royalblue;
+}
+
+ul li:where(:nth-child(6)) .name{
+    font-size: 1rem;
 }
 
 .inputBox{
@@ -402,7 +631,7 @@ ul li:where(:nth-child(5)) .nameCategory {
     transform: translateX(12%);
 }
 
-.input-box i {
+/* .input-box i {
     color: dimgray;
 }
 
@@ -413,7 +642,7 @@ ul li:where(:nth-child(5)) .nameCategory {
 
 .input-box button{
     color: dimgray;
-}
+} */
 /*---------------------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------------------*/

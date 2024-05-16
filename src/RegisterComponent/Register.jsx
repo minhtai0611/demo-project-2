@@ -89,12 +89,11 @@ export default function Register() {
                         <select name="country" id="country" required className={styled.select}>
                             <option value="US" className={styled.option}>US</option>
                             <option value="UK" className={styled.option}>UK</option>
-                            <option value="France" className={styled.option}>France</option>
-                            <option value="Germany" className={styled.option}>Germany</option>
+                            <option value="Europe" className={styled.option}>Europe</option>
                             <option value="Canada" className={styled.option}>Canada</option>
                             <option value="Australia" className={styled.option}>Australia</option>
-                            <option value="Spain" className={styled.option}>Spain</option>
-                            <option value="Portugal" className={styled.option}>Portugal</option>
+                            <option value="Brazil" className={styled.option}>Brazil</option>
+                            <option value="Singapore" className={styled.option}>Singapore</option>
                         </select>
                         <span></span>
                     </div>
