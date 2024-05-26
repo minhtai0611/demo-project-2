@@ -13,7 +13,7 @@ export default function Register() {
         <>
             <Header />
             <main className={styled["nokora-bold"]}>
-                <p>Create your account to join ArcGame for free, enjoy exclusive deals, meet new people and more</p>
+                <p className={styled.p}>Create your account to join ArcGame for free, enjoy exclusive deals, meet new people and more</p>
                 <form className={styled.formInput}>
                     <div className={styled.divInput}>
                         <label htmlFor="username" className={styled.label}>
@@ -94,6 +94,8 @@ export default function Register() {
                             <option value="Australia" className={styled.option}>Australia</option>
                             <option value="Brazil" className={styled.option}>Brazil</option>
                             <option value="Singapore" className={styled.option}>Singapore</option>
+                            <option value="Mexico" className={styled.option}>Mexico</option>
+                            <option value="Russia" className={styled.option}>Russia</option>
                         </select>
                         <span></span>
                     </div>

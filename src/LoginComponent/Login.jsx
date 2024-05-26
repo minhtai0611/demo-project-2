@@ -8,7 +8,7 @@ export default function Login() {
         <>
             <Header />
             <main className={styled["nokora-bold"]}>
-                <p>Login to your account</p>
+                <p className={styled.p}>Login to your account</p>
                 <form className={styled.formInput}>
                     <div className={styled.divInput}>
                         <label htmlFor="username" className={styled.label}>

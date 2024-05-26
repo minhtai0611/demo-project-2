@@ -30,10 +30,13 @@ import { RiFileEditLine } from "react-icons/ri";
 import { LiaSteamSymbol } from "react-icons/lia";
 import { FaCircleArrowDown } from "react-icons/fa6";
 import { FaRegClosedCaptioning } from "react-icons/fa6";
+import { VscListUnordered } from "react-icons/vsc";
 import { useQuery } from "@tanstack/react-query";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import RiseLoader from "react-spinners/RiseLoader";
+import parse, { domToReact } from 'html-react-parser';
+import DomPurify from 'dompurify';
 import { FetchGameData, FetchGameApp } from "../FetchGameDataComponent/FetchGameData";
 
 const Header = lazy(() => import("../HeaderComponent/Header"));
@@ -70,10 +73,159 @@ export default function Main() {
 
     function SearchGameClick() { }
 
-    // const review = data.reviews.match(/“[^”]+”/g);
-    // const ratingChoice = data.reviews.match(/\d+(?:[.,]\d+)?\/\d+(?: &amp; Editors Choice)?/g);
-    // const url = data.reviews.match(/href="([^"]+)"/g);
-    // const name = data.reviews.match(/>([^<]+)<\/a>/g);
+    let subStringEnglish;
+    let subStringChinese;
+    let subStringSwedish;
+    let subStringItalian;
+    let subStringRussian;
+    let subStringFrench;
+    let subStringPortuguese;
+    let subStringBrazilian;
+    let subStringGerman;
+    let subStringSpanish;
+
+    if (isSuccess) {
+        subStringEnglish = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>About the Game</h1>"));
+        subStringChinese = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>關於此遊戲</h1>"));
+        subStringSwedish = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Om spelet</h1>"));
+        subStringItalian = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Informazioni sul gioco</h1>"));
+        subStringRussian = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Об игре</h1>"));
+        subStringFrench = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>À propos du jeu</h1>"));
+        subStringPortuguese = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Sobre o jogo</h1>"));
+        subStringBrazilian = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Acerca do jogo</h1>"));
+        subStringGerman = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Über das Spiel</h1>"));
+        subStringSpanish = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Acerca del juego</h1>"));
+    }
+
+    const options = {
+        replace: (domNode) => {
+            if (domNode.name === "br" && (domNode.next?.name === "h1" || !domNode.next || !domNode.parent || domNode.prev?.name === "img" || (domNode.parent?.name === "i" && domNode.next?.type === "text" && !domNode.prev?.prev))) {
+                return <></>;
+            }
+            if (domNode.name === "h1") {
+                return (
+                    <div className={styled.title}>
+                        {domToReact(domNode.children, options)}
+                    </div>
+                );
+            }
+            if (domNode.name === "p") {
+                return (
+                    <div className={styled.paragraph}>
+                        {domToReact(domNode.children, options)}
+                    </div>
+                );
+            }
+            if (domNode.name === "a") {
+                const { href, target } = domNode.attribs;
+                return (domNode.prev?.type === "text" && domNode.next?.type === "text") || (!domNode.next && !domNode.parent) || (domNode.firstChild?.data === domNode.firstChild?.data?.toUpperCase() && domNode.next?.next?.next?.name === "img" && !domNode.next?.next?.next?.next) || (domNode.next?.next?.name === "a" || (domNode.next?.name === "p" && !domNode.next?.next)) || (domNode.firstChild?.data?.includes("http") && domNode.firstChild?.data?.includes("steampowered")) ? (
+                    <>
+                        {(domNode.firstChild?.data?.includes("http") && (domNode.firstChild?.data?.includes("apple") || (domNode.firstChild?.data?.includes("google"))) && domNode.firstChild?.data?.includes("app") && !domNode.parent && domNode.prev?.name === "br" && ((domNode.prev?.prev?.type === "text" && domNode.prev?.prev?.prev?.prev?.name === "ul") || (domNode.prev?.prev?.name === "a" && domNode.next?.name === "p" && !domNode.next?.next))) && <br />}
+                        <a href={href} target={target} className={styled.url2}>
+                            {domToReact(domNode.children, options)}
+                        </a>
+                    </>
+                ) : (
+                    <a href={href} target={target} className={styled.url}>
+                        {domToReact(domNode.children, options)}
+                    </a>
+                );
+            }
+            if (domNode.name === "ul") {
+                return domNode.next?.next?.name === "img" ? (
+                    <div className={styled.divUl}>
+                        <ul className={styled.ul2}>
+                            {domToReact(domNode.children, options)}
+                        </ul>
+                    </div>
+                ) : (
+                    <div className={styled.divUl}>
+                        <ul className={styled.ul}>
+                            {domToReact(domNode.children, options)}
+                        </ul>
+                    </div>
+                )
+            }
+            if (domNode.name === "li") {
+                return (
+                    <li className={styled.li}>
+                        {domToReact(domNode.children, options)}
+                    </li>
+                )
+            }
+            if (domNode.type === "text" && (domNode.next?.name === "p" || !domNode.parent || domNode.parent?.name === "i" || domNode.parent?.name === "ul" || domNode.parent?.name === "strong")) {
+                return (
+                    <>
+                        {((/\p{Lu}/gu.test(domNode.data?.replace(/\n/g, " ").trim()) && /\n/g.test(domNode.data)) || /^-+$/g.test(domNode.data?.replace(/\n/g, " ").trim()) || ((domNode.next?.name === "br" && domNode.next?.next?.type === "text" && domNode.prev && ((!domNode.data?.includes("all-new") && !domNode.data?.includes(":") && !domNode.prev?.firstChild?.data.includes("Edition")) && (!domNode.data?.includes(".") && !domNode.data?.includes("[") && !domNode.data?.includes("]")))) || (domNode.next?.name === "a" && domNode.next?.next?.type === "text" && domNode.next?.next?.next?.name === "a" && domNode.next?.next?.next?.next?.type === "text" && domNode.next?.next?.next?.next?.next?.name === "a" && domNode.next?.next?.next?.next?.next?.next?.type === "text" && domNode.next?.next?.next?.next?.next?.next?.next?.name === "a") || (domNode.next?.name === "a" && domNode.next?.next?.type === "text" && !domNode.next?.next?.next)) || (!domNode.next && domNode.prev?.name === "br" && domNode.prev?.prev?.name === "br" && domNode.prev?.prev?.prev?.type === "text") || (domNode.data.includes("•") && !domNode.next && !domNode.parent) || (domNode.next?.next?.name === "img" && domNode.next?.next?.next?.next?.name === "img" && domNode.next?.next?.next?.next?.next?.next?.name === "img" && domNode.prev?.prev?.type === "text" && domNode.prev?.prev?.prev?.prev?.type === "text" && domNode.prev?.prev?.prev?.prev?.prev?.prev?.type === "text") || (!domNode.data?.includes("•") && domNode.next?.name === "a" && !domNode.next?.next) || (domNode.data?.includes("•") && domNode.next?.name === "a" && domNode.next?.next?.next?.name === "a" && domNode.next?.next?.next?.next?.next?.name === "a") || (domNode.parent?.name === "i" && domNode.parent?.parent?.name === "strong" && !domNode.parent?.parent?.parent && !domNode.next && !domNode.prev?.prev && domNode.data?.includes("…")) || (domNode.next?.name === "br" && domNode.next?.next?.name === "br" && domNode.prev && (domNode.data?.includes("Counter-Strike") || domNode.data?.includes("•"))) || (domNode.prev?.name === "br" && domNode.prev?.prev?.name === "br" && domNode.prev?.prev?.prev?.name !== "img" && domNode.data?.includes("Truck Simulator")) || (domNode.data?.includes("●")) || (domNode.data?.includes("=====") || (domNode.prev?.prev?.data?.includes(".") && domNode.prev?.prev?.data?.includes("[") && domNode.prev?.prev?.data?.includes("]"))) || (domNode.data === "•\t" && domNode.prev?.name === "br" && domNode.prev?.prev?.name === "br" && domNode.next?.name === "strong" && domNode.next?.next?.type === "text")) && <br />}
+                        <span className={styled.text}>
+                            {domNode.data}
+                        </span>
+                        {/* {/\p{Lu}/gu.test(domNode.data?.replace(/[.]/g, "").trim()) && <br />} */}
+                        {((domNode.data === domNode.data?.toUpperCase() && domNode.data.includes(".")) || ((domNode.prev?.name === "br" && domNode.prev?.prev?.name === "img") && (domNode.next?.name === "br" && domNode.next?.next?.name === "br" && domNode.next?.next?.next?.name === "strong")) || (domNode.parent?.name === "i" && domNode.parent?.parent?.name === "strong" && !domNode.parent?.parent?.parent && !domNode.next && !domNode.prev?.prev && domNode.data?.includes("…")) || (domNode.data?.includes("*") && domNode.next?.next?.data?.includes("*") && !domNode.next?.next?.next) || (domNode.data === domNode.data?.toUpperCase() && domNode.data !== "(" && domNode.next?.next?.type === "text" && ((domNode.next?.next?.next?.next?.next?.name === "img" && !domNode.data === "•\t" && !domNode.prev?.name === "br" && !domNode.prev?.prev?.name === "br" && !domNode.next?.name === "strong" && !domNode.next?.next?.type === "text") || domNode.next?.next?.next?.next?.next?.next?.name === "a")) || (domNode.next?.next?.data === domNode.next?.next?.data?.toUpperCase() && domNode.next?.next?.next?.next?.name === "a" && domNode.next?.next?.next?.next?.firstChild?.data === domNode.next?.next?.next?.next?.firstChild?.data?.toUpperCase() && domNode.next?.next?.next?.next?.next?.next?.next?.name === "img") || (domNode.data?.includes("■")) || (domNode.next?.name === "br" && domNode.next?.next?.name === "br" && domNode.next?.next?.next?.name === "br" && domNode.next?.next?.next?.next?.name === "a") || (domNode.next?.name === "br" && domNode.next?.next?.name === "br" && domNode.prev && domNode.data?.includes("•")) || (domNode.data === "------------------------------------------------------------------------------") || (domNode.data?.includes("=====") && domNode.data?.includes("End Source") && domNode.parent?.name === "i")) && <br />}
+                    </>
+                )
+            }
+            if (domNode.name === "img") {
+                const { src } = domNode.attribs;
+                return domNode.next?.next?.name === "img" && domNode.prev?.name === "h2" ? (
+                    <>
+                        <img src={src} alt="detail image" className={styled.img2 + " " + (domNode.next?.next?.name === "ul" ? styled.imgLeft : "")} />
+                    </>
+                ) : (
+                    <>
+                        <img src={src} alt="detail image" className={styled.img + " " + (domNode.next?.next?.name === "ul" ? styled.imgLeft : "") + " " + ((domNode.next?.next?.firstChild?.name !== "li" && domNode.next?.name === "br" && domNode.next?.next?.name === "ul" && domNode.next?.next?.next?.name === "br") || (domNode.prev?.prev?.prev?.name === "img" && domNode.next?.next?.name === "ul" && domNode.prev?.prev?.prev?.prev?.prev?.prev?.type !== "text") ? styled.img3 : "")} />
+                    </>
+                )
+            }
+            if (domNode.name === "i" && domNode.children.find((childNode) => {
+                return childNode.type === "text" && /[*.]/.test(childNode.data) && !childNode.prev;
+            })) {
+                return (
+                    <div>
+                        <i>
+                            {domToReact(domNode.children, options)}
+                        </i>
+                    </div>
+                )
+            }
+            if (domNode.name === "strong") {
+                return (
+                    <>
+                        {((/[:]/.test(domNode.firstChild?.data) && domNode.prev?.prev?.name === "br") || (domNode.children[0]?.name === "u") || (domNode.next?.next?.type === "text" && domNode.prev && (!domNode.firstChild?.data.includes("[") && !domNode.firstChild?.data.includes("]"))) || (!domNode.next && domNode.prev && domNode.parent?.name !== "li") || (domNode.next?.name === "br" && domNode.next?.next?.name === "ul") || (domNode.next?.type === "text" && domNode.next?.data?.includes("-") && domNode.prev?.prev?.name !== "h2" && domNode.firstChild?.data === domNode.firstChild?.data?.toUpperCase()) || (domNode.prev?.name === "br" && domNode.firstChild?.data?.includes("Stage"))) ? <br /> : ""}
+                        <strong className={styled.strong}>
+                            {domToReact(domNode.children, options)}
+                        </strong>
+                        {(/[:]/.test(domNode.firstChild.data) || (!domNode.parent && !domNode.prev) || (domNode.children[0]?.name === "u") || (domNode.next?.next?.type === "text" && domNode.prev) || (domNode.next?.next?.firstChild?.data?.includes("http") && domNode.next?.next?.firstChild?.data?.includes("=sharing"))) ? <br /> : ""}
+                    </>
+                )
+            }
+            if (domNode.name === "h2") {
+                return (
+                    <div className={styled.title2}>
+                        {domToReact(domNode.children, options)}
+                    </div>
+                )
+            }
+            if (domNode.name === "u") {
+                return (
+                    <>
+                        {(domNode.firstChild?.name === "strong" && domNode.firstChild?.firstChild?.type === "text") && <br />}
+                        <u className={styled.u}>
+                            {domToReact(domNode.children, options)}
+                        </u>
+                        {(domNode.firstChild?.name === "strong" && domNode.firstChild?.firstChild?.type === "text" && domNode.prev) && <br />}
+                    </>
+                )
+            }
+        }
+    };
+
+    const [systemRequire, setSystemRequire] = useState("Windows");
+    function SystemRequireClick(event) {
+        event.target.outerText === "Windows" && setSystemRequire(() => "Windows");
+        event.target.outerText === "macOS" && setSystemRequire(() => "macOS");
+        event.target.outerText === "SteamOS + Linux" && setSystemRequire(() => "SteamOS + Linux");
+    }
 
     return (
         <>
@@ -177,7 +329,7 @@ export default function Main() {
                                                 }
                                             });
                                         }}
-                                        renderItem={(slideItem, options) => <slideItem.type {...slideItem.props} className={styled.slideItem} />}
+                                        renderItem={(slideItem) => <slideItem.type {...slideItem.props} className={styled.slideItem} />}
                                         statusFormatter={(slideItem, totalSlide) => {
                                             if (slideItem < data.movies.length + 1) {
                                                 return `Movie ${slideItem} of ${data.movies.length}`
@@ -191,6 +343,7 @@ export default function Main() {
                                             <div key={movie.id}>
                                                 <p className={styled.legend}>{movie.name}</p>
                                                 <video
+                                                    autoPlay
                                                     controls
                                                     controlsList="nofullscreen nodownload noremoteplayback noplaybackrate foobar"
                                                     disablePictureInPicture
@@ -256,7 +409,7 @@ export default function Main() {
                                                 );
                                             });
                                         }}
-                                        renderItem={(slideItem, options) => <slideItem.type {...slideItem.props} className={styled.slideItem} />}
+                                        renderItem={(slideItem) => <slideItem.type {...slideItem.props} className={styled.slideItem} />}
                                         statusFormatter={(slideItem, totalSlide) => `Screenshot ${slideItem} of ${totalSlide}`}
                                     >
                                         {data.screenshots.map((screenshot) => (
@@ -268,19 +421,31 @@ export default function Main() {
                                 )}
                             </li>
                             <li>
-                                <img src={data.header_image} alt="header image"></img>
-                                <p>{data.short_description.replace(/&amp;/g, "&")}</p>
-                                <p>All Reviews: {data.recommendations ? data.recommendations.total : "No user reviews"}</p>
-                                {data.release_date.date && <p>Release Date: {data.release_date.date}</p>}
-                                <p>Developers: <a href="#" className={styled.developer}>{data.developers.join(", ")}</a></p>
-                                <p>Publishers: <a href="#" className={styled.publisher}>{data.publishers.join(", ")}</a></p>
+                                <img src={data.header_image} alt="header image" className={styled.imgDescription}></img>
+                                <p className={styled.pDescription}>{data.short_description.replace(/&amp;/g, "&")}</p>
+                                <div className={styled.description}>
+                                    <span>All Reviews:</span>
+                                    <span>{data.recommendations ? data.recommendations.total : "No user reviews"}</span>
+                                </div>
+                                <div className={styled.description}>
+                                    {data.release_date.date && (<span>Release Date:</span>)}
+                                    <span>{data.release_date.date}</span>
+                                </div>
+                                <div className={styled.description}>
+                                    <span>Developers: </span>
+                                    <span><a href="#" className={styled.developer}>{data.developers.join(", ")}</a></span>
+                                </div>
+                                <div className={styled.description}>
+                                    <span>Publishers: </span>
+                                    <span><a href="#" className={styled.publisher}>{data.publishers.join(", ")}</a></span>
+                                </div>
                             </li>
                             <li>
                                 {data.package_groups && data.package_groups.map((package_group) => {
                                     return package_group.subs && package_group.subs.map((sub) => {
                                         // const optionTextMatch = sub.option_text.match(/(.+?) - <span class="discount_original_price">/) || sub.option_text.match(/^(.*?) - \$\d+\.\d+$/) || sub.option_text.match(/^(.+?) - /) || sub.option_text.match(/.*/);
                                         // const optionTextMatch = sub.option_text.match(/^(.*) - (?:€|CDN\$|A\$|\$|R\$|S\$)?(?:\s+)?[\d.,]+(?:\s+)?(?:€|CDN\$|A\$|\$|R\$|S\$)?$/);
-                                        const optionTextMatch = sub.option_text.match(/^(.*) - (?:<span.*?>.*?<\/span>\s*)?(?:<span class="discount_original_price">)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Free|Kostenlos|免费)?(?:\s+)?(?:[\d.,]+)?(?:\s+)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Free|Kostenlos|免费)?(?:<\/span>)?$/) || sub.option_text;
+                                        const optionTextMatch = sub.option_text.match(/^(.*) - (?:<span.*?>.*?<\/span>\s*)?(?:<span class="discount_original_price">)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF|Free|Kostenlos|免费|Gratuit)?(?:\s+)?(?:[\d.,-]+)?(?:\s+)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF|Free|Kostenlos|免费|Gratuit)?(?:<\/span>)?$/) || sub.option_text;
                                         let optionTextResult = "";
                                         optionTextResult = optionTextMatch ? optionTextMatch[1].trim().replace(/&reg;/g, "®") : "";
                                         if (optionTextMatch === sub.option_text) {
@@ -289,23 +454,35 @@ export default function Main() {
                                         const percentSavingsMatch = sub.percent_savings_text.match(/-?(\d+)/);
                                         const percentSavingsResult = percentSavingsMatch ? percentSavingsMatch[1].trim() : "";
                                         // const originPriceMatch = sub.option_text.match(/(?:<span class="discount_original_price">)?\$([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/(\d{1,3}(?:,\d{3})*,\d{2})/) || sub.option_text.match(/(?:<span class="discount_original_price">)?[A-Z]{1}\$ ([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/[A-Z]{1}\$ ([\d.]+)/);
-                                        const originPriceMatch = sub.option_text.match(/ - (?:<span class="discount_original_price">)?(?:£|€|CDN\$|A\$|\$|R\$|S\$)?(?:\s+)?([\d.,]+)(?:\s+)?(?:£|€|CDN\$|A\$|\$|R\$|S\$)?(?:<\/span>)?/);
+                                        const originPriceMatch = sub.option_text.match(/(?: - \d+ Crown Pack)? - (?:<span class="discount_original_price">)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF)?(?:\s+)?([\d.,-]+)(?:\s+)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF)?(?:<\/span>)?/);
                                         const originPriceResult = originPriceMatch ? originPriceMatch[1].trim() : "";
                                         // const currencyMatch = sub.option_text.match(/(?:€|CDN\$|A\$|R\$|\$)/);
                                         // const currencyMatch = sub.option_text.match(/ - (?:\d+,\d{2})?(€|CDN\$|A\$|\$|R\$)/)
                                         // const currencyMatch = sub.option_text.match(/ - (?: [\d.,]+)?(?:\d+,\d{2})?(€|CDN\$|A\$|\$|R\$|S\$)(?: [\d.,]+)?(?: \s+)?/);
-                                        const currencyMatch = sub.option_text.match(/ (?:[\d.,\s]+)?(£|€|CDN\$|A\$|\$|R\$|S\$)(?:[\d.,\s]+)?/)
+                                        const currencyMatch = sub.option_text.match(/ (?:[\d.,\s]+)?(£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF)(?:[\d.,\s]+)?/)
                                         const currencyResult = currencyMatch ? currencyMatch[1].trim() : ""
                                         const isFreeLicense = sub.is_free_license;
                                         // const subscriptionMatch = sub.option_text.match(/subscription/);
                                         // const subscriptionResult = subscriptionMatch ? subscriptionMatch[0] : "";
                                         // const autoRenewSubscriptionMatch = sub.option_text.match(/(\d+ month\(s\))/);
                                         // const autoRenewSubscriptionResult = autoRenewSubscriptionMatch ? autoRenewSubscriptionMatch[1] : "";
-                                        return optionTextMatch === sub.option_text ? (
+                                        return package_group.name === "subscriptions" ? (
                                             <div key={sub.packageid} className={styled.subscribeGame}>
                                                 <span className={styled.subscribe}>{package_group.title}</span>
                                                 <br />
-                                                <p>{package_group.description.replace(/<br \/>\r\n/g, " ")}</p>
+                                                <p className={styled.pMoreInfo}>
+                                                    {package_group.description && !package_group.description.includes("<a href") ? package_group.description.replace(/<br \/>\r\n/g, " ") : (
+                                                        package_group.description.match(/^(.*?)<a /) && package_group.description.match(/<a [^>]*>(.*?)<\/a>/) && package_group.description.match(/<\/a>(.*)$/) && package_group.description.match(/<a .*?href="(.*?)"/) && (
+                                                            <>
+                                                                {package_group.description.match(/^(.*?)<a /)[1].replace(/<br \/>\r\n/g, " ")}
+                                                                <a href={package_group.description.match(/<a .*?href="(.*?)"/)[1].replace(/<br \/>\r\n/g, " ")} className={styled.linkMoreInfo}>
+                                                                    {package_group.description.match(/<a [^>]*>(.*?)<\/a>/)[1].replace(/<br \/>\r\n/g, " ")}
+                                                                </a>
+                                                                {package_group.description.match(/<\/a>(.*)$/)[1].replace(/<br \/>\r\n/g, " ")}
+                                                            </>
+                                                        ))
+                                                    }
+                                                </p>
                                                 {data.platforms.windows && data.platforms.linux && data.platforms.mac && (
                                                     <>
                                                         <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
@@ -394,7 +571,7 @@ export default function Main() {
                                                 )}
                                             </div>
                                         ) : (
-                                            <div key={sub.packageid} className={styled.purchaseGame}>
+                                            <div key={sub.packageid} className={styled.purchaseGame + " " + ((package_group.description && !package_group.description.includes("<a href")) && styled.packsPurchaseGame)}>
                                                 {<p> {optionTextResult}</p>}
                                                 {data.platforms.windows && data.platforms.linux && data.platforms.mac && (
                                                     <>
@@ -455,6 +632,19 @@ export default function Main() {
                                                     </IconContext.Provider>
                                                 )}
                                                 {percentSavingsResult && !isFreeLicense ? <p className={styled.offer}>{`SPECIAL PROMOTION! Offer ends soon`}</p> : ""}
+                                                {package_group.name === "CrownPakcs" && <p className={styled.pMoreInfo}>
+                                                    {package_group.description && !package_group.description.includes("<a href") ? package_group.description.replace(/<br \/>\r\n/g, " ") : (
+                                                        package_group.description.match(/^(.*?)<a /) && package_group.description.match(/<a [^>]*>(.*?)<\/a>/) && package_group.description.match(/<\/a>(.*)$/) && package_group.description.match(/<a .*?href="(.*?)"/) && (
+                                                            <>
+                                                                {package_group.description.match(/^(.*?)<a /)[1].replace(/<br \/>\r\n/g, " ")}
+                                                                <a href={package_group.description.match(/<a .*?href="(.*?)"/)[1].replace(/<br \/>\r\n/g, " ")} className={styled.linkMoreInfo}>
+                                                                    {package_group.description.match(/<a [^>]*>(.*?)<\/a>/)[1].replace(/<br \/>\r\n/g, " ")}
+                                                                </a>
+                                                                {package_group.description.match(/<\/a>(.*)$/)[1].replace(/<br \/>\r\n/g, " ")}
+                                                            </>
+                                                        ))
+                                                    }
+                                                </p>}
                                                 {percentSavingsResult && !isFreeLicense && (
                                                     <div className={styled.purchaseBox}>
                                                         <span className={styled.savings}>
@@ -462,8 +652,8 @@ export default function Main() {
                                                         </span>
                                                         {originPriceResult && currencyResult && (
                                                             <span className={styled.price}>
-                                                                <s className={styled.originPrice}>{currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? originPriceResult.toString().replace(".", ",") : originPriceResult.toString()}{currencyResult === "€" ? currencyResult : ""}</s>
-                                                                {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? (Math.floor(originPriceResult.replace(",", ".") * (1 - percentSavingsResult / 100) * 100) / 100).toString().replace(".", ",") : (Math.floor(originPriceResult.replace(",", ".") * (1 - percentSavingsResult / 100) * 100) / 100).toString()}{currencyResult === "€" ? currencyResult : ""}
+                                                                <s className={styled.originPrice}>{currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" || currencyResult === "Mex$" || currencyResult === "HK$" || currencyResult === "CHF" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? originPriceResult.toString().replace(".", ",") : originPriceResult.toString()}{currencyResult === "€" ? currencyResult : ""}{currencyResult === "pуб." ? " " + currencyResult : ""}</s>
+                                                                {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" || currencyResult === "Mex$" || currencyResult === "HK$" || currencyResult === "CHF" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? (Math.floor(originPriceResult.replace(",", ".") * (1 - percentSavingsResult / 100) * 100) / 100).toString().replace(".", ",") : (Math.floor(originPriceResult.replace(",", ".") * (1 - percentSavingsResult / 100) * 100) / 100).toString()}{currencyResult === "€" ? currencyResult : ""}{currencyResult === "pуб." ? " " + currencyResult : ""}
                                                             </span>
                                                         )}
                                                         <span>
@@ -477,7 +667,7 @@ export default function Main() {
                                                     <div className={styled.noSavingsPurchaseBox}>
                                                         {originPriceResult && currencyResult && (
                                                             <span className={styled.price}>
-                                                                {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? originPriceResult.toString().replace(".", ",") : originPriceResult.toString()}{currencyResult === "€" ? currencyResult : ""}
+                                                                {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" || currencyResult === "Mex$" || currencyResult === "HK$" || currencyResult === "CHF" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? originPriceResult.toString().replace(".", ",") : originPriceResult.toString()}{currencyResult === "€" ? currencyResult : ""}{currencyResult === "pуб." ? " " + currencyResult : ""}
                                                             </span>
                                                         )}
                                                         <span>
@@ -596,7 +786,7 @@ export default function Main() {
                                                 {category.id === 23 && <FaCloud />}
                                                 {category.id === 62 && <MdOutlineDiversity3 />}
                                                 {category.id === 30 && <HiMiniWrench />}
-                                                {category.id === 53 && <PiVirtualReality />}
+                                                {(category.id === 53 || category.id === 31) && <PiVirtualReality />}
                                                 {category.id === 40 && <GiCircleForest />}
                                                 {category.id === 8 && <BiSolidShieldAlt2 />}
                                                 {category.id === 15 && <IoStatsChartSharp />}
@@ -604,57 +794,156 @@ export default function Main() {
                                                 {category.id === 52 && <LiaSteamSymbol />}
                                                 {category.id === 21 && <FaCircleArrowDown />}
                                                 {category.id === 13 && <FaRegClosedCaptioning />}
+                                                {category.id === 25 && <VscListUnordered />}
                                             </IconContext.Provider>
                                             <span className={styled.nameCategory}>{category.description}</span>
                                         </div>
                                     )
                                 }
                                 )}
-                                {data.drm_notice && <div className={styled.notice}>Incorporates 3rd-party DRM:&nbsp;{data.drm_notice}</div>}
+                                {data.drm_notice && <div className={styled.notice}>Incorporates 3rd-party DRM:&nbsp;{data.drm_notice.replace(/<br>/g, "\n")}</div>}
                                 {data.ext_user_account_notice && <div className={styled.notice}>Requires 3rd - Party Account:&nbsp;{data.ext_user_account_notice}</div>}
                                 {data.legal_notice && <div className={styled.notice}>Requires agreement to a 3rd - party EULA<br /><a href="#" className={styled.eula}>{data.name + " " + "EULA"}</a></div>}
                             </li>
                             <li>
-                                <div className={styled.reviews}>Reviews</div>
-                                {data.reviews && (data.reviews.match(/“[^”]+”/g) && data.reviews.match(/\d+(?:[.,]\d+)?\/\d+(?: &amp; Editors Choice)?/g) && data.reviews.match(/href="([^"]+)"/g) && data.reviews.match(/>([^<]+)<\/a>/g)) && data.reviews.match(/“[^”]+”/g).map((review, index) => {
+                                {data.reviews && <div className={styled.divReview + " " + styled.reviews}>Reviews</div>}
+                                {data.reviews && !data.reviews?.match(/“([^“]*)<\/a>/g) ? data.reviews?.match(/<i>.*?<\/i>.*?(<\/a>|<br>|$)/g)?.map((review) => {
                                     return (
-                                        <div key={Math.floor(Math.random() * 10000000).toString()}>
+                                        <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.didReview}>
                                             <div className={styled.review}>
-                                                {data.reviews.match(/“[^”]+”/g)[index].replace(/&amp;/g, "&")}
+                                                <i>
+                                                    {review.match(/(?<=<i>)(.*?)(?=<\/i>)/g)[0]?.replace(/&amp;/g, "&")?.replace(/&quot;/g, "\"")}
+                                                </i>
+                                                {review.match(/(?<=<\/i>)(.*?)(?=<\/a>|<br>|$)/g) ? (
+                                                    <div>
+                                                        {review.match(/(?<=<\/i>)(.*?)(?=<\/a>|<br>|$)/g)[0].replace(/<a[^>]*>|<\/a>/g, "").match(/-|–/g)[0]}
+                                                        {review.match(/(?<=href=")([^"]+)(?=")/g) ?
+                                                            <a href={review.match(/(?<=href=")([^"]+)(?=")/g)} className={styled.url}>
+                                                                <span className={styled.name}>
+                                                                    {" "}
+                                                                    {review.match(/(?<=<\/i>)(.*?)(?=<\/a>|<br>|$)/g)[0].replace(/<a[^>]*>|<\/a>/g, "").replace(/–|-/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, "\"").trim()}
+                                                                </span>
+                                                            </a>
+                                                            :
+                                                            <span className={styled.name}>
+                                                                {" "}
+                                                                {review.match(/(?<=<\/i>)(.*?)(?=<\/a>|<br>|$)/g)[0].replace(/<a[^>]*>|<\/a>/g, "").replace(/–|-/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, "\"").trim()}
+                                                            </span>
+                                                        }
+                                                    </div>
+                                                ) : ""}
                                             </div>
-                                            <span className={styled.ratingChoice}>
-                                                {data.reviews.match(/\d+(?:[.,]\d+)?\/\d+(?: &amp; Editors Choice)?/g)[index].replace(/&amp;/g, "&")}
-                                            </span>
-                                            <a href={data.reviews.match(/href="([^"]+)"/g)[index].slice(6, -1).replace(/&amp;/g, "&")} className={styled.url}>
-                                                <span className={styled.name}>
-                                                    {" - " + data.reviews.match(/>([^<]+)<\/a>/g)[index].slice(1, -4).replace(/&amp;/g, "&")}
-                                                </span>
-                                            </a>
+                                        </div>
+                                    )
+                                }) : data.reviews?.match(/“([^“]*)<\/a>/g)?.map((review) => {
+                                    return (
+                                        <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.didReview}>
+                                            <div className={styled.review}>
+                                                {review.match(/“([^”]+)”/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"")}
+                                                {!review.match(/(?<=<br>)(.*?)(?=<a href)/g) ? (
+                                                    <>
+                                                        {" – "}
+                                                        <a href={review.match(/(?<=href=")([^"]+)(?=")/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"")} className={styled.url}>
+                                                            <span className={styled.name}>
+                                                                {review.match(/(?<= >)(.*?)(?=<\/a>)/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"")}
+                                                            </span>
+                                                        </a>
+                                                    </>
+                                                ) : ""}
+                                            </div>
+                                            <div className={styled.ratingChoice}>
+                                                {review.match(/(?<=<br>)(.*?)(?=<a href)/g) ? review.match(/(?<=<br>)(.*?)(?=<a href)/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"") : ""}
+                                                {/* {review.match(/(?<=<br>)(.*?)(?=<a href)/g)[0] ? review.match(/(?<=<br>)(.*?)(?=<a href)/g)[0].replace(/&amp;/g, "&") : ""} */}
+                                                {review.match(/(?<=<br>)(.*?)(?=<a href)/g) ? (
+                                                    <a href={review.match(/(?<=href=")([^"]+)(?=")/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"")} className={styled.url}>
+                                                        <span className={styled.name}>
+                                                            {review.match(/(?<= >)(.*?)(?=<\/a>)/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"")}
+                                                        </span>
+                                                    </a>
+                                                ) : ""}
+                                            </div>
                                         </div>
                                     )
                                 })}
-                                {/* {data.reviews && data.reviews.match(/“[^”]+”/g) && data.reviews.match(/“[^”]+”/g).map((review, index) => {
-                                    // return <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.review}>{review}</div>
-                                    return <div key={`Quote ${index} - ${review}`} className={styled.review}>{review.replace(/&amp;/g, "&")}</div>
-                                })}
-                                {data.reviews && data.reviews.match(/\d+(?:[.,]\d+)?\/\d+(?: &amp; Editors Choice)?/g) && data.reviews.match(/\d+(?:[.,]\d+)?\/\d+(?: &amp; Editors Choice)?/g).map((ratingChoice, index) => {
-                                    return <div key={`Rating & Choice ${index} - ${ratingChoice}`} className={styled.review}>{ratingChoice.replace(/&amp;/g, "&")}</div>
-                                })}
-                                {data.reviews && data.reviews.match(/href="([^"]+)"/g) && data.reviews.match(/href="([^"]+)"/g).map((url, index) => {
-                                    return <div key={`URL ${index} - ${url}`} className={styled.review}>{url.slice(6, -1).replace(/&amp;/g, "&")}</div>
-                                })}
-                                {data.reviews && data.reviews.match(/>([^<]+)<\/a>/g) && data.reviews.match(/>([^<]+)<\/a>/g).map((name, index) => {
-                                    return <div key={`URL ${index} - ${name}`} className={styled.review}>{name.slice(1, -4).replace(/&amp;/g, "&")}</div>
-                                })} */}
                             </li>
                             <li>LANGUAGE</li>
-                            <li>DETAIL DESCRIPTION</li>
+                            <li>
+                                {data.detailed_description && (
+                                    <div className={styled.detail}>
+                                        {/* {data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>About the Game</h1>"))} */}
+                                        {/* <div dangerouslySetInnerHTML={{ __html: data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>About the Game</h1>")) }}></div> */}
+                                        {/* {parse(DomPurify.sanitize(data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>About the Game</h1>"))), options) || parse(DomPurify.sanitize(data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>關於此遊戲</h1>"))), options) || parse(DomPurify.sanitize(data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Om spelet</h1>"))), options)} */}
+                                        {subStringEnglish ? parse(DomPurify.sanitize(subStringEnglish), options) : (subStringChinese ? parse(DomPurify.sanitize(subStringChinese), options) : (subStringSwedish ? parse(DomPurify.sanitize(subStringSwedish), options) : (subStringItalian ? parse(DomPurify.sanitize(subStringItalian), options) : (subStringRussian ? parse(DomPurify.sanitize(subStringRussian), options) : (subStringFrench ? parse(DomPurify.sanitize(subStringFrench), options) : (subStringPortuguese ? parse(DomPurify.sanitize(subStringPortuguese), options) : (subStringBrazilian ? parse(DomPurify.sanitize(subStringBrazilian), options) : (subStringGerman ? parse(DomPurify.sanitize(subStringGerman), options) : (subStringSpanish ? parse(DomPurify.sanitize(subStringSpanish), options) : "")))))))))}
+                                    </div>
+                                )}
+                            </li>
                             <li>RATINGS</li>
-                            <li>ABOUT THE GAME</li>
+                            <li>
+                                {data.about_the_game && <div className={styled.about}>About the game</div>}
+                                {data.about_the_game && (
+                                    <div className={styled.detail}>
+                                        {parse(DomPurify.sanitize(data.about_the_game), options)}
+                                    </div>
+                                )}
+                            </li>
                             <li>ACHIEVEMENTS</li>
-                            <li>SYSTEM REQUIREMENTS</li>
+                            <li>
+                                {data.content_descriptors.notes && <div className={styled.matureContent}>Mature content description</div>}
+                                {data.content_descriptors.notes && (
+                                    <div className={styled.detail}>
+                                        The developers describe the content like this:
+                                        <br />
+                                        <i>
+                                            {parse(DomPurify.sanitize(data.content_descriptors.notes), options)}
+                                        </i>
+                                    </div>
+                                )}
+                            </li>
                             <li>ITEMS</li>
-                            <li></li>
+                            <li>
+                                {(data.pc_requirements || data.linux_requirements || data.mac_requirements) && <div className={styled.systemRequire}>System requirements</div>}
+                                <menu className={styled.menu}>
+                                    <button type="button" className={styled.button} onClick={(event) => SystemRequireClick(event)}>
+                                        Windows
+                                    </button>
+                                    <button type="button" className={styled.button} onClick={(event) => SystemRequireClick(event)}>
+                                        macOS
+                                    </button>
+                                    <button type="button" className={styled.button} onClick={(event) => SystemRequireClick(event)}>
+                                        SteamOS + Linux
+                                    </button>
+                                </menu>
+                                {systemRequire === "Windows" && (
+                                    <div className={styled.systemRequireDiv}>
+                                        <span className={styled.systemRequireContent}>
+                                            {data.pc_requirements.minimum}
+                                        </span>
+                                        <span className={styled.systemRequireContent}>
+                                            {data.pc_requirements.recommended}
+                                        </span>
+                                    </div>
+                                )}
+                                {systemRequire === "macOS" && (
+                                    <div className={styled.systemRequireDiv}>
+                                        <span className={styled.systemRequireContent}>
+                                            {data.mac_requirements.minimum}
+                                        </span>
+                                        <span className={styled.systemRequireContent}>
+                                            {data.mac_requirements.recommended}
+                                        </span>
+                                    </div>
+                                )}
+                                {systemRequire === "SteamOS + Linux" && (
+                                    <div className={styled.systemRequireDiv}>
+                                        <span className={styled.systemRequireContent}>
+                                            {data.linux_requirements.minimum}
+                                        </span>
+                                        <span className={styled.systemRequireContent}>
+                                            {data.linux_requirements.recommended}
+                                        </span>
+                                    </div>
+                                )}
+                            </li>
                             <li>SUMMARY</li>
                             <li></li>
                             <li>SHARE EMBED</li>

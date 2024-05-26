@@ -78,6 +78,23 @@ const gameDataQuery = `
             ext_user_account_notice
             legal_notice
             reviews
+            detailed_description
+            about_the_game
+            content_descriptors {
+                notes
+            }
+            linux_requirements {
+                minimum
+                recommended
+            }
+            mac_requirements {
+                minimum
+                recommended
+            }
+            pc_requirements {
+                minimum
+                recommended
+            }
         }
     }
 `;

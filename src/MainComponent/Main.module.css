@@ -23,7 +23,9 @@ ul[role="list"]{
     margin-inline-end: 0;
     padding-inline-start: 0;
     margin-bottom: 50vh;
-    word-break: auto-phrase;
+    /* word-break: auto-phrase; */
+    overflow-wrap: break-word;
+    hyphens: auto;
     align-items: center;
 }
 
@@ -68,20 +70,34 @@ ul li:where(:nth-child(2)) .legend{
     margin: 0;
 }
 
-ul li:where(:nth-child(3)) img {
+ul li:where(:nth-child(3)) .imgDescription {
     border-radius: 1rem;
     width: 100%;
 }
 
-ul li:where(:nth-child(3)) p {
+ul li:where(:nth-child(3)) .pDescription {
     font-size: 1.2rem;
     width: 100%;
-    text-align: left;
-    margin: 0.7rem 0 0 0;
+    text-align: justify;
+    margin: 0.3rem 0 0.5rem 0;
 }
 
-ul li:where(:nth-child(3)) p:nth-child(2){
-    text-align: justify;
+ul li:where(:nth-child(3)) .description{
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    padding-top: 0.5rem;
+}
+
+ul li:where(:nth-child(3)) .description span:nth-child(1) {
+    grid-column: span 3;
+    font-size: 1.2rem;
+    text-align: left;
+}
+
+ul li:where(:nth-child(3)) .description span:nth-child(2) {
+    grid-column: span 7;
+    font-size: 1.2rem;
+    text-align: left;
 }
 
 ul li:where(:nth-child(3)) .developer {
@@ -175,13 +191,29 @@ ul li:where(:nth-child(4)) .iconPlatform:where(:nth-child(2)){
 
 ul li:where(:nth-child(4)) .purchaseGame .offer{
     color: royalblue;
+    font-size: 1.2rem;
+}
+
+ul li:where(:nth-child(4)) .purchaseGame .pMoreInfo{
+    font-size: 1.2rem;
+    margin-bottom: -1.6rem;
+    transform: translateY(-30%);
+}
+
+ul li:where(:nth-child(4)) .purchaseGame .linkMoreInfo{
+    color: azure;
+    text-decoration: none;
+}
+
+ul li:where(:nth-child(4)) .purchaseGame .linkMoreInfo:hover{
+    color: royalblue;
 }
 
 ul li:where(:nth-child(4)) .purchaseBox {
     position: absolute;
     z-index: 0;
     right: 1.5rem;
-    top: 3.1rem;
+    top: 2.7rem;
     color: crimson;
     padding: 0.5rem;
 }
@@ -347,6 +379,15 @@ ul li:where(:nth-child(4)) .subscribeGame .offer{
     color: royalblue;
 }
 
+ul li:where(:nth-child(4)) .subscribeGame .linkMoreInfo{
+    color: azure;
+    text-decoration: none;
+}
+
+ul li:where(:nth-child(4)) .subscribeGame .linkMoreInfo:hover{
+    color: royalblue;
+}
+
 ul li:where(:nth-child(4)) .subscribeGame .subscribe{
     font-size: 1.5rem;
 }
@@ -481,10 +522,11 @@ ul li:where(:nth-child(5)) .eula:hover {
     color: royalblue;
 }
 
-ul li:where(:nth-child(6)) {
+ul li:where(:nth-child(6)) .divReview{
     font-size: 1.5rem;
-    text-align: left;
-    padding: 1.5rem 2rem;
+    text-align: justify;
+    padding: 1.5rem 0rem;
+    margin: 0 2rem;
 }
 
 ul li:where(:nth-child(6)) .reviews{
@@ -496,11 +538,16 @@ ul li:where(:nth-child(6)) .reviews{
 ul li:where(:nth-child(6)) .review{
     padding-top: 1rem;
     font-size: 1rem;
+    margin: 0 2rem;
     text-align: justify;
+    padding-top: 1rem;
 }
 
 ul li:where(:nth-child(6)) .ratingChoice{
     font-size: 1rem;
+    margin: 0 2rem;
+    text-align: justify;
+    padding-top: 0.3rem;
 }
 
 ul li:where(:nth-child(6)) .url{
@@ -515,6 +562,181 @@ ul li:where(:nth-child(6)) .url:hover{
 
 ul li:where(:nth-child(6)) .name{
     font-size: 1rem;
+}
+
+ul li:where(:nth-child(8)) .detail{
+    font-size: 1.5rem;
+    text-align: justify;
+    margin: 0 2rem;
+    padding: 1.5rem 0 0 0;
+}
+
+ul li:where(:nth-child(8)) .title, ul li:where(:nth-child(10)) .title{
+    padding-bottom: 0.2rem;
+    border-bottom: 0.2rem solid;
+    border-image: linear-gradient(to right, azure 50%, rgba(0, 0, 0, 0)) 100% 1;
+}
+
+ul li:where(:nth-child(8)) .title2, ul li:where(:nth-child(10)) .title2{
+    font-size: 1.2rem;
+    color: gold;
+}
+
+ul li:where(:nth-child(8)) .paragraph, ul li:where(:nth-child(10)) .paragraph{
+    font-size: 1rem;
+    padding: 1rem 0 0.5rem 0;
+}
+
+ul li:where(:nth-child(8)) .url, ul li:where(:nth-child(10)) .url{
+    text-decoration: none;
+    color: azure;
+    font-size: 1rem;
+}
+
+ul li:where(:nth-child(8)) .url:hover, ul li:where(:nth-child(10)) .url:hover{
+    color: royalblue;
+}
+
+ul li:where(:nth-child(8)) .url2, ul li:where(:nth-child(10)) .url2{
+    text-decoration: none;
+    color: azure;
+    font-size: 1rem;
+}
+
+ul li:where(:nth-child(8)) .url2:hover, ul li:where(:nth-child(10)) .url2:hover{
+    color: royalblue;
+}
+
+ul li:where(:nth-child(8)) .ul, ul li:where(:nth-child(10)) .ul{
+    list-style: square;
+}
+
+ul li:where(:nth-child(8)) .ul2, ul li:where(:nth-child(10)) .ul2{
+    list-style: square;
+    font-size: 1rem;
+}
+
+ul li:where(:nth-child(8)) .li, ul li:where(:nth-child(10)) .li{
+    font-size: 1rem;
+    margin-left: -1.5rem;
+}
+
+ul li:where(:nth-child(8)) .divUl, ul li:where(:nth-child(10)) .divUl{
+    padding: 1rem 0 0.5rem 0;
+}
+
+ul li:where(:nth-child(8)) .text, ul li:where(:nth-child(10)) .text{
+    font-size: 1rem;
+}
+
+ul li:where(:nth-child(8)) .img, ul li:where(:nth-child(10)) .img{
+    width: 70%;
+    margin: auto;
+    display: block;
+}
+
+ul li:where(:nth-child(8)) .img2, ul li:where(:nth-child(10)) .img2{
+    width: 70%;
+    margin: 0;
+    display: block;
+}
+
+ul li:where(:nth-child(8)) .img3, ul li:where(:nth-child(10)) .img3{
+    transform: translateX(21.5%);
+}
+
+ul li:where(:nth-child(8)) .imgLeft, ul li:where(:nth-child(10)) .imgLeft{
+    width: 70%;
+    margin: 0;
+    /* display: block; */
+}
+
+ul li:where(:nth-child(8)) .strong, ul li:where(:nth-child(10)) .strong{
+    font-size: 1rem;
+    color: gold;
+}
+
+ul li:where(:nth-child(8)) .u, ul li:where(:nth-child(10)) .u{
+    font-size: 1rem;
+}
+
+ul li:where(:nth-child(10)) .about{
+    padding: 1.5rem 0;
+    padding-bottom: 0.2rem;
+    border-bottom: 0.2rem solid;
+    border-image: linear-gradient(to right, azure 50%, rgba(0, 0, 0, 0)) 100% 1;
+    text-align: justify;
+    margin: 0 2rem;
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(10)) .detail{
+    font-size: 1.5rem;
+    text-align: justify;
+    margin: 0 2rem;
+    padding: 0.5rem 0 0 0;
+}
+
+ul li:where(:nth-child(12)) .matureContent{
+    padding: 1.5rem 0;
+    padding-bottom: 0.2rem;
+    border-bottom: 0.2rem solid;
+    border-image: linear-gradient(to right, azure 50%, rgba(0, 0, 0, 0)) 100% 1;
+    text-align: justify;
+    margin: 0 2rem;
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(12)) .detail{
+    font-size: 1rem;
+    text-align: justify;
+    margin: 0 2rem;
+    padding: 1rem 0 0 0;
+}
+
+ul li:where(:nth-child(14)) .systemRequire{
+    padding: 1.5rem 0;
+    padding-bottom: 0.2rem;
+    border-bottom: 0.2rem solid;
+    border-image: linear-gradient(to right, azure 50%, rgba(0, 0, 0, 0)) 100% 1;
+    text-align: justify;
+    margin: 0 2rem;
+    font-size: 1.5rem;
+}
+
+ul li:where(:nth-child(14)) .menu{
+    margin: 0.5rem 2rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(auto, 1fr));
+}
+
+ul li:where(:nth-child(14)) .button{
+    grid-column: span 2;
+    font-family: inherit;
+    font-size: 1.2rem;
+    background-color: crimson;
+    color: azure;
+    border-radius: 1rem;
+    padding: 0.5rem 0.5rem;
+}
+
+ul li:where(:nth-child(14)) .button:hover{
+    background-color: azure;
+    color: crimson;
+}
+
+ul li:where(:nth-child(14)) .systemRequireDiv{
+    font-size: 1.2rem;
+    text-align: justify;
+    margin: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+ul li:where(:nth-child(14)) .systemRequireContent{
+    grid-column: span 1;
+    margin: 0 2rem
 }
 
 .inputBox{
