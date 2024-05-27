@@ -739,6 +739,29 @@ ul li:where(:nth-child(14)) .systemRequireContent{
     margin: 0 2rem
 }
 
+ul li:where(:nth-child(14)) .configurationRequireDiv{
+    font-size: 1.2rem;
+    text-align: justify;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+ul li:where(:nth-child(14)) .configurationRequireContent{
+    grid-column: span 1;
+}
+
+ul li:where(:nth-child(14)) .configurationRequireContent:where(:nth-child(1)){
+    opacity: 0.85;
+}
+
+ul li:where(:nth-child(14)) .legalNotice{
+    font-size: 0.9rem;
+    text-align: justify;
+    margin: 1rem 2rem;
+    padding: 0 2rem;
+    opacity: 0.65;
+}
+
 .inputBox{
   display: flex;
   justify-content: center;

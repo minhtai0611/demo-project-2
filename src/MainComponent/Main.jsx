@@ -83,6 +83,7 @@ export default function Main() {
     let subStringBrazilian;
     let subStringGerman;
     let subStringSpanish;
+    let subStringPolish;
 
     if (isSuccess) {
         subStringEnglish = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>About the Game</h1>"));
@@ -95,6 +96,7 @@ export default function Main() {
         subStringBrazilian = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Acerca do jogo</h1>"));
         subStringGerman = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Über das Spiel</h1>"));
         subStringSpanish = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Acerca del juego</h1>"));
+        subStringPolish = data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Informacje o&nbsp;grze</h1>"));
     }
 
     const options = {
@@ -222,9 +224,9 @@ export default function Main() {
 
     const [systemRequire, setSystemRequire] = useState("Windows");
     function SystemRequireClick(event) {
-        event.target.outerText === "Windows" && setSystemRequire(() => "Windows");
-        event.target.outerText === "macOS" && setSystemRequire(() => "macOS");
-        event.target.outerText === "SteamOS + Linux" && setSystemRequire(() => "SteamOS + Linux");
+        event.target.outerText === "Windows" && setSystemRequire(() => event.target.outerText);
+        event.target.outerText === "macOS" && setSystemRequire(() => event.target.outerText);
+        event.target.outerText === "SteamOS + Linux" && setSystemRequire(() => event.target.outerText);
     }
 
     return (
@@ -873,7 +875,7 @@ export default function Main() {
                                         {/* {data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>About the Game</h1>"))} */}
                                         {/* <div dangerouslySetInnerHTML={{ __html: data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>About the Game</h1>")) }}></div> */}
                                         {/* {parse(DomPurify.sanitize(data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>About the Game</h1>"))), options) || parse(DomPurify.sanitize(data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>關於此遊戲</h1>"))), options) || parse(DomPurify.sanitize(data.detailed_description.substring(0, data.detailed_description.indexOf("<br><h1>Om spelet</h1>"))), options)} */}
-                                        {subStringEnglish ? parse(DomPurify.sanitize(subStringEnglish), options) : (subStringChinese ? parse(DomPurify.sanitize(subStringChinese), options) : (subStringSwedish ? parse(DomPurify.sanitize(subStringSwedish), options) : (subStringItalian ? parse(DomPurify.sanitize(subStringItalian), options) : (subStringRussian ? parse(DomPurify.sanitize(subStringRussian), options) : (subStringFrench ? parse(DomPurify.sanitize(subStringFrench), options) : (subStringPortuguese ? parse(DomPurify.sanitize(subStringPortuguese), options) : (subStringBrazilian ? parse(DomPurify.sanitize(subStringBrazilian), options) : (subStringGerman ? parse(DomPurify.sanitize(subStringGerman), options) : (subStringSpanish ? parse(DomPurify.sanitize(subStringSpanish), options) : "")))))))))}
+                                        {subStringEnglish ? parse(DomPurify.sanitize(subStringEnglish), options) : (subStringChinese ? parse(DomPurify.sanitize(subStringChinese), options) : (subStringSwedish ? parse(DomPurify.sanitize(subStringSwedish), options) : (subStringItalian ? parse(DomPurify.sanitize(subStringItalian), options) : (subStringRussian ? parse(DomPurify.sanitize(subStringRussian), options) : (subStringFrench ? parse(DomPurify.sanitize(subStringFrench), options) : (subStringPortuguese ? parse(DomPurify.sanitize(subStringPortuguese), options) : (subStringBrazilian ? parse(DomPurify.sanitize(subStringBrazilian), options) : (subStringGerman ? parse(DomPurify.sanitize(subStringGerman), options) : (subStringSpanish ? parse(DomPurify.sanitize(subStringSpanish), options) : (subStringPolish ? parse(DomPurify.sanitize(subStringPolish), options) : ""))))))))))}
                                     </div>
                                 )}
                             </li>
@@ -903,46 +905,122 @@ export default function Main() {
                             <li>
                                 {(data.pc_requirements || data.linux_requirements || data.mac_requirements) && <div className={styled.systemRequire}>System requirements</div>}
                                 <menu className={styled.menu}>
-                                    <button type="button" className={styled.button} onClick={(event) => SystemRequireClick(event)}>
-                                        Windows
-                                    </button>
-                                    <button type="button" className={styled.button} onClick={(event) => SystemRequireClick(event)}>
-                                        macOS
-                                    </button>
-                                    <button type="button" className={styled.button} onClick={(event) => SystemRequireClick(event)}>
-                                        SteamOS + Linux
-                                    </button>
+                                    {(data.pc_requirements?.minimum?.includes("<li>") || data.pc_requirements?.recommended?.includes("<li>")) && ((data.mac_requirements?.minimum?.includes("<li>") || data.mac_requirements?.recommended?.includes("<li>")) || (data.linux_requirements?.minimum?.includes("<li>") || data.linux_requirements?.recommended?.includes("<li>"))) ?
+                                        <button type="button" className={styled.button} onClick={(event) => SystemRequireClick(event)}>
+                                            Windows
+                                        </button>
+                                        : ""
+                                    }
+                                    {(data.mac_requirements?.minimum?.includes("<li>") || data.mac_requirements?.recommended?.includes("<li>")) && ((data.pc_requirements?.minimum?.includes("<li>") || data.pc_requirements?.recommended?.includes("<li>")) || (data.linux_requirements?.minimum?.includes("<li>") || data.linux_requirements?.recommended?.includes("<li>"))) ?
+                                        <button type="button" className={styled.button} onClick={(event) => SystemRequireClick(event)}>
+                                            macOS
+                                        </button>
+                                        : ""
+                                    }
+                                    {(data.linux_requirements?.minimum?.includes("<li>") || data.linux_requirements?.recommended?.includes("<li>")) && ((data.pc_requirements?.minimum?.includes("<li>") || data.pc_requirements?.recommended?.includes("<li>")) || (data.mac_requirements?.minimum?.includes("<li>") || data.mac_requirements?.recommended?.includes("<li>"))) ?
+                                        <button type="button" className={styled.button} onClick={(event) => SystemRequireClick(event)}>
+                                            SteamOS + Linux
+                                        </button>
+                                        : ""
+                                    }
                                 </menu>
                                 {systemRequire === "Windows" && (
                                     <div className={styled.systemRequireDiv}>
+                                        {<span className={styled.systemRequireContent}>
+                                            {data.pc_requirements?.minimum?.includes("<li>") && data.pc_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                return (
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {configurationRequire}
+                                                        </span>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            })}
+                                        </span>}
                                         <span className={styled.systemRequireContent}>
-                                            {data.pc_requirements.minimum}
-                                        </span>
-                                        <span className={styled.systemRequireContent}>
-                                            {data.pc_requirements.recommended}
+                                            {data.pc_requirements?.recommended?.includes("<li>") && data.pc_requirements.recommended.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                return (
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {configurationRequire}
+                                                        </span>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {data.pc_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            })}
                                         </span>
                                     </div>
                                 )}
                                 {systemRequire === "macOS" && (
                                     <div className={styled.systemRequireDiv}>
                                         <span className={styled.systemRequireContent}>
-                                            {data.mac_requirements.minimum}
+                                            {data.mac_requirements.minimum.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                return (
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {configurationRequire}
+                                                        </span>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            })}
                                         </span>
                                         <span className={styled.systemRequireContent}>
-                                            {data.mac_requirements.recommended}
+                                            {data.mac_requirements.recommended.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                return (
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {configurationRequire}
+                                                        </span>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            })}
                                         </span>
                                     </div>
                                 )}
                                 {systemRequire === "SteamOS + Linux" && (
                                     <div className={styled.systemRequireDiv}>
                                         <span className={styled.systemRequireContent}>
-                                            {data.linux_requirements.minimum}
+                                            {data.linux_requirements.minimum.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                return (
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {configurationRequire}
+                                                        </span>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            })}
                                         </span>
                                         <span className={styled.systemRequireContent}>
-                                            {data.linux_requirements.recommended}
+                                            {data.linux_requirements.recommended.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                return (
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {configurationRequire}
+                                                        </span>
+                                                        <span className={styled.configurationRequireContent}>
+                                                            {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
+                                                        </span>
+                                                    </div>
+                                                )
+                                            })}
                                         </span>
                                     </div>
                                 )}
+                                {data.legal_notice && <div className={styled.legalNotice}>{data.legal_notice.replace(/<br \/>/g, "")}</div>}
                             </li>
                             <li>SUMMARY</li>
                             <li></li>
