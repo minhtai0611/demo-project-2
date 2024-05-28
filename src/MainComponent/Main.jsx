@@ -837,17 +837,23 @@ export default function Main() {
                                             </div>
                                         </div>
                                     )
-                                }) : data.reviews?.match(/“([^“]*)<\/a>/g)?.map((review) => {
+                                }) : data.reviews?.match(/“([^“]*)(?:<\/a>)?/g)?.map((review) => {
                                     return (
                                         <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.didReview}>
                                             <div className={styled.review}>
                                                 {review.match(/“([^”]+)”/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"")}
                                                 {!review.match(/(?<=<br>)(.*?)(?=<a href)/g) ? (
                                                     <>
-                                                        {" – "}
-                                                        <a href={review.match(/(?<=href=")([^"]+)(?=")/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"")} className={styled.url}>
+                                                        {review.match(/(?<=href=")([^"]+)(?=")/g) && " – "}
+                                                        {(!review.match(/(?<=href=")([^"]+)(?=")/g) && review.replace(/<br>/g, "").replace(/“[^“]*”/g, "")) && (
+                                                            <>
+                                                                <br />
+                                                                {review.replace(/<br>/g, "").replace(/“[^“]*”/g, "")}
+                                                            </>
+                                                        )}
+                                                        <a href={review.match(/(?<=href=")([^"]+)(?=")/g) && review.match(/(?<=href=")([^"]+)(?=")/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"")} className={styled.url}>
                                                             <span className={styled.name}>
-                                                                {review.match(/(?<= >)(.*?)(?=<\/a>)/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"")}
+                                                                {review.match(/(?<=href=")([^"]+)(?=")/g) && review.match(/(?<= >)(.*?)(?=<\/a>)/g)[0].replace(/&amp;/g, "&").replace(/&quot;/g, "\"")}
                                                             </span>
                                                         </a>
                                                     </>
@@ -868,7 +874,49 @@ export default function Main() {
                                     )
                                 })}
                             </li>
-                            <li>LANGUAGE</li>
+                            <li>
+                                {data.supported_languages && (
+                                    <>
+                                        <div className={styled.languageTitle}>Languages:</div>
+                                        <div className={styled.languageDiv}>
+                                            <span className={styled.languageContent}>
+                                                {data.supported_languages.match(/[^,]+/g).map((supported_language) => {
+                                                    return (
+                                                        <>
+                                                            <br />
+                                                            {supported_language.replace(/<br>.*/g, "").replace(/<\/?strong>/g, "").replace(/\*/g, "").trim()}
+                                                        </>
+                                                    )
+                                                })}
+                                            </span>
+                                            <span className={styled.languageInterface}>
+                                                {"Interface"}
+                                                <br />
+                                                {data.supported_languages.match(/[^,]+/g).map((supported_language) => {
+                                                    return (
+                                                        <>
+                                                            {supported_language && "✔"}
+                                                            <br />
+                                                        </>
+                                                    )
+                                                })}
+                                            </span>
+                                            <span className={styled.languageFullAudio}>
+                                                {"Full Audio"}
+                                                <br />
+                                                {data.supported_languages.match(/[^,]+/g).map((supported_language) => {
+                                                    return (
+                                                        <>
+                                                            {supported_language.replace(/<br>.*/g, "").replace(/<\/?strong>/g, "").includes("*") && "✔"}
+                                                            <br />
+                                                        </>
+                                                    )
+                                                })}
+                                            </span>
+                                        </div>
+                                    </>
+                                )}
+                            </li>
                             <li>
                                 {data.detailed_description && (
                                     <div className={styled.detail}>
@@ -928,28 +976,56 @@ export default function Main() {
                                     <div className={styled.systemRequireDiv}>
                                         {<span className={styled.systemRequireContent}>
                                             {data.pc_requirements?.minimum?.includes("<li>") && data.pc_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                const infoRow = data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {configurationRequire}
-                                                        </span>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
-                                                        </span>
-                                                    </div>
+                                                    <>
+                                                        {index === 0 && data.pc_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
+                                                        {(index === 0 && !data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
+                                                            <>
+                                                                <br />
+                                                                {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<br>/g, "")?.trim()}
+                                                            </>
+                                                        )}
+                                                        <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {configurationRequire}
+                                                            </span>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {infoRow?.match(/(.*?)(?=<a href)/g) ? infoRow?.match(/(.*?)(?=<a href)/g)[0] : infoRow?.trim()}
+                                                                <a href={infoRow?.match(/(?<=href=")([^"]+)(?=")/g) ? infoRow?.match(/(?<=href=")([^"]+)(?=")/g)[0]?.trim() : ""} className={styled.url}>
+                                                                    {infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g) ? infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g)[0]?.trim() : ""}
+                                                                </a>
+                                                                {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
+                                                            </span>
+                                                        </div>
+                                                    </>
                                                 )
                                             })}
                                         </span>}
                                         <span className={styled.systemRequireContent}>
-                                            {data.pc_requirements?.recommended?.includes("<li>") && data.pc_requirements.recommended.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                            {data.pc_requirements?.recommended?.includes("<li>") && data.pc_requirements?.recommended?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                const infoRow = data.pc_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {configurationRequire}
-                                                        </span>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {data.pc_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
-                                                        </span>
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()}>
+                                                        {index === 0 && data.pc_requirements?.recommended?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
+                                                        {(index === 0 && !data.pc_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
+                                                            <>
+                                                                <br />
+                                                                {data.pc_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<br>/g, "")?.trim()}
+                                                            </>
+                                                        )}
+                                                        <div className={styled.configurationRequireDiv}>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {configurationRequire}
+                                                            </span>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {infoRow?.match(/(.*?)(?=<a href)/g) ? infoRow?.match(/(.*?)(?=<a href)/g)[0] : infoRow?.trim()}
+                                                                <a href={infoRow?.match(/(?<=href=")([^"]+)(?=")/g) ? infoRow?.match(/(?<=href=")([^"]+)(?=")/g)[0]?.trim() : ""} className={styled.url}>
+                                                                    {infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g) ? infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g)[0]?.trim() : ""}
+                                                                </a>
+                                                                {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 )
                                             })}
@@ -959,30 +1035,58 @@ export default function Main() {
                                 {systemRequire === "macOS" && (
                                     <div className={styled.systemRequireDiv}>
                                         <span className={styled.systemRequireContent}>
-                                            {data.mac_requirements.minimum.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                            {data.mac_requirements?.minimum?.includes("<li>") && data.mac_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                const infoRow = data.mac_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {configurationRequire}
-                                                        </span>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
-                                                        </span>
-                                                    </div>
+                                                    <>
+                                                        {index === 0 && data.mac_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
+                                                        {(index === 0 && !data.mac_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
+                                                            <>
+                                                                <br />
+                                                                {data.mac_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<br>/g, "")?.trim()}
+                                                            </>
+                                                        )}
+                                                        <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {configurationRequire}
+                                                            </span>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {infoRow?.match(/(.*?)(?=<a href)/g) ? infoRow?.match(/(.*?)(?=<a href)/g)[0] : infoRow?.trim()}
+                                                                <a href={infoRow?.match(/(?<=href=")([^"]+)(?=")/g) ? infoRow?.match(/(?<=href=")([^"]+)(?=")/g)[0]?.trim() : ""} className={styled.url}>
+                                                                    {infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g) ? infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g)[0]?.trim() : ""}
+                                                                </a>
+                                                                {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
+                                                            </span>
+                                                        </div>
+                                                    </>
                                                 )
                                             })}
                                         </span>
                                         <span className={styled.systemRequireContent}>
-                                            {data.mac_requirements.recommended.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                            {data.mac_requirements?.recommended?.includes("<li>") && data.mac_requirements?.recommended?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                const infoRow = data.mac_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {configurationRequire}
-                                                        </span>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
-                                                        </span>
-                                                    </div>
+                                                    <>
+                                                        {index === 0 && data.mac_requirements?.recommended?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
+                                                        {(index === 0 && !data.mac_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
+                                                            <>
+                                                                <br />
+                                                                {data.mac_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<br>/g, "")?.trim()}
+                                                            </>
+                                                        )}
+                                                        <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {configurationRequire}
+                                                            </span>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {infoRow?.match(/(.*?)(?=<a href)/g) ? infoRow?.match(/(.*?)(?=<a href)/g)[0] : infoRow?.trim()}
+                                                                <a href={infoRow?.match(/(?<=href=")([^"]+)(?=")/g) ? infoRow?.match(/(?<=href=")([^"]+)(?=")/g)[0]?.trim() : ""} className={styled.url}>
+                                                                    {infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g) ? infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g)[0]?.trim() : ""}
+                                                                </a>
+                                                                {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
+                                                            </span>
+                                                        </div>
+                                                    </>
                                                 )
                                             })}
                                         </span>
@@ -991,36 +1095,64 @@ export default function Main() {
                                 {systemRequire === "SteamOS + Linux" && (
                                     <div className={styled.systemRequireDiv}>
                                         <span className={styled.systemRequireContent}>
-                                            {data.linux_requirements.minimum.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                            {data.linux_requirements?.minimum?.includes("<li>") && data.linux_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                const infoRow = data.linux_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {configurationRequire}
-                                                        </span>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
-                                                        </span>
-                                                    </div>
+                                                    <>
+                                                        {index === 0 && data.linux_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
+                                                        {(index === 0 && !data.linux_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
+                                                            <>
+                                                                <br />
+                                                                {data.linux_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<br>/g, "")?.trim()}
+                                                            </>
+                                                        )}
+                                                        <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {configurationRequire}
+                                                            </span>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {infoRow?.match(/(.*?)(?=<a href)/g) ? infoRow?.match(/(.*?)(?=<a href)/g)[0] : infoRow?.trim()}
+                                                                <a href={infoRow?.match(/(?<=href=")([^"]+)(?=")/g) ? infoRow?.match(/(?<=href=")([^"]+)(?=")/g)[0]?.trim() : ""} className={styled.url}>
+                                                                    {infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g) ? infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g)[0]?.trim() : ""}
+                                                                </a>
+                                                                {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
+                                                            </span>
+                                                        </div>
+                                                    </>
                                                 )
                                             })}
                                         </span>
                                         <span className={styled.systemRequireContent}>
-                                            {data.linux_requirements.recommended.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                            {data.linux_requirements?.recommended?.includes("<li>") && data.linux_requirements?.recommended?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
+                                                const infoRow = data.linux_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {configurationRequire}
-                                                        </span>
-                                                        <span className={styled.configurationRequireContent}>
-                                                            {data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<strong>(.*?)<\/strong>/g, "").replace(/<br>/g, "").trim()}
-                                                        </span>
-                                                    </div>
+                                                    <>
+                                                        {index === 0 && data.linux_requirements?.recommended?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
+                                                        {(index === 0 && !data.linux_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
+                                                            <>
+                                                                <br />
+                                                                {data.linux_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index]?.replace(/<br>/g, "")?.trim()}
+                                                            </>
+                                                        )}
+                                                        <div key={Math.floor(Math.random() * 10000000).toString()} className={styled.configurationRequireDiv}>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {configurationRequire}
+                                                            </span>
+                                                            <span className={styled.configurationRequireContent}>
+                                                                {infoRow?.match(/(.*?)(?=<a href)/g) ? infoRow?.match(/(.*?)(?=<a href)/g)[0] : infoRow?.trim()}
+                                                                <a href={infoRow?.match(/(?<=href=")([^"]+)(?=")/g) ? infoRow?.match(/(?<=href=")([^"]+)(?=")/g)[0]?.trim() : ""} className={styled.url}>
+                                                                    {infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g) ? infoRow?.match(/(?<= >)(.*?)(?=<\/a>)/g)[0]?.trim() : ""}
+                                                                </a>
+                                                                {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
+                                                            </span>
+                                                        </div>
+                                                    </>
                                                 )
                                             })}
                                         </span>
                                     </div>
                                 )}
-                                {data.legal_notice && <div className={styled.legalNotice}>{data.legal_notice.replace(/<br \/>/g, "")}</div>}
+                                {data.legal_notice && <div className={styled.legalNotice}>{data.legal_notice.replace(/<br \/>/g, "").replace(/<br>/g, "")}</div>}
                             </li>
                             <li>SUMMARY</li>
                             <li></li>

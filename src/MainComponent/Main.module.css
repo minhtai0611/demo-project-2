@@ -564,6 +564,35 @@ ul li:where(:nth-child(6)) .name{
     font-size: 1rem;
 }
 
+ul li:where(:nth-child(7)) .languageTitle{
+    font-size: 1.2rem;
+    text-align: justify;
+    margin: 0 2rem;
+    margin-top: 1rem;
+}
+
+ul li:where(:nth-child(7)) .languageDiv{
+    font-size: 1.2rem;
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+ul li:where(:nth-child(7)) .languageContent{
+    grid-column: span 2;
+    text-align: left;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+ul li:where(:nth-child(7)) .languageInterface{
+    grid-column: span 1;
+}
+
+ul li:where(:nth-child(7)) .languageFullAudio{
+    grid-column: span 1;
+}
+
 ul li:where(:nth-child(8)) .detail{
     font-size: 1.5rem;
     text-align: justify;
@@ -719,11 +748,19 @@ ul li:where(:nth-child(14)) .button{
     color: azure;
     border-radius: 1rem;
     padding: 0.5rem 0.5rem;
+    opacity: 0.85;
 }
 
 ul li:where(:nth-child(14)) .button:hover{
+    background-color: unset;
+    color: azure;
+    opacity: 1
+}
+
+ul li:where(:nth-child(14)) .button:focus{
     background-color: azure;
     color: crimson;
+    opacity: 1
 }
 
 ul li:where(:nth-child(14)) .systemRequireDiv{
@@ -752,6 +789,19 @@ ul li:where(:nth-child(14)) .configurationRequireContent{
 
 ul li:where(:nth-child(14)) .configurationRequireContent:where(:nth-child(1)){
     opacity: 0.85;
+}
+
+ul li:where(:nth-child(14)) .configurationTitle{
+    opacity: 1;
+}
+
+ul li:where(:nth-child(14)) .url{
+    text-decoration: none;
+    color: azure;
+}
+
+ul li:where(:nth-child(14)) .url:hover{
+    color: royalblue;
 }
 
 ul li:where(:nth-child(14)) .legalNotice{
