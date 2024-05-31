@@ -95,12 +95,57 @@ const gameDataQuery = `
                 minimum
                 recommended
             }
+            ratings {
+                esrb {
+                    descriptors
+                    interactive_elements
+                    rating
+                }
+                oflc {
+                    descriptors
+                    interactive_elements
+                    rating
+                }
+                nzoflc {
+                    descriptors
+                    interactive_elements
+                    rating
+                }
+                pegi {
+                    descriptors
+                    interactive_elements
+                    rating
+                }
+            }
+            price_overview {
+                currency
+            }
+            achievements {
+                highlighted {
+                    name
+                    path
+                }
+                total
+            }
+            genres {
+                description
+                id
+            }
+            website
+            metacritic {
+                score
+                url
+            }
+            demos {
+                appid
+                description
+            }
         }
     }
 `;
 
 const gameDataVariables = {
-    appid: "252490"
+    appid: "236850"
 }
 
 export async function FetchGameData() {

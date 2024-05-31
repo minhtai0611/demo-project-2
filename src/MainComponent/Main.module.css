@@ -150,6 +150,56 @@ ul li:where(:nth-child(4)) .purchaseGame:has(:where(.freePurchaseBox)) {
     background-color: tomato;
 }
 
+ul li:where(:nth-child(4)) .demo {
+    position: relative;
+    font-size: 1.5rem;
+    text-align: left;
+    margin: 1.5rem 2rem;
+    border-radius: 1rem;
+    padding-left: 2rem;
+    padding-bottom: 1rem;
+    background-color: tomato;
+}
+
+ul li:where(:nth-child(4)) .demo .threeIconPlatform {
+    position: absolute;
+    top: 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .demo .threeIconPlatform:where(:nth-child(2)){
+    right: 8rem;
+}
+
+ul li:where(:nth-child(4)) .demo .threeIconPlatform:where(:nth-child(3)){
+    right: 5rem;
+}
+
+ul li:where(:nth-child(4)) .demo .threeIconPlatform:where(:nth-child(4)){
+    right: 2rem;
+}
+
+ul li:where(:nth-child(4)) .demo .twoIconPlatform {
+    position: absolute;
+    top: 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .demo .twoIconPlatform:where(:nth-child(2)){
+    right: 5rem;
+}
+
+ul li:where(:nth-child(4)) .demo .twoIconPlatform:where(:nth-child(3)){
+    right: 2rem;
+}
+
+ul li:where(:nth-child(4)) .demo .iconPlatform {
+    position: absolute;
+    top: 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .demo .iconPlatform:where(:nth-child(2)){
+    right: 2rem;
+}
+
 ul li:where(:nth-child(4)) .threeIconPlatform {
     position: absolute;
     top: 0.5rem;
@@ -187,6 +237,29 @@ ul li:where(:nth-child(4)) .iconPlatform {
 
 ul li:where(:nth-child(4)) .iconPlatform:where(:nth-child(2)){
     right: 2rem;
+}
+
+ul li:where(:nth-child(4)) .demoBox {
+    position: absolute;
+    z-index: 0;
+    right: 1.5rem;
+    top: 2rem;
+    color: crimson;
+    padding: 0.5rem;
+}
+
+ul li:where(:nth-child(4)) .demoBox .download {
+    background-color: firebrick;
+    color: gold;
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+ul li:where(:nth-child(4)) .demoBox .download:hover {
+    background-color:maroon;
 }
 
 ul li:where(:nth-child(4)) .purchaseGame .offer{
@@ -600,93 +673,130 @@ ul li:where(:nth-child(8)) .detail{
     padding: 1.5rem 0 0 0;
 }
 
-ul li:where(:nth-child(8)) .title, ul li:where(:nth-child(10)) .title{
+ul li:where(:nth-child(8)) .title, ul li:where(:nth-child(10)) .title, ul li:where(:nth-child(14)) .title{
     padding-bottom: 0.2rem;
     border-bottom: 0.2rem solid;
     border-image: linear-gradient(to right, azure 50%, rgba(0, 0, 0, 0)) 100% 1;
 }
 
-ul li:where(:nth-child(8)) .title2, ul li:where(:nth-child(10)) .title2{
+ul li:where(:nth-child(8)) .title2, ul li:where(:nth-child(10)) .title2, ul li:where(:nth-child(14)) .title2{
     font-size: 1.2rem;
     color: gold;
 }
 
-ul li:where(:nth-child(8)) .paragraph, ul li:where(:nth-child(10)) .paragraph{
+ul li:where(:nth-child(8)) .paragraph, ul li:where(:nth-child(10)) .paragraph, ul li:where(:nth-child(14)) .paragraph{
     font-size: 1rem;
     padding: 1rem 0 0.5rem 0;
 }
 
-ul li:where(:nth-child(8)) .url, ul li:where(:nth-child(10)) .url{
+ul li:where(:nth-child(8)) .url, ul li:where(:nth-child(10)) .url, ul li:where(:nth-child(14)) .url{
     text-decoration: none;
     color: azure;
     font-size: 1rem;
 }
 
-ul li:where(:nth-child(8)) .url:hover, ul li:where(:nth-child(10)) .url:hover{
+ul li:where(:nth-child(8)) .url:hover, ul li:where(:nth-child(10)) .url:hover, ul li:where(:nth-child(14)) .url:hover{
     color: royalblue;
 }
 
-ul li:where(:nth-child(8)) .url2, ul li:where(:nth-child(10)) .url2{
+ul li:where(:nth-child(8)) .url2, ul li:where(:nth-child(10)) .url2, ul li:where(:nth-child(14)) .url2{
     text-decoration: none;
     color: azure;
     font-size: 1rem;
 }
 
-ul li:where(:nth-child(8)) .url2:hover, ul li:where(:nth-child(10)) .url2:hover{
+ul li:where(:nth-child(8)) .url2:hover, ul li:where(:nth-child(10)) .url2:hover, ul li:where(:nth-child(14)) .url2:hover{
     color: royalblue;
 }
 
-ul li:where(:nth-child(8)) .ul, ul li:where(:nth-child(10)) .ul{
+ul li:where(:nth-child(8)) .ul, ul li:where(:nth-child(10)) .ul, ul li:where(:nth-child(14)) .ul{
     list-style: square;
 }
 
-ul li:where(:nth-child(8)) .ul2, ul li:where(:nth-child(10)) .ul2{
+ul li:where(:nth-child(8)) .ul2, ul li:where(:nth-child(10)) .ul2, ul li:where(:nth-child(14)) .ul2{
     list-style: square;
     font-size: 1rem;
 }
 
-ul li:where(:nth-child(8)) .li, ul li:where(:nth-child(10)) .li{
+ul li:where(:nth-child(8)) .li, ul li:where(:nth-child(10)) .li, ul li:where(:nth-child(14)) .li{
     font-size: 1rem;
     margin-left: -1.5rem;
 }
 
-ul li:where(:nth-child(8)) .divUl, ul li:where(:nth-child(10)) .divUl{
+ul li:where(:nth-child(8)) .divUl, ul li:where(:nth-child(10)) .divUl, ul li:where(:nth-child(14)) .divUl{
     padding: 1rem 0 0.5rem 0;
 }
 
-ul li:where(:nth-child(8)) .text, ul li:where(:nth-child(10)) .text{
+ul li:where(:nth-child(8)) .text, ul li:where(:nth-child(10)) .text, ul li:where(:nth-child(14)) .text{
     font-size: 1rem;
 }
 
-ul li:where(:nth-child(8)) .img, ul li:where(:nth-child(10)) .img{
+ul li:where(:nth-child(8)) .img, ul li:where(:nth-child(10)) .img, ul li:where(:nth-child(14)) .img{
     width: 70%;
     margin: auto;
     display: block;
 }
 
-ul li:where(:nth-child(8)) .img2, ul li:where(:nth-child(10)) .img2{
+ul li:where(:nth-child(8)) .img2, ul li:where(:nth-child(10)) .img2, ul li:where(:nth-child(14)) .img2{
     width: 70%;
     margin: 0;
     display: block;
 }
 
-ul li:where(:nth-child(8)) .img3, ul li:where(:nth-child(10)) .img3{
+ul li:where(:nth-child(8)) .img3, ul li:where(:nth-child(10)) .img3, ul li:where(:nth-child(14)) .img3{
     transform: translateX(21.5%);
 }
 
-ul li:where(:nth-child(8)) .imgLeft, ul li:where(:nth-child(10)) .imgLeft{
+ul li:where(:nth-child(8)) .imgLeft, ul li:where(:nth-child(10)) .imgLeft, ul li:where(:nth-child(14)) .imgLeft{
     width: 70%;
     margin: 0;
     /* display: block; */
 }
 
-ul li:where(:nth-child(8)) .strong, ul li:where(:nth-child(10)) .strong{
+ul li:where(:nth-child(8)) .strong, ul li:where(:nth-child(10)) .strong, ul li:where(:nth-child(14)) .strong{
     font-size: 1rem;
     color: gold;
 }
 
-ul li:where(:nth-child(8)) .u, ul li:where(:nth-child(10)) .u{
+ul li:where(:nth-child(8)) .u, ul li:where(:nth-child(10)) .u, ul li:where(:nth-child(14)) .u{
     font-size: 1rem;
+}
+
+ul li:where(:nth-child(9)) .ratingDiv{
+    font-size: 1.2rem;
+    text-align: justify;
+    margin: 1rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+ul li:where(:nth-child(9)) .ratingImg{
+    grid-column: span 1;
+    width: 4rem;
+    height: 4rem;
+}
+
+ul li:where(:nth-child(9)) .ratingImgGreater{
+    width: 4rem;
+    height: 8rem;
+}
+
+ul li:where(:nth-child(9)) .ratingDescriptor{
+    grid-column: span 5;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+ul li:where(:nth-child(9)) .ratingCountry{
+    grid-column: span 6;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+ul li:where(:nth-child(9)) .interactiveElement{
+    opacity: 0.65;
+    font-size: 1rem;
+    text-align: justify;
 }
 
 ul li:where(:nth-child(10)) .about{
@@ -706,6 +816,53 @@ ul li:where(:nth-child(10)) .detail{
     padding: 0.5rem 0 0 0;
 }
 
+ul li:where(:nth-child(11)) .highlightedTitle{
+    font-size: 1.2rem;
+    text-align: left;
+    margin: 0 2rem;
+    padding: 0.5rem 0 0.5rem 0;
+}
+
+ul li:where(:nth-child(11)) .highlightedDiv{
+    padding: 0.5rem 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+ul li:where(:nth-child(11)) .highlightedSpan{
+    margin: 0 0rem;
+}
+
+ul li:where(:nth-child(11)) .highlightedImg{
+    width: 6rem;
+    height: 6rem;
+}
+
+ul li:where(:nth-child(11)) .viewMore{
+    width: 6rem;
+    height: 6rem;
+    background-color: firebrick;
+    opacity: 0.7;
+    margin-left: 1rem;
+    font-size: 1rem;
+    align-content: center;
+}
+
+ul li:where(:nth-child(11)) .viewMore:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+ul li:where(:nth-child(11)) .viewMoreA{
+    color: azure;
+    text-decoration: none;
+    padding: 2.5rem 0rem;
+}
+
+ul li:where(:nth-child(11)) .viewMoreA:hover{
+    color: gold
+}
+
 ul li:where(:nth-child(12)) .matureContent{
     padding: 1.5rem 0;
     padding-bottom: 0.2rem;
@@ -721,6 +878,68 @@ ul li:where(:nth-child(12)) .detail{
     text-align: justify;
     margin: 0 2rem;
     padding: 1rem 0 0 0;
+}
+
+ul li:where(:nth-child(13)) .name{
+    font-size: 1rem;
+    text-align: justify;
+    margin: 0 2rem;
+    padding-top: 1rem;
+}
+
+ul li:where(:nth-child(13)) .summary{
+    font-size: 1rem;
+    text-align: justify;
+    margin: 0 2rem;
+    padding: 0.5rem 0 0.25rem 0;
+}
+
+ul li:where(:nth-child(13)) .summaryLink{
+    color: azure;
+    text-decoration: none;
+}
+
+ul li:where(:nth-child(13)) .summaryLink:hover{
+    color: royalblue;
+}
+
+ul li:where(:nth-child(13)) .releaseDate{
+    font-size: 1rem;
+    text-align: justify;
+    margin: 0 2rem;
+    padding: 0.5rem 0 1rem 0;
+}
+
+ul li:where(:nth-child(13)) .website{
+    font-size: 1rem;
+    text-align: justify;
+    margin: 0 2rem 0.3rem 2rem;
+    padding: 0.5rem;
+    outline: none;
+    border: none;
+    background: tomato;
+}
+
+ul li:where(:nth-child(13)) .website:last-of-type{
+    margin-bottom: 1rem;
+}
+
+ul li:where(:nth-child(13)) .website:hover{
+    background: linear-gradient(to right, coral 50%, rgba(255, 127, 80, 0.5));
+    cursor: pointer;
+}
+
+ul li:where(:nth-child(13)) .websiteLink{
+    color: azure;
+    text-decoration: none;
+}
+
+ul li:where(:nth-child(13)) .websiteLink:hover{
+    color: royalblue;
+}
+
+ul li:where(:nth-child(13)) .externalLinkIcon{
+    transform: translateY(18%);
 }
 
 ul li:where(:nth-child(14)) .systemRequire{
@@ -810,6 +1029,89 @@ ul li:where(:nth-child(14)) .legalNotice{
     margin: 1rem 2rem;
     padding: 0 2rem;
     opacity: 0.65;
+}
+
+ul li:where(:nth-child(15)) .shareEmbedDiv{
+    text-align: justify;
+    margin: 1rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(20, minmax(0, 1fr));
+}
+
+ul li:where(:nth-child(15)) .shareEmbedSpan:nth-child(1){
+    grid-column: span 7;
+    margin-right: 0.5rem;
+}
+
+ul li:where(:nth-child(15)) .shareEmbedSpan:nth-child(2){
+    grid-column: span 8;
+    margin-right: 0.5rem;
+}
+
+ul li:where(:nth-child(15)) .shareEmbedSpan:nth-child(3){
+    grid-column: span 5;
+    margin-right: 0.5rem;
+}
+
+ul li:where(:nth-child(15)) .shareEmbed{
+    font-family: inherit;
+    font-size: 1.8rem;
+    color: crimson;
+    background-color: azure;
+    outline: none;
+    border: none;
+    padding: 0.5rem 2rem;
+}
+
+ul li:where(:nth-child(15)) .shareEmbed:hover{
+    cursor: pointer;
+    background: linear-gradient(to right, coral 50%, rgba(255, 127, 80, 0.5));
+    color: azure;
+}
+
+ul li:where(:nth-child(17)) .metacriticDiv{
+    font-size: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    text-align: justify;
+    margin: 0 2rem;
+    padding: 0.5rem 0;
+}
+
+ul li:where(:nth-child(17)) .metacriticSpan:nth-child(1){
+    grid-column: span 3;
+    text-align: center;
+    align-content: center;
+    margin-right: 1rem;
+}
+
+ul li:where(:nth-child(17)) .metacriticSpan:nth-child(2){
+    grid-column: span 7;
+}
+
+/* ul li:where(:nth-child(17)) .metacriticSpan:nth-child(3){
+    grid-column: span 8;
+} */
+
+ul li:where(:nth-child(17)) .metacriticScore{
+    background-color: azure;
+    color: crimson;
+    padding: 0.5rem 0;
+    font-size: 2rem;
+}
+
+ul li:where(:nth-child(17)) .metacriticLink{
+    text-decoration: none;
+    color: azure;
+    font-size: 1rem;
+}
+
+ul li:where(:nth-child(17)) .metacriticLink:hover{
+    color: royalblue;
+}
+
+ul li:where(:nth-child(17)) .externalLinkIcon, ul li:where(:nth-child(17)) .metacriticIcon{
+    transform: translateY(18%);
 }
 
 .inputBox{

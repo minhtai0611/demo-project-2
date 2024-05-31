@@ -31,6 +31,9 @@ import { LiaSteamSymbol } from "react-icons/lia";
 import { FaCircleArrowDown } from "react-icons/fa6";
 import { FaRegClosedCaptioning } from "react-icons/fa6";
 import { VscListUnordered } from "react-icons/vsc";
+import { HiExternalLink } from "react-icons/hi";
+import { FaFlag } from "react-icons/fa6";
+import { SiMetacritic } from "react-icons/si";
 import { useQuery } from "@tanstack/react-query";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -227,6 +230,32 @@ export default function Main() {
         event.target.outerText === "Windows" && setSystemRequire(() => event.target.outerText);
         event.target.outerText === "macOS" && setSystemRequire(() => event.target.outerText);
         event.target.outerText === "SteamOS + Linux" && setSystemRequire(() => event.target.outerText);
+    }
+
+    let rating, currencyGlobalResult;
+    const ratings = isSuccess && Object.getOwnPropertyNames(data.ratings);
+    const shortCurrency = isSuccess && data.price_overview?.currency?.replace(/.$/g, "")?.trim();
+    isSuccess && data.package_groups && data.package_groups.map((package_group) => {
+        package_group.subs && package_group.subs.map((sub) => {
+            if (!sub.is_free_license) {
+                const currencyGlobalMatch = sub.option_text.match(/ (?:[\d.,\s]+)?(£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF|NZ\$)(?:[\d.,\s]+)?/);
+                currencyGlobalResult = currencyGlobalMatch ? currencyGlobalMatch[1].trim() : "";
+            }
+        })
+    })
+    if (isSuccess) {
+        if (shortCurrency === "AU" || currencyGlobalResult === "A$") {
+            rating = ratings[ratings.findIndex((rating) => rating === "oflc")];
+        }
+        if (shortCurrency === "NZ" || currencyGlobalResult === "NZ$") {
+            rating = ratings[ratings.findIndex((rating) => rating === "nzoflc")];
+        }
+        if ((shortCurrency === "US" || currencyGlobalResult === "$") || (shortCurrency === "CA" || currencyGlobalResult === "CDN$")) {
+            rating = ratings[ratings.findIndex((rating) => rating === "esrb")];
+        }
+        if ((shortCurrency === "UK" || currencyGlobalResult === "£") || (shortCurrency === "CH" || currencyGlobalResult === "CHF") || (shortCurrency === "EU" || currencyGlobalResult === "€")) {
+            rating = ratings[ratings.findIndex((rating) => rating === "pegi")];
+        }
     }
 
     return (
@@ -443,11 +472,83 @@ export default function Main() {
                                 </div>
                             </li>
                             <li>
+                                {(data.demos && data.name) && (
+                                    <div className={styled.demo}>
+                                        <p>
+                                            Download{" "}{data.name}{" "}Demo
+                                        </p>
+                                        {data.platforms.windows && data.platforms.linux && data.platforms.mac && (
+                                            <>
+                                                <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                                    <SiWindows />
+                                                </IconContext.Provider>
+                                                <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                                    <FaLinux />
+                                                </IconContext.Provider>
+                                                <IconContext.Provider value={{ className: styled.threeIconPlatform }}>
+                                                    <RiAppleFill />
+                                                </IconContext.Provider>
+                                            </>
+                                        )}
+                                        {data.platforms.windows && data.platforms.linux && !data.platforms.mac && (
+                                            <>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <SiWindows />
+                                                </IconContext.Provider>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <FaLinux />
+                                                </IconContext.Provider>
+                                            </>
+                                        )}
+                                        {data.platforms.windows && !data.platforms.linux && data.platforms.mac && (
+                                            <>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <SiWindows />
+                                                </IconContext.Provider>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <RiAppleFill />
+                                                </IconContext.Provider>
+                                            </>
+                                        )}
+                                        {!data.platforms.windows && data.platforms.linux && data.platforms.mac && (
+                                            <>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <FaLinux />
+                                                </IconContext.Provider>
+                                                <IconContext.Provider value={{ className: styled.twoIconPlatform }}>
+                                                    <RiAppleFill />
+                                                </IconContext.Provider>
+                                            </>
+                                        )}
+                                        {data.platforms.windows && !data.platforms.linux && !data.platforms.mac && (
+                                            <IconContext.Provider value={{ className: styled.iconPlatform }}>
+                                                <SiWindows />
+                                            </IconContext.Provider>
+                                        )}
+                                        {!data.platforms.windows && data.platforms.linux && !data.platforms.mac && (
+                                            <IconContext.Provider value={{ className: styled.iconPlatform }}>
+                                                <FaLinux />
+                                            </IconContext.Provider>
+                                        )}
+                                        {!data.platforms.windows && !data.platforms.linux && data.platforms.mac && (
+                                            <IconContext.Provider value={{ className: styled.iconPlatform }}>
+                                                <RiAppleFill />
+                                            </IconContext.Provider>
+                                        )}
+                                        <div className={styled.demoBox}>
+                                            <span>
+                                                <button type="button" className={styled.download + " " + styled["manrope-bold"]}>
+                                                    Download
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                )}
                                 {data.package_groups && data.package_groups.map((package_group) => {
                                     return package_group.subs && package_group.subs.map((sub) => {
                                         // const optionTextMatch = sub.option_text.match(/(.+?) - <span class="discount_original_price">/) || sub.option_text.match(/^(.*?) - \$\d+\.\d+$/) || sub.option_text.match(/^(.+?) - /) || sub.option_text.match(/.*/);
                                         // const optionTextMatch = sub.option_text.match(/^(.*) - (?:€|CDN\$|A\$|\$|R\$|S\$)?(?:\s+)?[\d.,]+(?:\s+)?(?:€|CDN\$|A\$|\$|R\$|S\$)?$/);
-                                        const optionTextMatch = sub.option_text.match(/^(.*) - (?:<span.*?>.*?<\/span>\s*)?(?:<span class="discount_original_price">)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF|Free|Kostenlos|免费|Gratuit)?(?:\s+)?(?:[\d.,-]+)?(?:\s+)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF|Free|Kostenlos|免费|Gratuit)?(?:<\/span>)?$/) || sub.option_text;
+                                        const optionTextMatch = sub.option_text.match(/^(.*) - (?:<span.*?>.*?<\/span>\s*)?(?:<span class="discount_original_price">)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF|NZ\$|Free|Kostenlos|免费|Gratuit)?(?:\s+)?(?:[\d.,-]+)?(?:\s+)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF|NZ\$|Free|Kostenlos|免费|Gratuit)?(?:<\/span>)?$/) || sub.option_text;
                                         let optionTextResult = "";
                                         optionTextResult = optionTextMatch ? optionTextMatch[1].trim().replace(/&reg;/g, "®") : "";
                                         if (optionTextMatch === sub.option_text) {
@@ -456,12 +557,12 @@ export default function Main() {
                                         const percentSavingsMatch = sub.percent_savings_text.match(/-?(\d+)/);
                                         const percentSavingsResult = percentSavingsMatch ? percentSavingsMatch[1].trim() : "";
                                         // const originPriceMatch = sub.option_text.match(/(?:<span class="discount_original_price">)?\$([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/(\d{1,3}(?:,\d{3})*,\d{2})/) || sub.option_text.match(/(?:<span class="discount_original_price">)?[A-Z]{1}\$ ([\d.]+)(?:<\/span>)?/) || sub.option_text.match(/[A-Z]{1}\$ ([\d.]+)/);
-                                        const originPriceMatch = sub.option_text.match(/(?: - \d+ Crown Pack)? - (?:<span class="discount_original_price">)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF)?(?:\s+)?([\d.,-]+)(?:\s+)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF)?(?:<\/span>)?/);
+                                        const originPriceMatch = sub.option_text.match(/(?: - \d+ Crown Pack)? - (?:<span class="discount_original_price">)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF|NZ\$)?(?:\s+)?([\d.,-]+)(?:\s+)?(?:£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF|NZ\$)?(?:<\/span>)?/);
                                         const originPriceResult = originPriceMatch ? originPriceMatch[1].trim() : "";
                                         // const currencyMatch = sub.option_text.match(/(?:€|CDN\$|A\$|R\$|\$)/);
                                         // const currencyMatch = sub.option_text.match(/ - (?:\d+,\d{2})?(€|CDN\$|A\$|\$|R\$)/)
                                         // const currencyMatch = sub.option_text.match(/ - (?: [\d.,]+)?(?:\d+,\d{2})?(€|CDN\$|A\$|\$|R\$|S\$)(?: [\d.,]+)?(?: \s+)?/);
-                                        const currencyMatch = sub.option_text.match(/ (?:[\d.,\s]+)?(£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF)(?:[\d.,\s]+)?/)
+                                        const currencyMatch = sub.option_text.match(/ (?:[\d.,\s]+)?(£|€|CDN\$|A\$|\$|R\$|S\$|Mex\$|pуб\.|HK\$|CHF|NZ\$)(?:[\d.,\s]+)?/);
                                         const currencyResult = currencyMatch ? currencyMatch[1].trim() : ""
                                         const isFreeLicense = sub.is_free_license;
                                         // const subscriptionMatch = sub.option_text.match(/subscription/);
@@ -654,8 +755,8 @@ export default function Main() {
                                                         </span>
                                                         {originPriceResult && currencyResult && (
                                                             <span className={styled.price}>
-                                                                <s className={styled.originPrice}>{currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" || currencyResult === "Mex$" || currencyResult === "HK$" || currencyResult === "CHF" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? originPriceResult.toString().replace(".", ",") : originPriceResult.toString()}{currencyResult === "€" ? currencyResult : ""}{currencyResult === "pуб." ? " " + currencyResult : ""}</s>
-                                                                {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" || currencyResult === "Mex$" || currencyResult === "HK$" || currencyResult === "CHF" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? (Math.floor(originPriceResult.replace(",", ".") * (1 - percentSavingsResult / 100) * 100) / 100).toString().replace(".", ",") : (Math.floor(originPriceResult.replace(",", ".") * (1 - percentSavingsResult / 100) * 100) / 100).toString()}{currencyResult === "€" ? currencyResult : ""}{currencyResult === "pуб." ? " " + currencyResult : ""}
+                                                                <s className={styled.originPrice}>{currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" || currencyResult === "Mex$" || currencyResult === "HK$" || currencyResult === "CHF" || currencyResult === "NZ$" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? originPriceResult.toString().replace(".", ",") : originPriceResult.toString()}{currencyResult === "€" ? currencyResult : ""}{currencyResult === "pуб." ? " " + currencyResult : ""}</s>
+                                                                {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" || currencyResult === "Mex$" || currencyResult === "HK$" || currencyResult === "CHF" || currencyResult === "NZ$" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? (Math.floor(originPriceResult.replace(",", ".") * (1 - percentSavingsResult / 100) * 100) / 100).toString().replace(".", ",") : (Math.floor(originPriceResult.replace(",", ".") * (1 - percentSavingsResult / 100) * 100) / 100).toString()}{currencyResult === "€" ? currencyResult : ""}{currencyResult === "pуб." ? " " + currencyResult : ""}
                                                             </span>
                                                         )}
                                                         <span>
@@ -669,7 +770,7 @@ export default function Main() {
                                                     <div className={styled.noSavingsPurchaseBox}>
                                                         {originPriceResult && currencyResult && (
                                                             <span className={styled.price}>
-                                                                {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" || currencyResult === "Mex$" || currencyResult === "HK$" || currencyResult === "CHF" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? originPriceResult.toString().replace(".", ",") : originPriceResult.toString()}{currencyResult === "€" ? currencyResult : ""}{currencyResult === "pуб." ? " " + currencyResult : ""}
+                                                                {currencyResult === "CDN$" || currencyResult === "A$" || currencyResult === "R$" || currencyResult === "Mex$" || currencyResult === "HK$" || currencyResult === "CHF" || currencyResult === "NZ$" ? currencyResult + " " : ""}{currencyResult === "$" || currencyResult === "S$" || currencyResult === "£" ? currencyResult : ""}{currencyResult === "€" || currencyResult === "R$" ? originPriceResult.toString().replace(".", ",") : originPriceResult.toString()}{currencyResult === "€" ? currencyResult : ""}{currencyResult === "pуб." ? " " + currencyResult : ""}
                                                             </span>
                                                         )}
                                                         <span>
@@ -882,10 +983,10 @@ export default function Main() {
                                             <span className={styled.languageContent}>
                                                 {data.supported_languages.match(/[^,]+/g).map((supported_language) => {
                                                     return (
-                                                        <>
+                                                        <span key={Math.floor(Math.random() * 10000000).toString()}>
                                                             <br />
                                                             {supported_language.replace(/<br>.*/g, "").replace(/<\/?strong>/g, "").replace(/\*/g, "").trim()}
-                                                        </>
+                                                        </span>
                                                     )
                                                 })}
                                             </span>
@@ -894,10 +995,10 @@ export default function Main() {
                                                 <br />
                                                 {data.supported_languages.match(/[^,]+/g).map((supported_language) => {
                                                     return (
-                                                        <>
+                                                        <div key={Math.floor(Math.random() * 10000000).toString()}>
                                                             {supported_language && "✔"}
                                                             <br />
-                                                        </>
+                                                        </div>
                                                     )
                                                 })}
                                             </span>
@@ -906,10 +1007,10 @@ export default function Main() {
                                                 <br />
                                                 {data.supported_languages.match(/[^,]+/g).map((supported_language) => {
                                                     return (
-                                                        <>
+                                                        <div key={Math.floor(Math.random() * 10000000).toString()}>
                                                             {supported_language.replace(/<br>.*/g, "").replace(/<\/?strong>/g, "").includes("*") && "✔"}
                                                             <br />
-                                                        </>
+                                                        </div>
                                                     )
                                                 })}
                                             </span>
@@ -927,7 +1028,65 @@ export default function Main() {
                                     </div>
                                 )}
                             </li>
-                            <li>RATINGS</li>
+                            <li>
+                                {(rating && data.ratings && data.ratings[rating] && data.ratings[rating].rating && (shortCurrency || currencyGlobalResult)) && (
+                                    <div className={styled.ratingDiv}>
+                                        <img src={`https://store.cloudflare.steamstatic.com/public/shared/images/game_ratings/${rating?.toUpperCase()}/${data.ratings[rating]?.rating}.png?v=2`} alt="rating image"
+                                            className={styled.ratingImg + " " +
+                                                (data.ratings[rating]?.descriptors?.match(/[^\r\n]+/g) && data.ratings[rating]?.interactive_elements?.match(/[^\r\n]+/g) && (data.ratings[rating]?.descriptors?.match(/[^\r\n]+/g)?.length + data.ratings[rating]?.interactive_elements?.match(/[^\r\n]+/g)?.length >= 5) ? styled.ratingImgGreater :
+                                                    (data.ratings[rating]?.descriptors?.match(/[^\r\n]+/g) && !data.ratings[rating]?.interactive_elements?.match(/[^\r\n]+/g) && data.ratings[rating]?.descriptors?.match(/[^\r\n]+/g)?.length >= 5 ? styled.ratingImgGreater :
+                                                        (!data.ratings[rating]?.descriptors?.match(/[^\r\n]+/g) && data.ratings[rating]?.interactive_elements?.match(/[^\r\n]+/g) && data.ratings[rating]?.interactive_elements?.match(/[^\r\n]+/g)?.length >= 5 ? styled.ratingImgGreater : "")
+                                                    ))} />
+                                        <span className={styled.ratingDescriptor}>
+                                            {data.ratings[rating]?.descriptors && !data.ratings[rating]?.interactive_elements && data.ratings[rating]?.descriptors.match(/[^\r\n]+/g).map((descriptor, index) => {
+                                                return (
+                                                    <span key={Math.floor(Math.random() * 10000000).toString()}>
+                                                        {descriptor}
+                                                        {index !== data.ratings[rating]?.descriptors.match(/[^\r\n]+/g).length - 1 && <br />}
+                                                    </span>
+                                                )
+                                            })}
+                                            {!data.ratings[rating]?.descriptors && data.ratings[rating]?.interactive_elements && data.ratings[rating]?.interactive_elements.match(/[^\r\n]+/g).map((interactive_element, index) => {
+                                                return (
+                                                    <>
+                                                        <div className={styled.interactiveElement}>Interactive Elements</div>
+                                                        <span key={Math.floor(Math.random() * 10000000).toString()}>
+                                                            {interactive_element}
+                                                            {index !== data.ratings[rating]?.interactive_elements.match(/[^\r\n]+/g).length - 1 && <br />}
+                                                        </span>
+                                                    </>
+                                                )
+                                            })}
+                                            {data.ratings[rating]?.descriptors && data.ratings[rating]?.interactive_elements && (
+                                                <>
+                                                    {data.ratings[rating]?.descriptors?.match(/[^\r\n]+/g)?.map((descriptor, index) => {
+                                                        return (
+                                                            <span key={Math.floor(Math.random() * 10000000).toString()} className={styled.ratingDescriptor}>
+                                                                {descriptor}
+                                                                {index !== data.ratings[rating]?.descriptors?.match(/[^\r\n]+/g)?.length - 1 && <br />}
+                                                            </span>
+                                                        )
+                                                    })}
+                                                    <br />
+                                                    <br />
+                                                    <div className={styled.interactiveElement}>Interactive Elements</div>
+                                                    {data.ratings[rating]?.interactive_elements?.match(/[^\r\n]+/g)?.map((interactive_element, index) => {
+                                                        return (
+                                                            <span key={Math.floor(Math.random() * 10000000).toString()}>
+                                                                {interactive_element}
+                                                                {index !== data.ratings[rating]?.interactive_elements?.match(/[^\r\n]+/g)?.length - 1 && <br />}
+                                                            </span>
+                                                        )
+                                                    })}
+                                                </>
+                                            )}
+                                        </span>
+                                        <span className={styled.ratingCountry}>
+                                            Rating for: {rating?.toUpperCase() + " " + (shortCurrency ? shortCurrency : "")}
+                                        </span>
+                                    </div>
+                                )}
+                            </li>
                             <li>
                                 {data.about_the_game && <div className={styled.about}>About the game</div>}
                                 {data.about_the_game && (
@@ -936,7 +1095,29 @@ export default function Main() {
                                     </div>
                                 )}
                             </li>
-                            <li>ACHIEVEMENTS</li>
+                            <li>
+                                {data.achievements && data.achievements?.total && (
+                                    <div className={styled.highlightedTitle}>
+                                        Includes {data.achievements?.total} Steam Achievements
+                                    </div>
+                                )}
+                                {data.achievements && <div className={styled.highlightedDiv}>
+                                    {data.achievements.highlighted.length > 0 && data.achievements.highlighted.slice(0, 3).map((highlighted) => {
+                                        return (
+                                            <span key={Math.floor(Math.random() * 10000000).toString()} className={styled.highlightedSpan}>
+                                                <img src={highlighted.path} title={highlighted.name} alt="highlighted image" className={styled.highlightedImg} />
+                                            </span>
+                                        )
+                                    })}
+                                    {data.achievements?.total && data.steam_appid && (
+                                        <span className={styled.viewMore}>
+                                            <a href={`https://steamcommunity.com/stats/${data.steam_appid}/achievements`} className={styled.viewMoreA}>
+                                                View all {data.achievements?.total}
+                                            </a>
+                                        </span>
+                                    )}
+                                </div>}
+                            </li>
                             <li>
                                 {data.content_descriptors.notes && <div className={styled.matureContent}>Mature content description</div>}
                                 {data.content_descriptors.notes && (
@@ -949,7 +1130,62 @@ export default function Main() {
                                     </div>
                                 )}
                             </li>
-                            <li>ITEMS</li>
+                            <li>
+                                {data.name && <div className={styled.name}>TITLE: {data.name}</div>}
+                                {data.genres && (
+                                    <div className={styled.summary}>
+                                        GENRE: {data.genres?.map((genre, index) => {
+                                            return (
+                                                <span key={genre.id}>
+                                                    <a href="#" className={styled.summaryLink}>{genre.description}</a>
+                                                    {index < data.genres?.length - 1 && ", "}
+                                                </span>
+                                            )
+                                        })}
+                                    </div>
+                                )}
+                                {data.developers && <div className={styled.summary}>DEVELOPER:{" "}<a href="#" className={styled.summaryLink}>{data.developers.join(", ")}</a></div>}
+                                {data.publishers && <div className={styled.summary}>PUBLISHER:{" "}<a href="#" className={styled.summaryLink}>{data.publishers.join(", ")}</a></div>}
+                                {data.release_date && data.release_date?.date && <div className={styled.releaseDate}>RELEASE DATE:{" "}{data.release_date?.date}</div>}
+                                {data.website && (
+                                    <div className={styled.website}>
+                                        <a href={data.website} className={styled.websiteLink}>
+                                            Visit the website{" "}
+                                            <IconContext.Provider value={{ className: styled.externalLinkIcon }}>
+                                                <HiExternalLink />
+                                            </IconContext.Provider>
+                                        </a>
+                                    </div>
+                                )}
+                                {data.steam_appid && (
+                                    <div className={styled.website}>
+                                        <a href={`https://store.steampowered.com/newshub/?appids=${data.steam_appid}&snr=1_5_9__408`} className={styled.websiteLink}>
+                                            View update history
+                                        </a>
+                                    </div>
+                                )}
+                                {data.steam_appid && (
+                                    <div className={styled.website}>
+                                        <a href={`https://store.steampowered.com/newshub/app/${data.steam_appid}?snr=1_5_9__408`} className={styled.websiteLink}>
+                                            Read related news
+                                        </a>
+                                    </div>
+                                )}
+                                {data.steam_appid && (
+                                    <div className={styled.website}>
+                                        <a href={`https://steamcommunity.com/app/${data.steam_appid}/discussions/`} className={styled.websiteLink}>
+                                            View discussions
+                                        </a>
+                                    </div>
+                                )}
+                                {data.name && (
+                                    <div className={styled.website}>
+                                        <a href={`https://steamcommunity.com/actions/Search?T=ClanAccount&K=${data.name.replace(/\s/g, "%20").replace(/:/g, "%3A").replace(/'/g, "%27").replace(/®/g, "")}`} className={styled.websiteLink}>
+                                            Find Community Groups
+                                        </a>
+                                    </div>
+                                )}
+                            </li>
                             <li>
                                 {(data.pc_requirements || data.linux_requirements || data.mac_requirements) && <div className={styled.systemRequire}>System requirements</div>}
                                 <menu className={styled.menu}>
@@ -978,7 +1214,7 @@ export default function Main() {
                                             {data.pc_requirements?.minimum?.includes("<li>") && data.pc_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
                                                 const infoRow = data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <>
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()}>
                                                         {index === 0 && data.pc_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
                                                         {(index === 0 && !data.pc_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
                                                             <>
@@ -998,7 +1234,7 @@ export default function Main() {
                                                                 {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
                                                             </span>
                                                         </div>
-                                                    </>
+                                                    </div>
                                                 )
                                             })}
                                         </span>}
@@ -1038,7 +1274,7 @@ export default function Main() {
                                             {data.mac_requirements?.minimum?.includes("<li>") && data.mac_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
                                                 const infoRow = data.mac_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <>
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()}>
                                                         {index === 0 && data.mac_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
                                                         {(index === 0 && !data.mac_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
                                                             <>
@@ -1058,7 +1294,7 @@ export default function Main() {
                                                                 {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
                                                             </span>
                                                         </div>
-                                                    </>
+                                                    </div>
                                                 )
                                             })}
                                         </span>
@@ -1066,7 +1302,7 @@ export default function Main() {
                                             {data.mac_requirements?.recommended?.includes("<li>") && data.mac_requirements?.recommended?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
                                                 const infoRow = data.mac_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <>
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()}>
                                                         {index === 0 && data.mac_requirements?.recommended?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
                                                         {(index === 0 && !data.mac_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
                                                             <>
@@ -1086,7 +1322,7 @@ export default function Main() {
                                                                 {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
                                                             </span>
                                                         </div>
-                                                    </>
+                                                    </div>
                                                 )
                                             })}
                                         </span>
@@ -1098,7 +1334,7 @@ export default function Main() {
                                             {data.linux_requirements?.minimum?.includes("<li>") && data.linux_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
                                                 const infoRow = data.linux_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <>
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()}>
                                                         {index === 0 && data.linux_requirements?.minimum?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
                                                         {(index === 0 && !data.linux_requirements?.minimum?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
                                                             <>
@@ -1118,7 +1354,7 @@ export default function Main() {
                                                                 {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
                                                             </span>
                                                         </div>
-                                                    </>
+                                                    </div>
                                                 )
                                             })}
                                         </span>
@@ -1126,7 +1362,7 @@ export default function Main() {
                                             {data.linux_requirements?.recommended?.includes("<li>") && data.linux_requirements?.recommended?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)?.slice(1)?.map((configurationRequire, index) => {
                                                 const infoRow = data.linux_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g).filter((info) => info.includes("<strong>"))[index]?.replace(/<strong>(.*?)<\/strong>/g, "")?.replace(/<br>/g, "");
                                                 return (
-                                                    <>
+                                                    <div key={Math.floor(Math.random() * 10000000).toString()}>
                                                         {index === 0 && data.linux_requirements?.recommended?.match(/(?<=<strong>)(.*?)(?=<\/strong>)/g)[index]?.toUpperCase()?.trim()}
                                                         {(index === 0 && !data.linux_requirements?.recommended?.match(/(?<=<li>)(.*?)(?=<\/li>)/g)[index].includes("<strong>")) && (
                                                             <>
@@ -1146,21 +1382,65 @@ export default function Main() {
                                                                 {infoRow?.match(/(?<=<\/a>)(.*)/g) ? infoRow?.match(/(?<=<\/a>)(.*)/g)[0] : ""}
                                                             </span>
                                                         </div>
-                                                    </>
+                                                    </div>
                                                 )
                                             })}
                                         </span>
                                     </div>
                                 )}
-                                {data.legal_notice && <div className={styled.legalNotice}>{data.legal_notice.replace(/<br \/>/g, "").replace(/<br>/g, "")}</div>}
+                                {data.legal_notice && <div className={styled.legalNotice}>{parse(DomPurify.sanitize(data.legal_notice), options)}</div>}
                             </li>
-                            <li>SUMMARY</li>
+                            <li>
+                                <div className={styled.shareEmbedDiv}>
+                                    <span className={styled.shareEmbedSpan}>
+                                        <button type="button" className={styled.shareEmbed}>
+                                            Share
+                                        </button>
+                                    </span>
+                                    <span className={styled.shareEmbedSpan}>
+                                        <button type="button" className={styled.shareEmbed}>
+                                            Embed
+                                        </button>
+                                    </span>
+                                    <span className={styled.shareEmbedSpan}>
+                                        <button type="button" className={styled.shareEmbed}>
+                                            <IconContext.Provider value={{ className: styled.flagIcon }}>
+                                                <FaFlag />
+                                            </IconContext.Provider>
+                                        </button>
+                                    </span>
+                                </div>
+                            </li>
                             <li></li>
-                            <li>SHARE EMBED</li>
-                            <li></li>
-                            <li>METACRITIC</li>
-                            <li></li>
-                            <li>AWARD</li>
+                            <li>
+                                {data.metacritic && data.metacritic?.score && data.metacritic?.url && (
+                                    <div className={styled.metacriticDiv}>
+                                        <div className={styled.metacriticSpan}>
+                                            <div className={styled.metacriticScore}>
+                                                {data.metacritic?.score}
+                                            </div>
+                                        </div>
+                                        <span className={styled.metacriticSpan}>
+                                            <IconContext.Provider value={{ className: styled.metacriticIcon }}>
+                                                <SiMetacritic />
+                                            </IconContext.Provider>
+                                            {" "}
+                                            metacritic
+                                            <br />
+                                            <a href={data.metacritic?.url} className={styled.metacriticLink}>
+                                                Read Critic Reviews
+                                                {" "}
+                                                <IconContext.Provider value={{ className: styled.externalLinkIcon }}>
+                                                    <HiExternalLink />
+                                                </IconContext.Provider>
+                                            </a>
+                                        </span>
+                                        {/* <span className={styled.metacriticSpan}>
+
+                                        </span> */}
+                                    </div>
+                                )}
+                            </li>
                         </ul >
                     </main >
                     <Footer />
