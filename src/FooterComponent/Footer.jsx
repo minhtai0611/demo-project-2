@@ -25,6 +25,12 @@ export default function Footer() {
                         Subscriber Agreement
                     </Link>
                     <Link
+                        to="/legal"
+                        className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}
+                    >
+                        Legal
+                    </Link>
+                    <Link
                         to="/refund"
                         className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}
                     >
@@ -36,7 +42,7 @@ export default function Footer() {
                     >
                         Recruit
                     </Link>
-                    <Link
+                    {/* <Link
                         to="/social"
                         className={styled.footerLink + " " + styled["kantumruy-pro-footer"]}
                     >
@@ -56,7 +62,7 @@ export default function Footer() {
                         <IconContext.Provider value={{ className: styled.footerIcon }}>
                             <TfiYoutube />
                         </IconContext.Provider>
-                    </Link>
+                    </Link> */}
                 </nav>
                 <p className={styled.footerP + " " + styled["kantumruy-pro-footer"]}>
                     &#9400; {new Date().toLocaleString("default", { month: "long" })}{" "}

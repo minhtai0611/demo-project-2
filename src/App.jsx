@@ -7,21 +7,21 @@ import RiseLoader from "react-spinners/RiseLoader"
 const Main = lazy(() => import("./MainComponent/Main"));
 const Error = lazy(() => import("./ErrorComponent/Error"));
 const Root = lazy(() => import("./RootComponent/Root"));
-const Discovery = lazy(() => import("./DiscoveryComponent/Discovery"));
-const News = lazy(() => import("./NewsComponent/News"));
-const Statistic = lazy(() => import("./StatisticComponent/Statistic"));
-const Discuss = lazy(() => import("./DiscussComponent/Discuss"));
-const Market = lazy(() => import("./MarketComponent/Market"));
-const Video = lazy(() => import("./VideoComponent/Video"));
-const Information = lazy(() => import("./InformationComponent/Information"));
-const Support = lazy(() => import("./SupportComponent/Support"));
+// const Discovery = lazy(() => import("./DiscoveryComponent/Discovery"));
+// const News = lazy(() => import("./NewsComponent/News"));
+// const Statistic = lazy(() => import("./StatisticComponent/Statistic"));
+// const Discuss = lazy(() => import("./DiscussComponent/Discuss"));
+// const Market = lazy(() => import("./MarketComponent/Market"));
+// const Video = lazy(() => import("./VideoComponent/Video"));
+// const Information = lazy(() => import("./InformationComponent/Information"));
+// const Support = lazy(() => import("./SupportComponent/Support"));
 const Login = lazy(() => import("./LoginComponent/Login"));
 const Register = lazy(() => import("./RegisterComponent/Register"));
 const Policy = lazy(() => import("./PolicyComponent/Policy"));
 const Agreement = lazy(() => import("./AgreementComponent/Agreement"));
 const Refund = lazy(() => import("./RefundComponent/Refund"));
 const Recruit = lazy(() => import("./RecruitComponent/Recruit"));
-const Social = lazy(() => import("./SocialComponent/Social"));
+const Legal = lazy(() => import("./LegalComponent/Legal"));
 
 const router = createBrowserRouter([
   {
@@ -33,38 +33,38 @@ const router = createBrowserRouter([
         path: "/",
         element: <Main />,
       },
-      {
-        path: "/discovery",
-        element: <Discovery />,
-      },
-      {
-        path: "/news",
-        element: <News />,
-      },
-      {
-        path: "/statistic",
-        element: <Statistic />,
-      },
-      {
-        path: "/discuss",
-        element: <Discuss />,
-      },
-      {
-        path: "/market",
-        element: <Market />,
-      },
-      {
-        path: "/video",
-        element: <Video />,
-      },
-      {
-        path: "/information",
-        element: <Information />,
-      },
-      {
-        path: "/support",
-        element: <Support />,
-      },
+      // {
+      //   path: "/discovery",
+      //   element: <Discovery />,
+      // },
+      // {
+      //   path: "/news",
+      //   element: <News />,
+      // },
+      // {
+      //   path: "/statistic",
+      //   element: <Statistic />,
+      // },
+      // {
+      //   path: "/discuss",
+      //   element: <Discuss />,
+      // },
+      // {
+      //   path: "/market",
+      //   element: <Market />,
+      // },
+      // {
+      //   path: "/video",
+      //   element: <Video />,
+      // },
+      // {
+      //   path: "/information",
+      //   element: <Information />,
+      // },
+      // {
+      //   path: "/support",
+      //   element: <Support />,
+      // },
       {
         path: "/login",
         element: <Login />,
@@ -90,8 +90,8 @@ const router = createBrowserRouter([
         element: <Recruit />,
       },
       {
-        path: "/social",
-        element: <Social />,
+        path: "/legal",
+        element: <Legal />,
       },
     ],
   },
