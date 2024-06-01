@@ -375,8 +375,11 @@ export default function Main() {
                                                 <p className={styled.legend}>{movie.name}</p>
                                                 <video
                                                     autoPlay
-                                                    controls
-                                                    controlsList="nofullscreen nodownload noremoteplayback noplaybackrate foobar"
+                                                    loop
+                                                    muted
+                                                    playsInline
+                                                    // controls
+                                                    // controlsList="nofullscreen nodownload noremoteplayback noplaybackrate foobar"
                                                     disablePictureInPicture
                                                     disableRemotePlayback
                                                     preload="metadata"

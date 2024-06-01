@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Nokora:wght@100;300;400;700;900&display=swap');
+
+.nokora-bold {
+    font-family: "Nokora", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1rem;
+    color: azure;
+}
+
+.refund {
+    margin: 0 20% 50vh 20%;
+    background-color: crimson;
+    border-radius: 2rem;
+    padding: 2rem;
+}
+
+.refundMainP {
+    text-align: justify;
+    margin:  0.8rem 0 0 0;
+    font-size: 1.2rem;
+}
+
+.refundP {
+    text-align: justify;
+    margin:  0.8rem 0 0 0;
+}
+
+.refundTitle {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 0;
+}
+
+.refundStrong {
+    font-style: italic;
+}
+
+.refundLink {
+    text-decoration: none;
+    color: azure;
+}
+
+.refundLink:hover {
+    color: deepskyblue;
+}
+
+.refundMenu {
+    text-align: justify;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-inline-start: 0;
+}
+
+.refundList {
+    margin: 0 10%;
+}

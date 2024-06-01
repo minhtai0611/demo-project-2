@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Nokora:wght@100;300;400;700;900&display=swap');
+
+.nokora-bold {
+    font-family: "Nokora", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1.5rem;
+    color: azure;
+}
+
+.recruit {
+    margin: 5rem 0 0 0;
+    /* border-radius: 2rem; */
+    /* padding: 2rem; */
+}
+
+.recruitP {
+    text-align: justify;
+    /* margin:  0.8rem 0 0 0; */
+    margin: 3rem 12%;
+}
+
+.recruitTitle {
+    font-size: 2.5rem;
+    text-align: justify;
+    color: crimson;
+    margin: 0 12%;
+}
+
+.recruitLink {
+    text-decoration: none;
+    color: azure;
+}
+
+.recruitLink:hover {
+    color: deepskyblue;
+}
+
+.recruitVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.recruitContent {
+    position: relative;
+}
+
+.jobDiv {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    margin: 0 12%;
+    color: crimson;
+    font-size: 4rem;
+}
+
+.jobSpan {
+    color: crimson;
+    transition: 1.2s ease-in-out;
+    margin: 1rem 0
+}
+
+.jobSpan:hover {
+    color: azure;
+    cursor: pointer;
+    transition: 1.2s ease-in-out;
+}
+
+.jobDetail {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.jobSummary{
+    list-style: none;
+}
+
+.jobUnit {
+    font-size: 1.8rem;
+    margin: 1rem 0;
+    color: azure;
+    text-align: justify;
+    transition: 1.2s ease-in-out;
+}
+
+.jobUnit:hover {
+    color: crimson;
+    transition: 1.2s ease-in-out;
+}
+
+.jobSpan:last-of-type .jobUnit:hover {
+    color: inherit;
+    cursor: default;
+}
+
+.jobLink {
+    text-decoration: none;
+    color: tomato;
+    transition: 1.2s ease-in-out;
+}
+
+.jobLink:hover {
+    color: deepskyblue;
+    transition: 1.2s ease-in-out;
+}
