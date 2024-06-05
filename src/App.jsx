@@ -1,8 +1,9 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
-import RiseLoader from "react-spinners/RiseLoader"
+import RiseLoader from "react-spinners/RiseLoader";
+import { LoaderDetail } from "./LoaderActionComponent/LoaderAction";
 
 const Main = lazy(() => import("./MainComponent/Main"));
 const Error = lazy(() => import("./ErrorComponent/Error"));
@@ -22,7 +23,10 @@ const Agreement = lazy(() => import("./AgreementComponent/Agreement"));
 const Refund = lazy(() => import("./RefundComponent/Refund"));
 const Recruit = lazy(() => import("./RecruitComponent/Recruit"));
 const Legal = lazy(() => import("./LegalComponent/Legal"));
+const Detail = lazy(() => import("./DetailComponent/Detail"));
 
+
+const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,6 +36,11 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Main />,
+      },
+      {
+        path: "/app/:appid/:name",
+        element: <Detail />,
+        loader: LoaderDetail(queryClient)
       },
       // {
       //   path: "/discovery",
@@ -97,7 +106,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const queryClient = new QueryClient();
+
 function App() {
   return (
     <>

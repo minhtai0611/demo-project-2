@@ -144,24 +144,23 @@ const gameDataQuery = `
     }
 `;
 
-const gameDataVariables = {
-    appid: "236850"
-}
-
-export async function FetchGameData() {
+export async function FetchGameData(appid) {
     try {
         const response = await fetch("http://localhost:3000/graphql", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ query: gameDataQuery, variables: gameDataVariables })
+            body: JSON.stringify({ query: gameDataQuery, variables: { appid } })
         });
         if (!response.ok) {
             throw new Error("Fail to fetch game data");
         }
         const json = await response.json();
-        const data = await json.data.fetchGameData;
+        const data = await json?.data?.fetchGameData;
+        if (!data) {
+            throw new Error("Game not found");
+        }
         return data;
     }
     catch (err) {

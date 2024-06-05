@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap');
+
+.manrope-bold {
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 1.5rem;
+  color: azure;
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.iconDiv .icon {
+  width: 15rem;
+  height: 15rem;
+}
+
+.errorButton {
+  font-family: inherit;
+  outline: none;
+  border: none;
+  margin: 0 2rem;
+  padding: 0.5rem 1.5rem 1rem 1.5rem;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  background-color: azure;
+  color: crimson;
+  cursor: pointer;
+}
+
+.errorButton:hover {
+  background-color: khaki;
+}
+
+.textDiv {
+  margin: 3rem 20% 4rem 20%;
+}
+
+.explainTextSpan {
+  display: inline-block;
+  text-align: justify;
+}
