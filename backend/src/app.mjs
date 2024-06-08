@@ -3,7 +3,8 @@ import express from "express";
 import { createHandler } from "graphql-http/lib/use/express";
 import { ruruHTML } from "ruru/server";
 import cors from "cors";
-import bodyParser from "body-parser"
+import bodyParser from "body-parser";
+import { connect } from "mongoose";
 import { schemaGameData } from "./schemaGameData.mjs";
 import { resolverGameData } from "./resolverGameData.mjs"
 
@@ -38,7 +39,13 @@ app.get('/', (req, res) => {
 
 app.use((err, req, res, next) => {
     console.error(err.message);
-    res.status(500).send('Server encountered an unexpected edition and got error');
+    res.status(500).send("Server encountered an unexpected edition and got error");
 });
 
-app.listen(PORT, () => console.log(`Server NodeJS + Express + MongoDB + GraphQL is running on port ${PORT}`))
+try {
+    await connect("mongodb+srv://Minhtainth123:JURXUS2XxgnrQSBy@clusterdemo.9qyadhq.mongodb.net/ClusterDemoDB?retryWrites=true&w=majority&appName=ClusterDemo");
+    await app.listen(PORT, () => console.log(`Server NodeJS + Express + MongoDB + GraphQL is running on port ${PORT}`));
+}
+catch (err) {
+    throw new Error(err.message || "MongoDB or Express disconnected");
+}

@@ -1,4 +1,5 @@
 import { buildSchema } from "graphql";
+
 export const schemaGameData = buildSchema(`
     type App {
         appid: String!
@@ -335,8 +336,34 @@ export const schemaGameData = buildSchema(`
         ratings: Ratings
     }
     
+    type AuthUser {
+        userid: String!
+        token: String!
+    }
+
     type Query {
         fetchGameApp: [App!]!
         fetchGameData(appid: String!): Data!
+        loginUser(username: String!, password: String!): AuthUser!
+    }
+
+    input UserInputData {
+        username: String!
+        password: String!
+        confirmPassword: String!
+        dateOfBirth: String!
+        country: String!
+    }
+
+    type User {
+        _id: ID!
+        username: String!
+        password: String!
+        dateOfBirth: String!
+        country: String!
+    }
+
+    type Mutation {
+        registerUser(userInput: UserInputData!): User!
     }
 `)

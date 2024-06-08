@@ -153,13 +153,17 @@
 }
 
 .mark:after {
-    content: '✓';
+    content: '✔';
     position: absolute;
     display: none;
 }
 
 .input:where(:nth-child(1)) {
     cursor: pointer;
+}
+
+.input[type="submit"]:hover {
+    background-color: khaki;
 }
 
 /* input[type="checkbox"], input[type="submit"]{
