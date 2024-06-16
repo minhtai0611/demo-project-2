@@ -190,7 +190,7 @@ export async function FetchGameApp() {
             throw new Error("Fail to fetch game app");
         }
         const json = await response.json();
-        const data = await json.data.fetchGameApp;
+        const data = await json?.data?.fetchGameApp;
         return data;
     }
     catch (err) {

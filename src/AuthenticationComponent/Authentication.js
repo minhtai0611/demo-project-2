@@ -1,6 +1,6 @@
 const registerUserMutation = `
-    mutation ($username: String!, $password: String!, $confirmPassword: String!, $dateOfBirth: String!, $country: String!}) {
-        registerUser (userInput: {username: $username, password: $password, confirmPassword: $confirmPassword, dateOfBirth: $dateOfBirth, country: $country}) {
+    mutation ($username: String!, $password: String!, $confirmPassword: String!, $dateOfBirth: String!, $country: String!, $termCondition: String) {
+        registerUser (userInput: {username: $username, password: $password, confirmPassword: $confirmPassword, dateOfBirth: $dateOfBirth, country: $country, termCondition: $termCondition}) {
             _id
             username
         }
@@ -14,28 +14,31 @@ const loginUserQuery = `
             token
         }
     }
-`
+`;
 
-export async function RegisterUser(username, password, confirmPassword, dateOfBirth, country) {
+const logoutUserQuery = `
+    query ($userid: String!) {
+        logoutUser (userid: $userid) {
+            userid
+            isAuth
+        }
+    }
+`;
+
+export async function RegisterUser(registerData) {
     try {
+        const { username, password, confirmPassword, dateOfBirth, country, termCondition } = registerData;
         const response = await fetch("http://localhost:3000/graphql", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ query: registerUserMutation, variables: { username, password, confirmPassword, dateOfBirth, country } })
+            body: JSON.stringify({ query: registerUserMutation, variables: { username, password, confirmPassword, dateOfBirth, country, termCondition } })
         });
         if (!response.ok) {
             throw new Error("Fail to register user");
         }
-        const json = await response.json();
-        const registerUser = await json?.data;
-        // if ((registerUser?.errors && registerUser?.errors[0]?.message) || !registerUser) {
-        //     throw new Error("Invalid input. You have to fill correct information")
-        // }
-        // else {
-        //     return registerUser?.registerUser;
-        // }
+        const registerUser = await response.json();
         return registerUser;
     }
     catch (err) {
@@ -43,8 +46,9 @@ export async function RegisterUser(username, password, confirmPassword, dateOfBi
     }
 }
 
-export async function LoginUser(username, password) {
+export async function LoginUser(loginData) {
     try {
+        const { username, password } = loginData;
         const response = await fetch("http://localhost:3000/graphql", {
             method: "POST",
             headers: {
@@ -53,11 +57,31 @@ export async function LoginUser(username, password) {
             body: JSON.stringify({ query: loginUserQuery, variables: { username, password } })
         });
         if (!response.ok) {
-            throw new Error("Fail to login with given user");
+            throw new Error("Fail to log in with given user");
         }
-        const json = await response.json();
-        const loginUser = await json?.data;
+        const loginUser = await response.json();
         return loginUser;
+    }
+    catch (err) {
+        console.log(err.message);
+    }
+}
+
+export async function LogoutUser(userid, token) {
+    try {
+        const response = await fetch("http://localhost:3000/graphql", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({ query: logoutUserQuery, variables: { userid } })
+        });
+        if (!response.ok) {
+            throw new Error("Fail to log out with given user");
+        }
+        const logoutUser = await response.json();
+        return logoutUser;
     }
     catch (err) {
         console.log(err.message);

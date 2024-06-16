@@ -24,7 +24,7 @@ const Refund = lazy(() => import("./RefundComponent/Refund"));
 const Recruit = lazy(() => import("./RecruitComponent/Recruit"));
 const Legal = lazy(() => import("./LegalComponent/Legal"));
 const Detail = lazy(() => import("./DetailComponent/Detail"));
-
+const StateDataProvider = lazy(() => import("./ContextComponent/Context"));
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -117,7 +117,9 @@ function App() {
           alignItems: "center",
           justifyContent: "center",
         }} />}>
-          <RouterProvider router={router} />
+          <StateDataProvider>
+            <RouterProvider router={router} />
+          </StateDataProvider>
         </Suspense >
       </QueryClientProvider>
     </>

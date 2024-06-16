@@ -9,7 +9,7 @@ import RiseLoader from "react-spinners/RiseLoader";
 import { FetchGameApp } from "../FetchGameDataComponent/FetchGameData";
 
 const Header = lazy(() => import("../HeaderComponent/Header"));
-// const Footer = lazy(() => import("../FooterComponent/Footer"));
+const Footer = lazy(() => import("../FooterComponent/Footer"));
 
 export default function Main() {
     const navigate = useNavigate();
@@ -129,6 +129,7 @@ export default function Main() {
                     </main >
                 </>
             )}
+            {isSuccessApp && <Footer />}
         </>
     );
 }

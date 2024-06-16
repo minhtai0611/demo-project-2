@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import { connect } from "mongoose";
 import { schemaGameData } from "./schemaGameData.mjs";
 import { resolverGameData } from "./resolverGameData.mjs"
+import { authenticationMiddleware } from "./authenticationMiddleware.mjs";
 
 const app = new express();
 const PORT = process.env.PORT || 3000;
@@ -14,9 +15,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(authenticationMiddleware);
 
 app.all("/graphql", createHandler({
-    schema: schemaGameData, rootValue: resolverGameData, formatError(err) {
+    schema: schemaGameData, rootValue: resolverGameData, context: (req) => req, formatError(err) {
         if (!err.originalError) {
             return err;
         }

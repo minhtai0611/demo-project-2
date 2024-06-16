@@ -59,3 +59,11 @@
 .input[type="submit"]:hover {
     background-color: khaki;
 }
+
+.toastIcon {
+    font-size: 3rem;
+}
+
+.toastContent {
+    transform: translateY(12%);
+}
