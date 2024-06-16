@@ -4,6 +4,8 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { lazy, Suspense } from "react";
 import RiseLoader from "react-spinners/RiseLoader";
 import { LoaderDetail } from "./LoaderActionComponent/LoaderAction";
+import { StateDataProvider } from "./ContextComponent/Context";
+import { StateProtectDataProvider } from "./ContextComponent/Context";
 
 const Main = lazy(() => import("./MainComponent/Main"));
 const Error = lazy(() => import("./ErrorComponent/Error"));
@@ -24,7 +26,6 @@ const Refund = lazy(() => import("./RefundComponent/Refund"));
 const Recruit = lazy(() => import("./RecruitComponent/Recruit"));
 const Legal = lazy(() => import("./LegalComponent/Legal"));
 const Detail = lazy(() => import("./DetailComponent/Detail"));
-const StateDataProvider = lazy(() => import("./ContextComponent/Context"));
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -76,11 +77,19 @@ const router = createBrowserRouter([
       // },
       {
         path: "/login",
-        element: <Login />,
+        element: (
+          <StateProtectDataProvider>
+            <Login />
+          </StateProtectDataProvider>
+        ),
       },
       {
         path: "/register",
-        element: <Register />,
+        element: (
+          <StateProtectDataProvider>
+            <Register />
+          </StateProtectDataProvider>
+        ),
       },
       {
         path: "/policy",

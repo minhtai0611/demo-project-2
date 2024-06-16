@@ -129,6 +129,7 @@ export default function Main() {
                     </main >
                 </>
             )}
+            {isSuccessApp && <div className={styled.mainContent}></div>}
             {isSuccessApp && <Footer />}
         </>
     );

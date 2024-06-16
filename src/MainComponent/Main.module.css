@@ -73,6 +73,10 @@
     cursor: pointer;
 }
 
+.mainContent{
+    margin-bottom: 100%;
+}
+
 /* .input-box i {
     color: dimgray;
 }

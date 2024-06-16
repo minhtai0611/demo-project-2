@@ -9,7 +9,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { Oval } from 'react-loading-icons'
 import { LogoutUser } from "../AuthenticationComponent/Authentication";
-import { StateDataContext } from "../ContextComponent/Context";
+import { StateDataContext } from "../CreateContextComponent/CreateContext";
 
 export default function Header() {
     const [isVisible, setIsVisible] = useState(true);
@@ -64,36 +64,19 @@ export default function Header() {
                 success: (resolveData) => {
                     if (resolveData?.data) {
                         if (resolveData?.data?.logoutUser?.userid === validateUser.userid && resolveData?.data?.logoutUser?.isAuth) {
-                            if (currentURL !== "/") {
-                                const delayTimeout = setTimeout(() => {
-                                    setLoginAuth(
-                                        <Link to="/login" className={styled.link + " " + styled["shippori-antique-b1-regular"] + " " + styled.auth}>
-                                            Login
-                                        </Link>
-                                    );
-                                    setRegisterAuth(
-                                        <Link to="/register" className={styled.link + " " + styled["shippori-antique-b1-regular"] + " " + styled.auth}>
-                                            Register
-                                        </Link>
-                                    );
-                                }, 0);
-                                clearTimeout(delayTimeout);
-                            }
-                            else if (currentURL === "/") {
-                                const delayTimeout = setTimeout(() => {
-                                    setLoginAuth(
-                                        <Link to="/login" className={styled.link + " " + styled["shippori-antique-b1-regular"] + " " + styled.auth}>
-                                            Login
-                                        </Link>
-                                    );
-                                    setRegisterAuth(
-                                        <Link to="/register" className={styled.link + " " + styled["shippori-antique-b1-regular"] + " " + styled.auth}>
-                                            Register
-                                        </Link>
-                                    );
-                                }, 7000);
-                                clearTimeout(delayTimeout);
-                            }
+                            const delayTimeout = setTimeout(() => {
+                                setLoginAuth(
+                                    <Link to="/login" className={styled.link + " " + styled["shippori-antique-b1-regular"] + " " + styled.auth}>
+                                        Login
+                                    </Link>
+                                );
+                                setRegisterAuth(
+                                    <Link to="/register" className={styled.link + " " + styled["shippori-antique-b1-regular"] + " " + styled.auth}>
+                                        Register
+                                    </Link>
+                                );
+                            }, 7000);
+                            clearTimeout(delayTimeout);
                         }
                         setTimeout(() => toast.loading("Redirecting to login page...", {
                             style: {
@@ -162,7 +145,7 @@ export default function Header() {
                 }
             })
         }
-    }, [currentURL, mutateAsync, navigate, stateData]);
+    }, [mutateAsync, navigate, stateData]);
 
     useEffect(() => {
         if (stateData.length > 0 && stateData[stateData.length - 1]?.data && stateData[stateData.length - 1]?.data?.loginUser && stateData[stateData.length - 1]?.data?.loginUser?.userid && stateData[stateData.length - 1]?.data?.loginUser?.token) {
