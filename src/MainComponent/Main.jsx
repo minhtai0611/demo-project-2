@@ -4,7 +4,6 @@ import { lazy, useState, useCallback, useRef } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IconContext } from "react-icons";
 import { useQuery } from "@tanstack/react-query";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import RiseLoader from "react-spinners/RiseLoader";
 import { FetchGameApp } from "../FetchGameDataComponent/FetchGameData";
 

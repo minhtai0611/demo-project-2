@@ -41,10 +41,12 @@ export default function Header() {
             Register
         </Link>
     );
+    const [isLogout, setIsLogout] = useState(false);
+
     const navigate = useNavigate();
     const location = useLocation();
     const currentURL = location.pathname;
-    const stateData = useContext(StateDataContext);
+    const { stateLoginData, stateLogoutData } = useContext(StateDataContext);
 
     const queryClient = useQueryClient();
     const { mutateAsync } = useMutation({
@@ -54,30 +56,20 @@ export default function Header() {
     });
     const LogoutUserClick = useCallback(async (event) => {
         await event.preventDefault();
-        if (stateData.length > 0) {
-            const validateUser = { userid: stateData[stateData.length - 1]?.data?.loginUser?.userid, token: stateData[stateData.length - 1]?.data?.loginUser?.token };
+        if (stateLoginData.length > 0) {
+            const validateUser = { userid: stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.userid, token: stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.token };
             const logoutAction = mutateAsync(validateUser, {
-                onSuccess: async (resolveData) => await resolveData
+                onSuccess: async (resolveData) => {
+                    if (event.target.outerText === "Logout") {
+                        setIsLogout(true);
+                    }
+                    return await resolveData;
+                }
             });
             toast.promise(logoutAction, {
                 loading: () => "Logging out your account, please wait...",
                 success: (resolveData) => {
-                    if (resolveData?.data) {
-                        if (resolveData?.data?.logoutUser?.userid === validateUser.userid && resolveData?.data?.logoutUser?.isAuth) {
-                            const delayTimeout = setTimeout(() => {
-                                setLoginAuth(
-                                    <Link to="/login" className={styled.link + " " + styled["shippori-antique-b1-regular"] + " " + styled.auth}>
-                                        Login
-                                    </Link>
-                                );
-                                setRegisterAuth(
-                                    <Link to="/register" className={styled.link + " " + styled["shippori-antique-b1-regular"] + " " + styled.auth}>
-                                        Register
-                                    </Link>
-                                );
-                            }, 7000);
-                            clearTimeout(delayTimeout);
-                        }
+                    if (resolveData?.data && resolveData?.data?.logoutUser && resolveData?.data?.logoutUser?.userid && resolveData?.data?.logoutUser?.isAuth && resolveData?.data?.logoutUser?.isAuth && resolveData?.data?.logoutUser?.userid === validateUser.userid) {
                         setTimeout(() => toast.loading("Redirecting to login page...", {
                             style: {
                                 outline: "none",
@@ -91,7 +83,19 @@ export default function Header() {
                                 <Oval stroke="#f0ffff" strokeOpacity={0.6} speed={0.7} width={"2rem"} height={"2rem"} strokeWidth={"0.35rem"} />
                             )
                         }), 4000);
-                        setTimeout(() => navigate("/login"), 7000);
+                        setTimeout(() => {
+                            setLoginAuth(
+                                <Link to="/login" className={styled.link + " " + styled["shippori-antique-b1-regular"] + " " + styled.auth}>
+                                    Login
+                                </Link>
+                            );
+                            setRegisterAuth(
+                                <Link to="/register" className={styled.link + " " + styled["shippori-antique-b1-regular"] + " " + styled.auth}>
+                                    Register
+                                </Link>
+                            );
+                            return navigate("/login");
+                        }, 7000);
                         return `Great, your account is logged out successfully!`;
                     }
                     else {
@@ -145,10 +149,10 @@ export default function Header() {
                 }
             })
         }
-    }, [mutateAsync, navigate, stateData]);
+    }, [mutateAsync, navigate, stateLoginData]);
 
     useEffect(() => {
-        if (stateData.length > 0 && stateData[stateData.length - 1]?.data && stateData[stateData.length - 1]?.data?.loginUser && stateData[stateData.length - 1]?.data?.loginUser?.userid && stateData[stateData.length - 1]?.data?.loginUser?.token) {
+        if (stateLoginData.length > 0 && stateLoginData[stateLoginData.length - 1]?.data && stateLoginData[stateLoginData.length - 1]?.data?.loginUser && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.userid && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.token && stateLoginData.filter((mutateLogin) => mutateLogin?.data).length > stateLogoutData.filter((mutateLogout) => mutateLogout?.data).length) {
             if (currentURL !== "/login") {
                 const delayTimeout = setTimeout(() => {
                     setLoginAuth(<></>);
@@ -172,7 +176,13 @@ export default function Header() {
                 return () => clearTimeout(delayTimeout);
             }
         }
-    }, [LogoutUserClick, currentURL, stateData]);
+        if (currentURL === "/policy" && ((stateLoginData.length === 0 && stateLogoutData.length === 0) || (stateLogoutData.length > 0 && stateLogoutData[stateLogoutData.length - 1]?.data && stateLogoutData[stateLogoutData.length - 1]?.data?.logoutUser && stateLogoutData[stateLogoutData.length - 1]?.data?.logoutUser?.userid && stateLogoutData[stateLogoutData.length - 1]?.data?.logoutUser?.isAuth && stateLoginData.filter((mutateLogin) => mutateLogin?.data).length === stateLogoutData.filter((mutateLogout) => mutateLogout?.data).length))) {
+            if (!isLogout) {
+                const delayTimeout = setTimeout(() => navigate("/login"), 0);
+                return () => clearTimeout(delayTimeout);
+            }
+        }
+    }, [LogoutUserClick, currentURL, isLogout, navigate, stateLoginData, stateLogoutData]);
 
     return (
         <>

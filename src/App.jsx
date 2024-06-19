@@ -5,7 +5,6 @@ import { lazy, Suspense } from "react";
 import RiseLoader from "react-spinners/RiseLoader";
 import { LoaderDetail } from "./LoaderActionComponent/LoaderAction";
 import { StateDataProvider } from "./ContextComponent/Context";
-import { StateProtectDataProvider } from "./ContextComponent/Context";
 
 const Main = lazy(() => import("./MainComponent/Main"));
 const Error = lazy(() => import("./ErrorComponent/Error"));
@@ -77,19 +76,11 @@ const router = createBrowserRouter([
       // },
       {
         path: "/login",
-        element: (
-          <StateProtectDataProvider>
-            <Login />
-          </StateProtectDataProvider>
-        ),
+        element: <Login />,
       },
       {
         path: "/register",
-        element: (
-          <StateProtectDataProvider>
-            <Register />
-          </StateProtectDataProvider>
-        ),
+        element: <Register />,
       },
       {
         path: "/policy",
