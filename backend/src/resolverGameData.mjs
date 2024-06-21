@@ -97,22 +97,22 @@ export const resolverGameData = {
         const tokenUser = sign({
             userid: existingUser._id.toString(),
             username: existingUser.username
-        }, privateKey, { expiresIn: "20s" });
+        }, privateKey, { expiresIn: "10s" });
 
         const tokenRefreshUser = sign({
             userid: existingUser._id.toString(),
             username: existingUser.username
-        }, privateKey, { expiresIn: "60s" });
+        }, privateKey, { expiresIn: "30s" });
 
         await new Token({
             token: tokenUser,
-            expireDate: new Date().setSeconds(new Date().getSeconds() + 20),
+            expireDate: new Date().setSeconds(new Date().getSeconds() + 10),
             userid: existingUser._id.toString(),
             username: existingUser.username
         }).save();
         await new Token({
             token: tokenRefreshUser,
-            expireDate: new Date().setSeconds(new Date().getSeconds() + 60),
+            expireDate: new Date().setSeconds(new Date().getSeconds() + 30),
             userid: existingUser._id.toString(),
             username: existingUser.username
         }).save();
@@ -142,24 +142,13 @@ export const resolverGameData = {
         if (!token) {
             throw new Error("Empty token");
         }
+
         let tokenRefresh_;
         tokenRefresh_ = await Token.findOne({ token: tokenRefresh });
         let token_;
         token_ = await Token.findOne({ token: token });
         let newToken;
-        // if (!tokenRefresh_) {
-        //     throw new Error("Token refresh can not be found");
-        // }
-        // if (!token_ && tokenRefresh_?.expireDate.getTime() >= new Date().getTime()) {
-        //     const { userid } = await tokenRefresh_.populate("userid");
-        //     const privateKey = scryptSync("superSecretKey", "superSecretSalt", 4096, { N: 4096, p: 4 }).toString("hex");
-        //     newToken = sign({
-        //         userid: userid._id.toString(),
-        //         username: userid.username
-        //     }, privateKey, { expiresIn: "20s" });
-        //     return { token: newToken, tokenRefresh: tokenRefresh_.token };
-        // }
-        // console.log(tokenRefresh_?.expireDate.getTime() < new Date().getTime(), token_?.expireDate.getTime() < new Date().getTime());
+
         if (!tokenRefresh_ || tokenRefresh_?.expireDate.getTime() < new Date().getTime()) {
             tokenRefresh_ && await Token.findOneAndDelete({ _id: tokenRefresh_._id.toString() });
             throw new Error("Expiration token refresh. You have to log in again");
@@ -171,7 +160,7 @@ export const resolverGameData = {
             newToken = sign({
                 userid: userid._id.toString(),
                 username: userid.username
-            }, privateKey, { expiresIn: "20s" });
+            }, privateKey, { expiresIn: "10s" });
             return { token: newToken, tokenRefresh: tokenRefresh_.token };
         }
         if (!newToken) {

@@ -64,67 +64,11 @@ export default function Header() {
         async function RefreshTokenUser_() {
             if (stateLoginData.length > 0 && stateLoginData[stateLoginData.length - 1]?.data && stateLoginData[stateLoginData.length - 1]?.data?.loginUser && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.userid && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.token && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.tokenRefresh && stateLoginData.filter((mutateLogin) => mutateLogin?.data).length > stateLogoutData.filter((mutateLogout) => mutateLogout?.data).length) {
                 const validateToken = { tokenRefresh: stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.tokenRefresh, token: stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.token }
-                const refreshTokenAction = mutateAsyncRefreshToken(validateToken, {
+                await mutateAsyncRefreshToken(validateToken, {
                     onSuccess: async (resolveData) => {
                         return await resolveData;
                     }
                 });
-                toast.promise(refreshTokenAction, {
-                    loading: () => "Validating token, please wait...",
-                    success: (resolveData) => {
-                        if (resolveData?.data) {
-                            return `Great, token is valid!`;
-                        }
-                        else {
-                            throw `${resolveData?.errors[0]?.message}`;
-                        }
-                    },
-                    error: (validateError) => validateError
-                }, {
-                    loading: {
-                        style: {
-                            outline: "none",
-                            border: "none",
-                            color: "azure",
-                            backgroundColor: "deepskyblue",
-                            fontSize: "1.2rem"
-                        },
-                        duration: 2000,
-                        icon: (
-                            <Oval stroke="#f0ffff" strokeOpacity={0.6} speed={0.7} width={"2rem"} height={"2rem"} strokeWidth={"0.35rem"} />
-                        )
-                    },
-                    success: {
-                        style: {
-                            outline: "none",
-                            border: "none",
-                            color: "azure",
-                            backgroundColor: "springgreen",
-                            fontSize: "1.2rem"
-                        },
-                        duration: 2000,
-                        icon: (
-                            <IconContext.Provider value={{ className: styled.toastIcon }}>
-                                <FaCheckCircle />
-                            </IconContext.Provider>
-                        )
-                    },
-                    error: {
-                        style: {
-                            outline: "none",
-                            border: "none",
-                            color: "azure",
-                            backgroundColor: "crimson",
-                            fontSize: "1.2rem"
-                        },
-                        duration: 2000,
-                        icon: (
-                            <IconContext.Provider value={{ className: styled.toastIcon }}>
-                                <AiFillCloseCircle />
-                            </IconContext.Provider>
-                        )
-                    }
-                })
             }
         }
         RefreshTokenUser_();

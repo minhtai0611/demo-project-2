@@ -18,10 +18,6 @@ export const authenticationMiddleware = async (req, res, next) => {
             req.isAuth = false;
             return next();
         }
-        if (!verifyToken.exp) {
-            req.isAuth = false;
-            return next();
-        }
 
         req.userid = verifyToken.userid;
         req.isAuth = true;
