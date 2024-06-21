@@ -10,8 +10,12 @@ export function StateDataProvider({ children }) {
         filters: { mutationKey: ["logoutKey"], status: "success" },
         select: ({ state }) => state.data
     });
+    const stateTokenData = useMutationState({
+        filters: { mutationKey: ["tokenRefreshKey"], status: "success" },
+        select: ({ state }) => state.data
+    });
     return (
-        <StateDataContext.Provider value={{ stateLoginData, stateLogoutData }}>
+        <StateDataContext.Provider value={{ stateLoginData, stateLogoutData, stateTokenData }}>
             {children}
         </StateDataContext.Provider>
     )

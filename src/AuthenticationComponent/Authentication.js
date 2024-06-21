@@ -12,6 +12,7 @@ const loginUserQuery = `
         loginUser(username: $username, password: $password) {
             userid
             token
+            tokenRefresh
         }
     }
 `;
@@ -21,6 +22,15 @@ const logoutUserQuery = `
         logoutUser (userid: $userid) {
             userid
             isAuth
+        }
+    }
+`;
+
+const refreshTokenQuery = `
+    query ($tokenRefresh: String!, $token: String!) {
+        tokenRefreshUser(tokenRefresh: $tokenRefresh, token: $token) {
+            token
+            tokenRefresh
         }
     }
 `;
@@ -82,6 +92,26 @@ export async function LogoutUser(userid, token) {
         }
         const logoutUser = await response.json();
         return logoutUser;
+    }
+    catch (err) {
+        console.log(err.message);
+    }
+}
+
+export async function RefreshTokenUser(tokenRefresh, _token) {
+    try {
+        const response = await fetch("http://localhost:3000/graphql", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query: refreshTokenQuery, variables: { tokenRefresh, token: _token } })
+        });
+        if (!response.ok) {
+            throw new Error("Fail to refresh token with user");
+        }
+        const token = await response.json();
+        return token;
     }
     catch (err) {
         console.log(err.message);

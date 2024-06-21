@@ -339,11 +339,18 @@ export const schemaGameData = buildSchema(`
     type AuthUser {
         userid: String!
         token: String!
+        tokenRefresh: String!
     }
 
     type AuthUserLogout {
         userid: String!
         isAuth: Boolean!
+        isExpire: Boolean!
+    }
+
+    type Token {
+        tokenRefresh: String!
+        token: String!
     }
 
     type Query {
@@ -351,6 +358,7 @@ export const schemaGameData = buildSchema(`
         fetchGameData(appid: String!): Data!
         loginUser(username: String!, password: String!): AuthUser!
         logoutUser(userid: String!): AuthUserLogout!
+        tokenRefreshUser(tokenRefresh: String!, token: String!): Token!
     }
 
     input UserInputData {

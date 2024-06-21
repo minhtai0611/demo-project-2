@@ -8,7 +8,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { FaCheckCircle } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { Oval } from 'react-loading-icons'
-import { LogoutUser } from "../AuthenticationComponent/Authentication";
+import { LogoutUser, RefreshTokenUser } from "../AuthenticationComponent/Authentication";
 import { StateDataContext } from "../CreateContextComponent/CreateContext";
 
 export default function Header() {
@@ -46,7 +46,7 @@ export default function Header() {
     const navigate = useNavigate();
     const location = useLocation();
     const currentURL = location.pathname;
-    const { stateLoginData, stateLogoutData } = useContext(StateDataContext);
+    const { stateLoginData, stateLogoutData, stateTokenData } = useContext(StateDataContext);
 
     const queryClient = useQueryClient();
     const { mutateAsync } = useMutation({
@@ -54,10 +54,85 @@ export default function Header() {
         onSuccess: async () => await queryClient.invalidateQueries({ queryKey: ["logout"] }),
         mutationKey: ["logoutKey"]
     });
+    const { mutateAsync: mutateAsyncRefreshToken } = useMutation({
+        mutationFn: async ({ tokenRefresh, token }) => await RefreshTokenUser(tokenRefresh, token),
+        onSuccess: async () => await queryClient.invalidateQueries({ queryKey: ["tokenRefresh"] }),
+        mutationKey: ["tokenRefreshKey"]
+    });
+    console.log(stateLoginData, stateLogoutData, stateTokenData);
+    useEffect(() => {
+        async function RefreshTokenUser_() {
+            if (stateLoginData.length > 0 && stateLoginData[stateLoginData.length - 1]?.data && stateLoginData[stateLoginData.length - 1]?.data?.loginUser && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.userid && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.token && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.tokenRefresh && stateLoginData.filter((mutateLogin) => mutateLogin?.data).length > stateLogoutData.filter((mutateLogout) => mutateLogout?.data).length) {
+                const validateToken = { tokenRefresh: stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.tokenRefresh, token: stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.token }
+                const refreshTokenAction = mutateAsyncRefreshToken(validateToken, {
+                    onSuccess: async (resolveData) => {
+                        return await resolveData;
+                    }
+                });
+                toast.promise(refreshTokenAction, {
+                    loading: () => "Validating token, please wait...",
+                    success: (resolveData) => {
+                        if (resolveData?.data) {
+                            return `Great, token is valid!`;
+                        }
+                        else {
+                            throw `${resolveData?.errors[0]?.message}`;
+                        }
+                    },
+                    error: (validateError) => validateError
+                }, {
+                    loading: {
+                        style: {
+                            outline: "none",
+                            border: "none",
+                            color: "azure",
+                            backgroundColor: "deepskyblue",
+                            fontSize: "1.2rem"
+                        },
+                        duration: 2000,
+                        icon: (
+                            <Oval stroke="#f0ffff" strokeOpacity={0.6} speed={0.7} width={"2rem"} height={"2rem"} strokeWidth={"0.35rem"} />
+                        )
+                    },
+                    success: {
+                        style: {
+                            outline: "none",
+                            border: "none",
+                            color: "azure",
+                            backgroundColor: "springgreen",
+                            fontSize: "1.2rem"
+                        },
+                        duration: 2000,
+                        icon: (
+                            <IconContext.Provider value={{ className: styled.toastIcon }}>
+                                <FaCheckCircle />
+                            </IconContext.Provider>
+                        )
+                    },
+                    error: {
+                        style: {
+                            outline: "none",
+                            border: "none",
+                            color: "azure",
+                            backgroundColor: "crimson",
+                            fontSize: "1.2rem"
+                        },
+                        duration: 2000,
+                        icon: (
+                            <IconContext.Provider value={{ className: styled.toastIcon }}>
+                                <AiFillCloseCircle />
+                            </IconContext.Provider>
+                        )
+                    }
+                })
+            }
+        }
+        RefreshTokenUser_();
+    }, [mutateAsyncRefreshToken, navigate, stateLoginData, stateLogoutData]);
     const LogoutUserClick = useCallback(async (event) => {
         await event.preventDefault();
-        if (stateLoginData.length > 0) {
-            const validateUser = { userid: stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.userid, token: stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.token };
+        if (stateLoginData.length > 0 && stateTokenData.length > 0) {
+            const validateUser = { userid: stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.userid, token: stateTokenData[stateTokenData.length - 1]?.data?.tokenRefreshUser?.token };
             const logoutAction = mutateAsync(validateUser, {
                 onSuccess: async (resolveData) => {
                     if (event.target.outerText === "Logout") {
@@ -149,10 +224,10 @@ export default function Header() {
                 }
             })
         }
-    }, [mutateAsync, navigate, stateLoginData]);
+    }, [mutateAsync, navigate, stateLoginData, stateTokenData]);
 
     useEffect(() => {
-        if (stateLoginData.length > 0 && stateLoginData[stateLoginData.length - 1]?.data && stateLoginData[stateLoginData.length - 1]?.data?.loginUser && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.userid && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.token && stateLoginData.filter((mutateLogin) => mutateLogin?.data).length > stateLogoutData.filter((mutateLogout) => mutateLogout?.data).length) {
+        if (stateLoginData.length > 0 && stateLoginData[stateLoginData.length - 1]?.data && stateLoginData[stateLoginData.length - 1]?.data?.loginUser && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.userid && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.token && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.tokenRefresh && stateLoginData.filter((mutateLogin) => mutateLogin?.data).length > stateLogoutData.filter((mutateLogout) => mutateLogout?.data).length) {
             if (currentURL !== "/login") {
                 const delayTimeout = setTimeout(() => {
                     setLoginAuth(<></>);

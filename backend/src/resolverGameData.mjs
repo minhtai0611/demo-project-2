@@ -10,7 +10,7 @@ import validator from "validator";
 // import { Types } from "mongoose";
 // const { ObjectId } = Types;
 
-import { User } from "./mongooseModel.mjs";
+import { User, Token } from "./mongooseModel.mjs";
 
 export const resolverGameData = {
     fetchGameApp: async function () {
@@ -97,11 +97,32 @@ export const resolverGameData = {
         const tokenUser = sign({
             userid: existingUser._id.toString(),
             username: existingUser.username
-        }, privateKey, { expiresIn: "2h" });
-        return { userid: existingUser._id.toString(), token: tokenUser };
+        }, privateKey, { expiresIn: "20s" });
+
+        const tokenRefreshUser = sign({
+            userid: existingUser._id.toString(),
+            username: existingUser.username
+        }, privateKey, { expiresIn: "60s" });
+
+        await new Token({
+            token: tokenUser,
+            expireDate: new Date().setSeconds(new Date().getSeconds() + 20),
+            userid: existingUser._id.toString(),
+            username: existingUser.username
+        }).save();
+        await new Token({
+            token: tokenRefreshUser,
+            expireDate: new Date().setSeconds(new Date().getSeconds() + 60),
+            userid: existingUser._id.toString(),
+            username: existingUser.username
+        }).save();
+
+        return { userid: existingUser._id.toString(), token: tokenUser, tokenRefresh: tokenRefreshUser };
     },
     logoutUser: async function ({ userid }, req) {
-        console.log(req.raw.userid, req.raw.isAuth);
+        if (req.raw.isExpire) {
+            throw new Error("Expiration token. You have to log in again");
+        }
         if (!req.raw.isAuth) {
             throw new Error("Unauthorized request");
         }
@@ -112,6 +133,49 @@ export const resolverGameData = {
         if (!existingUser) {
             throw new Error("User with given ID can not be found");
         }
-        return { userid: req.raw.userid, isAuth: req.raw.isAuth };
+        return { userid: req.raw.userid, isAuth: req.raw.isAuth, isExpire: req.raw.isExpire };
+    },
+    tokenRefreshUser: async function ({ tokenRefresh, token }) {
+        if (!tokenRefresh) {
+            throw new Error("Empty token refresh");
+        }
+        if (!token) {
+            throw new Error("Empty token");
+        }
+        let tokenRefresh_;
+        tokenRefresh_ = await Token.findOne({ token: tokenRefresh });
+        let token_;
+        token_ = await Token.findOne({ token: token });
+        let newToken;
+        // if (!tokenRefresh_) {
+        //     throw new Error("Token refresh can not be found");
+        // }
+        // if (!token_ && tokenRefresh_?.expireDate.getTime() >= new Date().getTime()) {
+        //     const { userid } = await tokenRefresh_.populate("userid");
+        //     const privateKey = scryptSync("superSecretKey", "superSecretSalt", 4096, { N: 4096, p: 4 }).toString("hex");
+        //     newToken = sign({
+        //         userid: userid._id.toString(),
+        //         username: userid.username
+        //     }, privateKey, { expiresIn: "20s" });
+        //     return { token: newToken, tokenRefresh: tokenRefresh_.token };
+        // }
+        // console.log(tokenRefresh_?.expireDate.getTime() < new Date().getTime(), token_?.expireDate.getTime() < new Date().getTime());
+        if (!tokenRefresh_ || tokenRefresh_?.expireDate.getTime() < new Date().getTime()) {
+            tokenRefresh_ && await Token.findOneAndDelete({ _id: tokenRefresh_._id.toString() });
+            throw new Error("Expiration token refresh. You have to log in again");
+        }
+        if (!token_ || token_?.expireDate.getTime() < new Date().getTime()) {
+            token_ && await Token.findOneAndDelete({ _id: token_._id.toString() });
+            const { userid } = await tokenRefresh_.populate("userid");
+            const privateKey = scryptSync("superSecretKey", "superSecretSalt", 4096, { N: 4096, p: 4 }).toString("hex");
+            newToken = sign({
+                userid: userid._id.toString(),
+                username: userid.username
+            }, privateKey, { expiresIn: "20s" });
+            return { token: newToken, tokenRefresh: tokenRefresh_.token };
+        }
+        if (!newToken) {
+            return { token: token_.token, tokenRefresh: tokenRefresh_.token };
+        }
     }
 }
