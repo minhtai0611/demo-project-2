@@ -59,7 +59,6 @@ export default function Header() {
         onSuccess: async () => await queryClient.invalidateQueries({ queryKey: ["tokenRefresh"] }),
         mutationKey: ["tokenRefreshKey"]
     });
-    console.log(stateLoginData, stateLogoutData, stateTokenData);
     useEffect(() => {
         async function RefreshTokenUser_() {
             if (stateLoginData.length > 0 && stateLoginData[stateLoginData.length - 1]?.data && stateLoginData[stateLoginData.length - 1]?.data?.loginUser && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.userid && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.token && stateLoginData[stateLoginData.length - 1]?.data?.loginUser?.tokenRefresh && stateLoginData.filter((mutateLogin) => mutateLogin?.data).length > stateLogoutData.filter((mutateLogout) => mutateLogout?.data).length) {

@@ -97,22 +97,22 @@ export const resolverGameData = {
         const tokenUser = sign({
             userid: existingUser._id.toString(),
             username: existingUser.username
-        }, privateKey, { expiresIn: "10s" });
+        }, privateKey, { expiresIn: "1h" });
 
         const tokenRefreshUser = sign({
             userid: existingUser._id.toString(),
             username: existingUser.username
-        }, privateKey, { expiresIn: "30s" });
+        }, privateKey, { expiresIn: "10h" });
 
         await new Token({
             token: tokenUser,
-            expireDate: new Date().setSeconds(new Date().getSeconds() + 10),
+            expireDate: new Date().setSeconds(new Date().getSeconds() + 1 * 60 * 60),
             userid: existingUser._id.toString(),
             username: existingUser.username
         }).save();
         await new Token({
             token: tokenRefreshUser,
-            expireDate: new Date().setSeconds(new Date().getSeconds() + 30),
+            expireDate: new Date().setSeconds(new Date().getSeconds() + 10 * 60 * 60),
             userid: existingUser._id.toString(),
             username: existingUser.username
         }).save();
@@ -160,7 +160,7 @@ export const resolverGameData = {
             newToken = sign({
                 userid: userid._id.toString(),
                 username: userid.username
-            }, privateKey, { expiresIn: "10s" });
+            }, privateKey, { expiresIn: "1h" });
             return { token: newToken, tokenRefresh: tokenRefresh_.token };
         }
         if (!newToken) {
